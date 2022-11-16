@@ -1,0 +1,59 @@
+linters:
+  enable:
+  - asciicheck
+  - bodyclose
+  - depguard
+  - dogsled
+  - dupl
+  - errcheck
+  - exhaustive
+  - exportloopref
+  - goconst
+  - gocritic
+  - godot
+  - gofmt
+  - gofumpt
+  - goimports
+  - gomodguard
+  - goprintffuncname
+  - gosimple
+  - govet
+  - ineffassign
+  - misspell
+  - nakedret
+  - nestif
+  - noctx
+  - nolintlint
+  - prealloc
+  - staticcheck
+  - typecheck
+  - unconvert
+  - unparam
+  - unused
+  - whitespace
+  disable:
+  - funlen
+  - gochecknoglobals
+  - gocognit
+  - gocyclo
+  - godox
+  - goerr113
+  - gomnd
+  - gosec
+  - lll
+  - maligned
+  - sqlclosecheck
+  - stylecheck
+  - testpackage
+  - wsl
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/twpayne/go-xmlstruct
+
+issues:
+  exclude-rules:
+  - linters:
+    - dupl
+    - scopelint
+    path: "_test\\.go"
