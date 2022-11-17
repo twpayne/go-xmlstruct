@@ -20,6 +20,8 @@ const (
 	DefaultTimeLayout  = "2006-01-02T15:04:05Z"
 )
 
+// A Generator observes XML documents and generates Go structs into which the
+// XML documents can be unmarshalled.
 type Generator struct {
 	exportNameFunc               ExportNameFunc
 	formatSource                 bool
@@ -32,56 +34,68 @@ type Generator struct {
 	typeElements                 map[xml.Name]*element
 }
 
+// A GeneratorOption sets an option on a Generator.
 type GeneratorOption func(*Generator)
 
+// WithExportNameFunc sets the export name function for the generated Go source.
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 	return func(o *Generator) {
 		o.exportNameFunc = exportNameFunc
 	}
 }
 
+// WithFormatSource sets whether to format the generated Go source.
 func WithFormatSource(formatSource bool) GeneratorOption {
 	return func(o *Generator) {
 		o.formatSource = formatSource
 	}
 }
 
+// WithHeader sets the header of the generated Go source.
 func WithHeader(header string) GeneratorOption {
 	return func(o *Generator) {
 		o.header = header
 	}
 }
 
+// WithIntType sets the int type in the generated Go source.
 func WithIntType(intType string) GeneratorOption {
 	return func(o *Generator) {
 		o.intType = intType
 	}
 }
 
+// WithNameFunc sets the name function.
 func WithNameFunc(nameFunc NameFunc) GeneratorOption {
 	return func(o *Generator) {
 		o.nameFunc = nameFunc
 	}
 }
 
+// WithPackageName sets the package name of the generated Go source.
 func WithPackageName(packageName string) GeneratorOption {
 	return func(o *Generator) {
 		o.packageName = packageName
 	}
 }
 
+// WithTimeLayout sets the time layout used to identify times in the observed
+// XML documents. Use an empty string to disable identifying times.
 func WithTimeLayout(timeLayout string) GeneratorOption {
 	return func(o *Generator) {
 		o.timeLayout = timeLayout
 	}
 }
 
+// WithUsePointersForOptionFields sets whether to use pointers for optional
+// fields in the generated Go source.
 func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) GeneratorOption {
 	return func(o *Generator) {
 		o.usePointersForOptionalFields = usePointersForOptionalFields
 	}
 }
 
+// NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	generator := &Generator{
 		exportNameFunc:               DefaultExportNameFunc,
@@ -100,6 +114,8 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 	return generator
 }
 
+// Generate returns the generated Go source for all the XML documents observed
+// so far.
 func (g *Generator) Generate() ([]byte, error) {
 	options := sourceOptions{
 		exportNameFunc:               g.exportNameFunc,
@@ -147,6 +163,7 @@ func (g *Generator) Generate() ([]byte, error) {
 	return format.Source(source)
 }
 
+// ObserveFile observes an XML document in the given file.
 func (g *Generator) ObserveFile(name string) error {
 	file, err := os.Open(name)
 	if err != nil {
@@ -156,6 +173,7 @@ func (g *Generator) ObserveFile(name string) error {
 	return g.ObserveReader(file)
 }
 
+// ObserveReader observes an XML document from r.
 func (g *Generator) ObserveReader(r io.Reader) error {
 	options := observeOptions{
 		nameFunc:   g.nameFunc,

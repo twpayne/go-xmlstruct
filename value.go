@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// A value describes an observed simple value, either an attribute value or
+// chardata.
 type value struct {
 	repeated     bool
 	optional     bool
@@ -17,6 +19,8 @@ type value struct {
 	stringCount  int
 }
 
+// goType returns the most specific Go type that can represent all of the values
+// observed for v.
 func (v *value) goType(options *sourceOptions) string {
 	distinctTypes := 0
 	if v.emptyCount > 0 {
@@ -61,6 +65,7 @@ func (v *value) goType(options *sourceOptions) string {
 	}
 }
 
+// observe records s as being observed for v.
 func (v *value) observe(s string, options *observeOptions) {
 	v.observations++
 	if s == "" {

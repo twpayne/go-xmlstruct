@@ -9,6 +9,8 @@ import (
 	"golang.org/x/exp/maps"
 )
 
+// An element describes an observed XML element, its attributes, chardata, and
+// children.
 type element struct {
 	name          xml.Name
 	repeated      bool
@@ -18,6 +20,7 @@ type element struct {
 	childElements map[xml.Name]*element
 }
 
+// newElement returns a new element.
 func newElement(name xml.Name) *element {
 	return &element{
 		name:          name,
@@ -26,6 +29,7 @@ func newElement(name xml.Name) *element {
 	}
 }
 
+// observeAttrs updates e's observed attributes with attrs.
 func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 	attrCounts := make(map[xml.Name]int)
 	for _, attr := range attrs {
@@ -50,6 +54,8 @@ func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 	}
 }
 
+// observeChildElement updates e's observed chardata and child elements with
+// tokens read from decoder.
 func (e *element) observeChildElement(decoder *xml.Decoder, startElement xml.StartElement, options *observeOptions) error {
 	e.observeAttrs(startElement.Attr, options)
 	childCounts := make(map[xml.Name]int)
@@ -92,6 +98,7 @@ FOR:
 	return nil
 }
 
+// writeGoType writes e's Go type to w.
 func (e *element) writeGoType(w io.Writer, options *sourceOptions, indentPrefix string) {
 	prefix := ""
 	if e.repeated {
