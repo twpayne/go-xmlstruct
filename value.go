@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type ObservedValue struct {
+type value struct {
 	repeated     bool
 	optional     bool
 	observations int
@@ -17,7 +17,7 @@ type ObservedValue struct {
 	stringCount  int
 }
 
-func (v *ObservedValue) goType(options *sourceOptions) string {
+func (v *value) goType(options *sourceOptions) string {
 	distinctTypes := 0
 	if v.emptyCount > 0 {
 		distinctTypes++
@@ -61,7 +61,7 @@ func (v *ObservedValue) goType(options *sourceOptions) string {
 	}
 }
 
-func (v *ObservedValue) observe(s string, options *observeOptions) {
+func (v *value) observe(s string, options *observeOptions) {
 	v.observations++
 	if s == "" {
 		v.emptyCount++

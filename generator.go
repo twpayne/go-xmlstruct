@@ -21,7 +21,6 @@ const (
 )
 
 type Generator struct {
-	observedElements             map[xml.Name]*observedElement
 	exportNameFunc               ExportNameFunc
 	formatSource                 bool
 	header                       string
@@ -30,6 +29,7 @@ type Generator struct {
 	nameFunc                     NameFunc
 	timeLayout                   string
 	usePointersForOptionalFields bool
+	typeElements                 map[xml.Name]*element
 }
 
 type GeneratorOption func(*Generator)
@@ -84,7 +84,6 @@ func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) Generat
 
 func NewGenerator(options ...GeneratorOption) *Generator {
 	generator := &Generator{
-		observedElements:             make(map[xml.Name]*observedElement),
 		exportNameFunc:               DefaultExportNameFunc,
 		formatSource:                 true,
 		header:                       DefaultHeader,
@@ -93,6 +92,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		usePointersForOptionalFields: true,
 		packageName:                  DefaultPackageName,
 		timeLayout:                   DefaultTimeLayout,
+		typeElements:                 make(map[xml.Name]*element),
 	}
 	for _, option := range options {
 		option(generator)
@@ -110,10 +110,10 @@ func (g *Generator) Generate() ([]byte, error) {
 	}
 
 	typesBuilder := &strings.Builder{}
-	for _, typeName := range sortXMLNames(maps.Keys(g.observedElements)) {
+	for _, typeName := range sortXMLNames(maps.Keys(g.typeElements)) {
 		fmt.Fprintf(typesBuilder, "\ntype %s ", options.exportNameFunc(typeName))
-		observedElement := g.observedElements[typeName]
-		observedElement.writeGoType(typesBuilder, &options, "")
+		typeElement := g.typeElements[typeName]
+		typeElement.writeGoType(typesBuilder, &options, "")
 		typesBuilder.WriteByte('\n')
 	}
 
@@ -172,12 +172,12 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 		default:
 			if startElement, ok := token.(xml.StartElement); ok {
 				name := g.nameFunc(startElement.Name)
-				observedElement, ok := g.observedElements[name]
+				typeElement, ok := g.typeElements[name]
 				if !ok {
-					observedElement = newObservedElement(name)
-					g.observedElements[name] = observedElement
+					typeElement = newElement(name)
+					g.typeElements[name] = typeElement
 				}
-				if err := observedElement.observeChildElement(decoder, startElement, &options); err != nil {
+				if err := typeElement.observeChildElement(decoder, startElement, &options); err != nil {
 					return err
 				}
 			}
