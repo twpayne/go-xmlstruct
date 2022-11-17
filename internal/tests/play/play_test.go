@@ -43,7 +43,7 @@ func TestPlay(t *testing.T) {
 
 	require.NoError(t, os.WriteFile("play.go.actual", actualSource, 0o666))
 
-	expectedSource, err := os.ReadFile("play.go")
+	expectedSource, err := os.ReadFile("play.gen.go")
 	require.NoError(t, err)
 	require.Equal(t, string(expectedSource), string(actualSource))
 

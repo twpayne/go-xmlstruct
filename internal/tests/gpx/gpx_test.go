@@ -34,7 +34,7 @@ func TestGPX(t *testing.T) {
 
 	require.NoError(t, os.WriteFile("gpx.go.actual", actualSource, 0o666))
 
-	expectedSource, err := os.ReadFile("gpx.go")
+	expectedSource, err := os.ReadFile("gpx.gen.go")
 	require.NoError(t, err)
 	require.Equal(t, string(expectedSource), string(actualSource))
 
