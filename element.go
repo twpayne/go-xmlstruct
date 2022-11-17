@@ -14,8 +14,8 @@ type element struct {
 	repeated      bool
 	optional      bool
 	attrValues    map[xml.Name]*value
-	childElements map[xml.Name]*element
 	charDataValue value
+	childElements map[xml.Name]*element
 }
 
 func newElement(name xml.Name) *element {
@@ -51,8 +51,8 @@ func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 }
 
 func (e *element) observeChildElement(decoder *xml.Decoder, startElement xml.StartElement, options *observeOptions) error {
-	childCounts := make(map[xml.Name]int)
 	e.observeAttrs(startElement.Attr, options)
+	childCounts := make(map[xml.Name]int)
 FOR:
 	for {
 		token, err := decoder.Token()
@@ -113,13 +113,13 @@ func (e *element) writeGoType(w io.Writer, options *sourceOptions, indentPrefix 
 		fmt.Fprintf(w, "%s\tXMLName xml.Name `xml:\"%s\"`\n", indentPrefix, e.name.Local)
 	}
 
-	if e.charDataValue.observations > 0 {
-		fmt.Fprintf(w, "%s\tCharData string `xml:\",chardata\"`\n", indentPrefix)
-	}
-
 	for _, attrName := range sortXMLNames(maps.Keys(e.attrValues)) {
 		attrValue := e.attrValues[attrName]
 		fmt.Fprintf(w, "%s\t%s %s `xml:\"%s,attr\"`\n", indentPrefix, options.exportNameFunc(attrName), attrValue.goType(options), attrName.Local)
+	}
+
+	if e.charDataValue.observations > 0 {
+		fmt.Fprintf(w, "%s\tCharData string `xml:\",chardata\"`\n", indentPrefix)
 	}
 
 	for _, childName := range sortXMLNames(maps.Keys(e.childElements)) {
