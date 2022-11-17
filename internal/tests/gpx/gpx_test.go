@@ -32,7 +32,7 @@ func TestGPX(t *testing.T) {
 	actualSource, err := generator.Generate()
 	require.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("gpx.go.actual", actualSource, 0o666))
+	require.NoError(t, os.WriteFile("gpx.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("gpx.gen.go")
 	require.NoError(t, err)

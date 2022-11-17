@@ -41,7 +41,7 @@ func TestPlay(t *testing.T) {
 	actualSource, err := generator.Generate()
 	require.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("play.go.actual", actualSource, 0o666))
+	require.NoError(t, os.WriteFile("play.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("play.gen.go")
 	require.NoError(t, err)
