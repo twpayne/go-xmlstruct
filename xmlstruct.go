@@ -18,6 +18,7 @@ type observeOptions struct {
 
 type sourceOptions struct {
 	exportNameFunc               ExportNameFunc
+	header                       string
 	importPackageNames           map[string]struct{}
 	intType                      string
 	usePointersForOptionalFields bool

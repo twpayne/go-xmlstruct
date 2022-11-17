@@ -27,6 +27,8 @@ func TestGenerator(t *testing.T) {
 				),
 			},
 			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
 				`package main`,
 				``,
 				`import "encoding/xml"`,
@@ -47,6 +49,8 @@ func TestGenerator(t *testing.T) {
 				),
 			},
 			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
 				`package main`,
 				``,
 				`import "encoding/xml"`,
@@ -54,6 +58,31 @@ func TestGenerator(t *testing.T) {
 				`type A struct {`,
 				"\tXMLName xml.Name `xml:\"a\"`",
 				"\tB       int      `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
+			name: "int_type",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithHeader("// Custom header."),
+			},
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					"  <b>c</b>",
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				`// Custom header.`,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       string   `xml:\"b\"`",
 				`}`,
 			),
 		},
@@ -70,6 +99,8 @@ func TestGenerator(t *testing.T) {
 				),
 			},
 			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
 				`package main`,
 				``,
 				`import "encoding/xml"`,
