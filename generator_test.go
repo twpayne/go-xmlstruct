@@ -57,6 +57,29 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "int_type",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithIntType("int64"),
+			},
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					"  <b>2</b>",
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       int64    `xml:\"b\"`",
+				`}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)

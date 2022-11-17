@@ -23,6 +23,7 @@ type Generator struct {
 	observedElements             map[xml.Name]*observedElement
 	exportNameFunc               ExportNameFunc
 	formatSource                 bool
+	intType                      string
 	packageName                  string
 	nameFunc                     NameFunc
 	timeLayout                   string
@@ -40,6 +41,12 @@ func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 func WithFormatSource(formatSource bool) GeneratorOption {
 	return func(o *Generator) {
 		o.formatSource = formatSource
+	}
+}
+
+func WithIntType(intType string) GeneratorOption {
+	return func(o *Generator) {
+		o.intType = intType
 	}
 }
 
@@ -72,6 +79,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		observedElements:             make(map[xml.Name]*observedElement),
 		exportNameFunc:               DefaultExportNameFunc,
 		formatSource:                 true,
+		intType:                      "int",
 		nameFunc:                     IgnoreNamespaceNameFunc,
 		usePointersForOptionalFields: true,
 		packageName:                  DefaultPackageName,
@@ -87,6 +95,7 @@ func (g *Generator) Generate() ([]byte, error) {
 	options := sourceOptions{
 		exportNameFunc:               g.exportNameFunc,
 		importPackageNames:           make(map[string]struct{}),
+		intType:                      g.intType,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 	}
 

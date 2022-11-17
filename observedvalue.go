@@ -48,7 +48,7 @@ func (v *ObservedValue) goType(options *sourceOptions) string {
 	case distinctTypes == 1 && v.boolCount > 0:
 		return prefix + "bool"
 	case distinctTypes == 1 && v.intCount > 0:
-		return prefix + "int"
+		return prefix + options.intType
 	case distinctTypes == 1 && v.float64Count > 0:
 		return prefix + "float64"
 	case distinctTypes == 1 && v.timeCount > 0:
