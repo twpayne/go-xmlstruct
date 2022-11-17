@@ -10,9 +10,11 @@ import (
 )
 
 var (
-	formatSource                 = flag.Bool("format-source", true, "format source")
+	formatSource                 = flag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
+	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
-	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", true, "use pointers for optional fields")
+	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
+	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
@@ -28,10 +30,12 @@ func run() error {
 
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithFormatSource(*formatSource),
-		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
+		xmlstruct.WithHeader(*header),
+		xmlstruct.WithIntType(*intType),
 		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithPackageName(*packageName),
 		xmlstruct.WithTimeLayout(*timeLayout),
+		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 	)
 
 	if flag.NArg() == 0 {
