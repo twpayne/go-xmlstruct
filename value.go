@@ -21,7 +21,7 @@ type value struct {
 
 // goType returns the most specific Go type that can represent all of the values
 // observed for v.
-func (v *value) goType(options *sourceOptions) string {
+func (v *value) goType(options *generateOptions) string {
 	distinctTypes := 0
 	if v.emptyCount > 0 {
 		distinctTypes++

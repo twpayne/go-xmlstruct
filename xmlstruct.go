@@ -34,8 +34,8 @@ type observeOptions struct {
 	timeLayout string
 }
 
-// sourceOptions contains options for generating Go source.
-type sourceOptions struct {
+// generateOptions contains options for generating Go source.
+type generateOptions struct {
 	exportNameFunc               ExportNameFunc
 	header                       string
 	importPackageNames           map[string]struct{}

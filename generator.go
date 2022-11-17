@@ -111,7 +111,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 // Generate returns the generated Go source for all the XML documents observed
 // so far.
 func (g *Generator) Generate() ([]byte, error) {
-	options := sourceOptions{
+	options := generateOptions{
 		exportNameFunc:               g.exportNameFunc,
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),

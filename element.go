@@ -99,7 +99,7 @@ FOR:
 }
 
 // writeGoType writes e's Go type to w.
-func (e *element) writeGoType(w io.Writer, options *sourceOptions, indentPrefix string) {
+func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) {
 	prefix := ""
 	if e.repeated {
 		prefix += "[]"
