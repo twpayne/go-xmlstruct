@@ -1,6 +1,6 @@
 # go-xmlstruct
 
-[![GoDoc](https://godoc.org/github.com/twpayne/go-jsonstruct?status.svg)](https://godoc.org/github.com/twpayne/go-jsonstruct)
+[![GoDoc](https://godoc.org/github.com/twpayne/go-xmlstruct?status.svg)](https://godoc.org/github.com/twpayne/go-xmlstruct)
 
 Generate Go structs from multiple XML documents.
 
