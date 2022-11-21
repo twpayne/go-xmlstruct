@@ -111,6 +111,68 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "empty_struct",
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					"  <b/>",
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       struct{} `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
+			name: "empty_structs",
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					"  <b/>",
+					"  <b/>",
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name   `xml:\"a\"`",
+				"\tB       []struct{} `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
+			name: "empty_top_level_type",
+			xmlStrs: []string{
+				"<a/>",
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				`}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)

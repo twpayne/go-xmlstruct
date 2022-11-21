@@ -108,7 +108,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		prefix += "*"
 	}
 
-	if len(e.attrValues) == 0 && len(e.childElements) == 0 {
+	if indentPrefix != "" && len(e.attrValues) == 0 && len(e.childElements) == 0 {
 		fmt.Fprintf(w, "%s%s", prefix, e.charDataValue.goType(options))
 		return
 	}
