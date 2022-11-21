@@ -19,7 +19,7 @@ var exportRenames = map[string]string{
 	"P":        "Paragraph",
 	"PGROUP":   "PersonaGroup",
 	"PLAYSUBT": "PlaySubtitle",
-	"SCNDESCR": "ScreenDescription",
+	"SCNDESCR": "SceneDescription",
 	"STAGEDIR": "StageDirection",
 }
 

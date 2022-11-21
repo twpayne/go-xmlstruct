@@ -3,12 +3,12 @@
 package play
 
 type Play struct {
-	Title             string      `xml:"TITLE"`
-	FrontMatter       FrontMatter `xml:"FM"`
-	Personae          Personae    `xml:"PERSONAE"`
-	ScreenDescription string      `xml:"SCNDESCR"`
-	PlaySubtitle      string      `xml:"PLAYSUBT"`
-	Act               []Act       `xml:"ACT"`
+	Title            string      `xml:"TITLE"`
+	FrontMatter      FrontMatter `xml:"FM"`
+	Personae         Personae    `xml:"PERSONAE"`
+	SceneDescription string      `xml:"SCNDESCR"`
+	PlaySubtitle     string      `xml:"PLAYSUBT"`
+	Act              []Act       `xml:"ACT"`
 }
 
 type FrontMatter struct {
