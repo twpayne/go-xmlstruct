@@ -60,8 +60,7 @@ package main
 import "encoding/xml"
 
 type Parent struct {
-        XMLName xml.Name `xml:"parent"`
-        Child   struct {
+        Child struct {
                 Flag     bool   `xml:"flag,attr"`
                 CharData string `xml:",chardata"`
         } `xml:"child"`

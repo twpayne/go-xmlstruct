@@ -109,11 +109,6 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 
 	fmt.Fprintf(w, "struct {\n")
 
-	if indentPrefix == "" {
-		options.importPackageNames["encoding/xml"] = struct{}{}
-		fmt.Fprintf(w, "%s\tXMLName xml.Name `xml:\"%s\"`\n", indentPrefix, e.name.Local)
-	}
-
 	attrValuesByExportedName := make(map[string]*value, len(e.attrValues))
 	for attrName, attrValue := range e.attrValues {
 		exportedAttrName := options.exportNameFunc(attrName)

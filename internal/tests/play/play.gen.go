@@ -2,11 +2,8 @@
 
 package play
 
-import "encoding/xml"
-
 type Play struct {
-	XMLName xml.Name `xml:"PLAY"`
-	Act     []struct {
+	Act []struct {
 		Epilogue struct {
 			Speech struct {
 				Line    []string `xml:"LINE"`

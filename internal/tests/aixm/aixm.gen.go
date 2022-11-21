@@ -2,27 +2,23 @@
 
 package aixm
 
-import (
-	"encoding/xml"
-	"time"
-)
+import "time"
 
 type AIXMBasicMessage struct {
-	XMLName        xml.Name `xml:"AIXMBasicMessage"`
-	Aixm           string   `xml:"aixm,attr"`
-	Event          string   `xml:"event,attr"`
-	Gco            string   `xml:"gco,attr"`
-	Gmd            string   `xml:"gmd,attr"`
-	Gml            string   `xml:"gml,attr"`
-	Gsr            string   `xml:"gsr,attr"`
-	Gss            string   `xml:"gss,attr"`
-	Gts            string   `xml:"gts,attr"`
-	Id             string   `xml:"id,attr"`
-	Message        string   `xml:"message,attr"`
-	SchemaLocation string   `xml:"schemaLocation,attr"`
-	Xlink          string   `xml:"xlink,attr"`
-	Xsd            string   `xml:"xsd,attr"`
-	Xsi            string   `xml:"xsi,attr"`
+	Aixm           string `xml:"aixm,attr"`
+	Event          string `xml:"event,attr"`
+	Gco            string `xml:"gco,attr"`
+	Gmd            string `xml:"gmd,attr"`
+	Gml            string `xml:"gml,attr"`
+	Gsr            string `xml:"gsr,attr"`
+	Gss            string `xml:"gss,attr"`
+	Gts            string `xml:"gts,attr"`
+	Id             string `xml:"id,attr"`
+	Message        string `xml:"message,attr"`
+	SchemaLocation string `xml:"schemaLocation,attr"`
+	Xlink          string `xml:"xlink,attr"`
+	Xsd            string `xml:"xsd,attr"`
+	Xsi            string `xml:"xsi,attr"`
 	HasMember      []struct {
 		AirportHeliport *struct {
 			Id         string `xml:"id,attr"`
