@@ -5,84 +5,52 @@ package play
 type Act struct {
 	Epilogue Epilogue `xml:"EPILOGUE"`
 	Scene    []Scene  `xml:"SCENE"`
-	Title    Title    `xml:"TITLE"`
+	Title    string   `xml:"TITLE"`
 }
 
 type Epilogue struct {
-	Speech         Speech         `xml:"SPEECH"`
-	StageDirection StageDirection `xml:"STAGEDIR"`
-	Title          Title          `xml:"TITLE"`
+	Speech         Speech `xml:"SPEECH"`
+	StageDirection string `xml:"STAGEDIR"`
+	Title          string `xml:"TITLE"`
 }
 
 type FrontMatter struct {
-	Paragraph []Paragraph `xml:"P"`
-}
-
-type GroupDescription struct {
-	CharData string `xml:",chardata"`
+	Paragraph []string `xml:"P"`
 }
 
 type Line struct {
-	CharData       string          `xml:",chardata"`
-	StageDirection *StageDirection `xml:"STAGEDIR"`
-}
-
-type Paragraph struct {
-	CharData string `xml:",chardata"`
-}
-
-type Persona struct {
-	CharData string `xml:",chardata"`
+	CharData       string  `xml:",chardata"`
+	StageDirection *string `xml:"STAGEDIR"`
 }
 
 type PersonaGroup struct {
-	GroupDescription GroupDescription `xml:"GRPDESCR"`
-	Persona          []Persona        `xml:"PERSONA"`
+	GroupDescription string   `xml:"GRPDESCR"`
+	Persona          []string `xml:"PERSONA"`
 }
 
 type Personae struct {
-	Persona      []Persona      `xml:"PERSONA"`
+	Persona      []string       `xml:"PERSONA"`
 	PersonaGroup []PersonaGroup `xml:"PGROUP"`
-	Title        Title          `xml:"TITLE"`
+	Title        string         `xml:"TITLE"`
 }
 
 type Play struct {
-	Act               []Act             `xml:"ACT"`
-	FrontMatter       FrontMatter       `xml:"FM"`
-	Personae          Personae          `xml:"PERSONAE"`
-	PlaySubtitle      PlaySubtitle      `xml:"PLAYSUBT"`
-	ScreenDescription ScreenDescription `xml:"SCNDESCR"`
-	Title             Title             `xml:"TITLE"`
-}
-
-type PlaySubtitle struct {
-	CharData string `xml:",chardata"`
+	Act               []Act       `xml:"ACT"`
+	FrontMatter       FrontMatter `xml:"FM"`
+	Personae          Personae    `xml:"PERSONAE"`
+	PlaySubtitle      string      `xml:"PLAYSUBT"`
+	ScreenDescription string      `xml:"SCNDESCR"`
+	Title             string      `xml:"TITLE"`
 }
 
 type Scene struct {
-	Speech         []Speech         `xml:"SPEECH"`
-	StageDirection []StageDirection `xml:"STAGEDIR"`
-	Title          Title            `xml:"TITLE"`
-}
-
-type ScreenDescription struct {
-	CharData string `xml:",chardata"`
-}
-
-type Speaker struct {
-	CharData string `xml:",chardata"`
+	Speech         []Speech `xml:"SPEECH"`
+	StageDirection []string `xml:"STAGEDIR"`
+	Title          string   `xml:"TITLE"`
 }
 
 type Speech struct {
-	Line           []Line            `xml:"LINE"`
-	Speaker        Speaker           `xml:"SPEAKER"`
-	StageDirection []*StageDirection `xml:"STAGEDIR"`
-}
-
-type StageDirection struct {
-	CharData string `xml:",chardata"`
-}
-
-type Title struct {
-	CharData string `xml:",chardata"`
+	Line           []Line    `xml:"LINE"`
+	Speaker        string    `xml:"SPEAKER"`
+	StageDirection []*string `xml:"STAGEDIR"`
 }

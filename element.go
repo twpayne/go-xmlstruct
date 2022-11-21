@@ -111,17 +111,23 @@ FOR:
 }
 
 // writeGoType writes e's Go type to w.
-func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) {
-	if indentPrefix != "" && len(e.attrValues) == 0 && len(e.childElements) == 0 {
+func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) error {
+	if len(e.attrValues) == 0 && len(e.childElements) == 0 {
 		fmt.Fprintf(w, "%s", e.charDataValue.goType(options))
-		return
+		return nil
 	}
 
 	fmt.Fprintf(w, "struct {\n")
 
+	fieldNames := make(map[string]struct{})
+
 	attrValuesByExportedName := make(map[string]*value, len(e.attrValues))
 	for attrName, attrValue := range e.attrValues {
 		exportedAttrName := options.exportNameFunc(attrName)
+		if _, ok := fieldNames[exportedAttrName]; ok {
+			return fmt.Errorf("%s: duplicate field name", exportedAttrName)
+		}
+		fieldNames[exportedAttrName] = struct{}{}
 		attrValuesByExportedName[exportedAttrName] = attrValue
 	}
 	for _, exportedAttrName := range sortedKeys(attrValuesByExportedName) {
@@ -130,7 +136,12 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	}
 
 	if e.charDataValue.observations > 0 {
-		fmt.Fprintf(w, "%s\tCharData string `xml:\",chardata\"`\n", indentPrefix)
+		fieldName := "CharData"
+		if _, ok := fieldNames[fieldName]; ok {
+			return fmt.Errorf("%s: duplicate field name", fieldName)
+		}
+		fieldNames[fieldName] = struct{}{}
+		fmt.Fprintf(w, "%s\t%s string `xml:\",chardata\"`\n", indentPrefix, fieldName)
 	}
 
 	childElementsByExportedName := make(map[string]*element, len(e.childElements))
@@ -139,6 +150,11 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		childElementsByExportedName[exportedChildName] = childElement
 	}
 	for _, exportedChildName := range sortedKeys(childElementsByExportedName) {
+		if _, ok := fieldNames[exportedChildName]; ok {
+			fieldNames[exportedChildName] = struct{}{}
+		}
+		fieldNames[exportedChildName] = struct{}{}
+
 		childElement := childElementsByExportedName[exportedChildName]
 		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
 		if _, repeated := e.repeatedChildren[childElement.name]; repeated {
@@ -151,11 +167,16 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		}
 		if topLevelElement, ok := options.namedTypes[childElement.name]; ok {
 			fmt.Fprintf(w, "%s", options.exportNameFunc(topLevelElement.name))
+		} else if _, ok := options.simpleTypes[childElement.name]; ok {
+			fmt.Fprintf(w, "%s", childElement.charDataValue.goType(options))
 		} else {
-			childElement.writeGoType(w, options, indentPrefix+"\t")
+			if err := childElement.writeGoType(w, options, indentPrefix+"\t"); err != nil {
+				return err
+			}
 		}
 		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
 	}
 
 	fmt.Fprintf(w, "%s}", indentPrefix)
+	return nil
 }

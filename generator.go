@@ -127,13 +127,23 @@ func (g *Generator) Generate() ([]byte, error) {
 		intType:                      g.intType,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 	}
+
+	typeElements := maps.Clone(g.typeElements)
 	if g.namedTypes {
-		options.namedTypes = g.typeElements
+		options.namedTypes = typeElements
+		options.simpleTypes = make(map[xml.Name]struct{})
+		for name, element := range options.namedTypes {
+			if len(element.attrValues) != 0 || len(element.childElements) != 0 {
+				continue
+			}
+			options.simpleTypes[name] = struct{}{}
+			delete(options.namedTypes, name)
+		}
 	}
 
 	typesBuilder := &strings.Builder{}
-	typeElementsByExportedName := make(map[string]*element, len(g.typeElements))
-	for typeName, typeElement := range g.typeElements {
+	typeElementsByExportedName := make(map[string]*element, len(typeElements))
+	for typeName, typeElement := range typeElements {
 		exportedName := options.exportNameFunc(typeName)
 		if _, ok := typeElementsByExportedName[exportedName]; ok {
 			return nil, fmt.Errorf("%s: duplicate type name", exportedName)
@@ -143,7 +153,9 @@ func (g *Generator) Generate() ([]byte, error) {
 	for _, exportedName := range sortedKeys(typeElementsByExportedName) {
 		fmt.Fprintf(typesBuilder, "\ntype %s ", exportedName)
 		typeElement := typeElementsByExportedName[exportedName]
-		typeElement.writeGoType(typesBuilder, &options, "")
+		if err := typeElement.writeGoType(typesBuilder, &options, ""); err != nil {
+			return nil, err
+		}
 		typesBuilder.WriteByte('\n')
 	}
 

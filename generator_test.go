@@ -198,8 +198,7 @@ func TestGenerator(t *testing.T) {
 				``,
 				`package main`,
 				``,
-				`type A struct {`,
-				`}`,
+				`type A struct{}`,
 			),
 		},
 		{
@@ -214,14 +213,11 @@ func TestGenerator(t *testing.T) {
 				``,
 				`package main`,
 				``,
-				`type A struct {`,
-				`}`,
+				`type A struct{}`,
 				``,
-				`type B struct {`,
-				`}`,
+				`type B struct{}`,
 				``,
-				`type C struct {`,
-				`}`,
+				`type C struct{}`,
 			),
 		},
 		{
@@ -232,7 +228,9 @@ func TestGenerator(t *testing.T) {
 			xmlStrs: []string{
 				joinLines(
 					`<a>`,
-					`  <b/>`,
+					`  <b>`,
+					`    <c/>`,
+					`  </b>`,
 					`</a>`,
 				),
 			},
@@ -246,9 +244,26 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type B struct {`,
+				"\tC struct{} `xml:\"c\"`",
 				`}`,
 			),
 		},
+		// FIXME make the following test pass
+		/*
+			{
+				name:    "duplicate_field_name",
+				options: []xmlstruct.GeneratorOption{},
+				xmlStrs: []string{
+					joinLines(
+						`<a>`,
+						`  <b/>`,
+						`  <B/>`,
+						`</a>`,
+					),
+				},
+				expectedErr: "B: duplicate field name",
+			},
+		*/
 		{
 			name: "duplicate_type_name",
 			options: []xmlstruct.GeneratorOption{
@@ -257,8 +272,12 @@ func TestGenerator(t *testing.T) {
 			xmlStrs: []string{
 				joinLines(
 					`<a>`,
-					`  <b/>`,
-					`  <B/>`,
+					`  <b>`,
+					`    <c/>`,
+					`  </b>`,
+					`  <B>`,
+					`    <c/>`,
+					`  </B>`,
 					`</a>`,
 				),
 			},

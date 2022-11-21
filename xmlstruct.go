@@ -45,6 +45,7 @@ type generateOptions struct {
 	importPackageNames           map[string]struct{}
 	intType                      string
 	namedTypes                   map[xml.Name]*element
+	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
 }
 

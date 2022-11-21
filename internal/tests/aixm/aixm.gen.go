@@ -2,6 +2,8 @@
 
 package aixm
 
+import "time"
+
 type AIXMBasicMessage struct {
 	AIXM            string          `xml:"aixm,attr"`
 	Event           *string         `xml:"event,attr"`
@@ -27,12 +29,8 @@ type ARP struct {
 	ElevatedPoint ElevatedPoint `xml:"ElevatedPoint"`
 }
 
-type Abandoned struct {
-	CharData string `xml:",chardata"`
-}
-
 type Abstract struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type Address struct {
@@ -53,28 +51,28 @@ type AirportHeliportResponsibilityOrganisation struct {
 type AirportHeliportTimeSlice struct {
 	ID                          string                      `xml:"id,attr"`
 	ARP                         ARP                         `xml:"ARP"`
-	Abandoned                   *Abandoned                  `xml:"abandoned"`
+	Abandoned                   *string                     `xml:"abandoned"`
 	Annotation                  []*Annotation               `xml:"annotation"`
 	CertificationDate           CertificationDate           `xml:"certificationDate"`
 	CertificationExpirationDate CertificationExpirationDate `xml:"certificationExpirationDate"`
 	CertifiedICAO               CertifiedICAO               `xml:"certifiedICAO"`
 	ControlType                 ControlType                 `xml:"controlType"`
-	CorrectionNumber            CorrectionNumber            `xml:"correctionNumber"`
-	DateMagneticVariation       *DateMagneticVariation      `xml:"dateMagneticVariation"`
+	CorrectionNumber            bool                        `xml:"correctionNumber"`
+	DateMagneticVariation       *int                        `xml:"dateMagneticVariation"`
 	Designator                  Designator                  `xml:"designator"`
-	DesignatorIATA              *DesignatorIATA             `xml:"designatorIATA"`
+	DesignatorIATA              *string                     `xml:"designatorIATA"`
 	FieldElevation              *FieldElevation             `xml:"fieldElevation"`
 	FieldElevationAccuracy      FieldElevationAccuracy      `xml:"fieldElevationAccuracy"`
-	Interpretation              Interpretation              `xml:"interpretation"`
-	LocationIndicatorICAO       *LocationIndicatorICAO      `xml:"locationIndicatorICAO"`
-	MagneticVariation           *MagneticVariation          `xml:"magneticVariation"`
+	Interpretation              string                      `xml:"interpretation"`
+	LocationIndicatorICAO       *string                     `xml:"locationIndicatorICAO"`
+	MagneticVariation           *float64                    `xml:"magneticVariation"`
 	MagneticVariationAccuracy   MagneticVariationAccuracy   `xml:"magneticVariationAccuracy"`
 	MagneticVariationChange     MagneticVariationChange     `xml:"magneticVariationChange"`
-	Name                        Name                        `xml:"name"`
-	PrivateUse                  *PrivateUse                 `xml:"privateUse"`
+	Name                        string                      `xml:"name"`
+	PrivateUse                  *string                     `xml:"privateUse"`
 	ReferenceTemperature        *ReferenceTemperature       `xml:"referenceTemperature"`
 	ResponsibleOrganisation     ResponsibleOrganisation     `xml:"responsibleOrganisation"`
-	SequenceNumber              SequenceNumber              `xml:"sequenceNumber"`
+	SequenceNumber              string                      `xml:"sequenceNumber"`
 	ServedCity                  *ServedCity                 `xml:"servedCity"`
 	TransitionAltitude          *TransitionAltitude         `xml:"transitionAltitude"`
 	Type                        Type                        `xml:"type"`
@@ -93,45 +91,45 @@ type AirspaceGeometryComponent struct {
 }
 
 type AirspaceLayer struct {
-	ID                  string              `xml:"id,attr"`
-	LowerLimit          LowerLimit          `xml:"lowerLimit"`
-	LowerLimitReference LowerLimitReference `xml:"lowerLimitReference"`
-	UpperLimit          UpperLimit          `xml:"upperLimit"`
-	UpperLimitReference UpperLimitReference `xml:"upperLimitReference"`
+	ID                  string     `xml:"id,attr"`
+	LowerLimit          LowerLimit `xml:"lowerLimit"`
+	LowerLimitReference string     `xml:"lowerLimitReference"`
+	UpperLimit          UpperLimit `xml:"upperLimit"`
+	UpperLimitReference string     `xml:"upperLimitReference"`
 }
 
 type AirspaceLayerClass struct {
 	ID               string           `xml:"id,attr"`
 	AssociatedLevels AssociatedLevels `xml:"associatedLevels"`
-	Classification   *Classification  `xml:"classification"`
+	Classification   *string          `xml:"classification"`
 }
 
 type AirspaceTimeSlice struct {
 	ID                string            `xml:"id,attr"`
 	Class             Class             `xml:"class"`
-	CorrectionNumber  CorrectionNumber  `xml:"correctionNumber"`
+	CorrectionNumber  bool              `xml:"correctionNumber"`
 	Designator        Designator        `xml:"designator"`
-	DesignatorICAO    DesignatorICAO    `xml:"designatorICAO"`
+	DesignatorICAO    string            `xml:"designatorICAO"`
 	GeometryComponent GeometryComponent `xml:"geometryComponent"`
-	Interpretation    Interpretation    `xml:"interpretation"`
-	LocalType         *LocalType        `xml:"localType"`
-	Name              Name              `xml:"name"`
-	SequenceNumber    SequenceNumber    `xml:"sequenceNumber"`
+	Interpretation    string            `xml:"interpretation"`
+	LocalType         *string           `xml:"localType"`
+	Name              string            `xml:"name"`
+	SequenceNumber    string            `xml:"sequenceNumber"`
 	Type              Type              `xml:"type"`
 	ValidTime         ValidTime         `xml:"validTime"`
 }
 
 type AirspaceVolume struct {
-	ID                    string                 `xml:"id,attr"`
-	HorizontalProjection  HorizontalProjection   `xml:"horizontalProjection"`
-	LowerLimit            LowerLimit             `xml:"lowerLimit"`
-	LowerLimitReference   LowerLimitReference    `xml:"lowerLimitReference"`
-	MaximumLimit          *MaximumLimit          `xml:"maximumLimit"`
-	MaximumLimitReference *MaximumLimitReference `xml:"maximumLimitReference"`
-	MinimumLimit          *MinimumLimit          `xml:"minimumLimit"`
-	MinimumLimitReference *MinimumLimitReference `xml:"minimumLimitReference"`
-	UpperLimit            UpperLimit             `xml:"upperLimit"`
-	UpperLimitReference   UpperLimitReference    `xml:"upperLimitReference"`
+	ID                    string               `xml:"id,attr"`
+	HorizontalProjection  HorizontalProjection `xml:"horizontalProjection"`
+	LowerLimit            LowerLimit           `xml:"lowerLimit"`
+	LowerLimitReference   string               `xml:"lowerLimitReference"`
+	MaximumLimit          *MaximumLimit        `xml:"maximumLimit"`
+	MaximumLimitReference *string              `xml:"maximumLimitReference"`
+	MinimumLimit          *MinimumLimit        `xml:"minimumLimit"`
+	MinimumLimitReference *string              `xml:"minimumLimitReference"`
+	UpperLimit            UpperLimit           `xml:"upperLimit"`
+	UpperLimitReference   string               `xml:"upperLimitReference"`
 }
 
 type Annotation struct {
@@ -234,14 +232,6 @@ type CertifiedICAO struct {
 	NilReason string `xml:"nilReason,attr"`
 }
 
-type Channel struct {
-	CharData string `xml:",chardata"`
-}
-
-type CharacterString struct {
-	CharData string `xml:",chardata"`
-}
-
 type CircleByCenterPoint struct {
 	Interpolation string  `xml:"interpolation,attr"`
 	NumArc        bool    `xml:"numArc,attr"`
@@ -255,7 +245,7 @@ type Citation struct {
 
 type City struct {
 	ID   string `xml:"id,attr"`
-	Name Name   `xml:"name"`
+	Name string `xml:"name"`
 }
 
 type Class struct {
@@ -263,24 +253,8 @@ type Class struct {
 	AirspaceLayerClass *AirspaceLayerClass `xml:"AirspaceLayerClass"`
 }
 
-type ClassPCN struct {
-	CharData string `xml:",chardata"`
-}
-
-type Classification struct {
-	CharData string `xml:",chardata"`
-}
-
 type Code struct {
-	CharacterString CharacterString `xml:"CharacterString"`
-}
-
-type CollocationGroup struct {
-	CharData string `xml:",chardata"`
-}
-
-type Composition struct {
-	CharData string `xml:",chardata"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type ConstructionStatus struct {
@@ -302,10 +276,6 @@ type ControlType struct {
 	CharData  string  `xml:",chardata"`
 }
 
-type CorrectionNumber struct {
-	CharData string `xml:",chardata"`
-}
-
 type Curve struct {
 	ID       string   `xml:"id,attr"`
 	SrsName  *string  `xml:"srsName,attr"`
@@ -325,39 +295,31 @@ type DME struct {
 }
 
 type DMETimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	Authority        Authority        `xml:"authority"`
-	Channel          *Channel         `xml:"channel"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Designator       Designator       `xml:"designator"`
-	GhostFrequency   *GhostFrequency  `xml:"ghostFrequency"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Location         Location         `xml:"location"`
-	Name             *Name            `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	Type             *Type            `xml:"type"`
-	ValidTime        ValidTime        `xml:"validTime"`
+	ID               string          `xml:"id,attr"`
+	Authority        Authority       `xml:"authority"`
+	Channel          *string         `xml:"channel"`
+	CorrectionNumber bool            `xml:"correctionNumber"`
+	Designator       Designator      `xml:"designator"`
+	GhostFrequency   *GhostFrequency `xml:"ghostFrequency"`
+	Interpretation   string          `xml:"interpretation"`
+	Location         Location        `xml:"location"`
+	Name             *string         `xml:"name"`
+	SequenceNumber   string          `xml:"sequenceNumber"`
+	Type             *Type           `xml:"type"`
+	ValidTime        ValidTime       `xml:"validTime"`
 }
 
 type DataSetURI struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type Date struct {
-	CIDate   *CIDate   `xml:"CI_Date"`
-	DateTime *DateTime `xml:"DateTime"`
-}
-
-type DateMagneticVariation struct {
-	CharData string `xml:",chardata"`
+	CIDate   *CIDate    `xml:"CI_Date"`
+	DateTime *time.Time `xml:"DateTime"`
 }
 
 type DateStamp struct {
 	NilReason string `xml:"nilReason,attr"`
-}
-
-type DateTime struct {
-	CharData string `xml:",chardata"`
 }
 
 type DateType struct {
@@ -375,27 +337,19 @@ type DesignatedPoint struct {
 }
 
 type DesignatedPointTimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Designator       Designator       `xml:"designator"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Location         Location         `xml:"location"`
-	Name             *Name            `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	Type             Type             `xml:"type"`
-	ValidTime        ValidTime        `xml:"validTime"`
+	ID               string     `xml:"id,attr"`
+	CorrectionNumber bool       `xml:"correctionNumber"`
+	Designator       Designator `xml:"designator"`
+	Interpretation   string     `xml:"interpretation"`
+	Location         Location   `xml:"location"`
+	Name             *string    `xml:"name"`
+	SequenceNumber   string     `xml:"sequenceNumber"`
+	Type             Type       `xml:"type"`
+	ValidTime        ValidTime  `xml:"validTime"`
 }
 
 type Designator struct {
 	Nil      bool   `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
-}
-
-type DesignatorIATA struct {
-	CharData string `xml:",chardata"`
-}
-
-type DesignatorICAO struct {
 	CharData string `xml:",chardata"`
 }
 
@@ -423,7 +377,7 @@ type EXTemporalExtent struct {
 }
 
 type ElectronicMailAddress struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type ElevatedCurve struct {
@@ -434,7 +388,7 @@ type ElevatedCurve struct {
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
 	Segments           Segments           `xml:"segments"`
 	VerticalAccuracy   VerticalAccuracy   `xml:"verticalAccuracy"`
-	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
+	VerticalDatum      string             `xml:"verticalDatum"`
 }
 
 type ElevatedPoint struct {
@@ -444,9 +398,9 @@ type ElevatedPoint struct {
 	Elevation          *Elevation         `xml:"elevation"`
 	GeoidUndulation    *GeoidUndulation   `xml:"geoidUndulation"`
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
-	Pos                Pos                `xml:"pos"`
+	Pos                string             `xml:"pos"`
 	VerticalAccuracy   *VerticalAccuracy  `xml:"verticalAccuracy"`
-	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
+	VerticalDatum      string             `xml:"verticalDatum"`
 }
 
 type ElevatedSurface struct {
@@ -457,7 +411,7 @@ type ElevatedSurface struct {
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
 	Patches            Patches            `xml:"patches"`
 	VerticalAccuracy   VerticalAccuracy   `xml:"verticalAccuracy"`
-	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
+	VerticalDatum      string             `xml:"verticalDatum"`
 }
 
 type Elevation struct {
@@ -487,13 +441,9 @@ type EndPosition struct {
 }
 
 type Envelope struct {
-	SrsName     string      `xml:"srsName,attr"`
-	LowerCorner LowerCorner `xml:"lowerCorner"`
-	UpperCorner UpperCorner `xml:"upperCorner"`
-}
-
-type EvaluationMethodPCN struct {
-	CharData string `xml:",chardata"`
+	SrsName     string `xml:"srsName,attr"`
+	LowerCorner string `xml:"lowerCorner"`
+	UpperCorner string `xml:"upperCorner"`
 }
 
 type Extent struct {
@@ -538,14 +488,14 @@ type GeoBorder struct {
 }
 
 type GeoBorderTimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	Border           Border           `xml:"border"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Name             Name             `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	Type             Type             `xml:"type"`
-	ValidTime        ValidTime        `xml:"validTime"`
+	ID               string    `xml:"id,attr"`
+	Border           Border    `xml:"border"`
+	CorrectionNumber bool      `xml:"correctionNumber"`
+	Interpretation   string    `xml:"interpretation"`
+	Name             string    `xml:"name"`
+	SequenceNumber   string    `xml:"sequenceNumber"`
+	Type             Type      `xml:"type"`
+	ValidTime        ValidTime `xml:"validTime"`
 }
 
 type GeodesicString struct {
@@ -573,10 +523,6 @@ type GeometryComponent struct {
 
 type GhostFrequency struct {
 	UOM      string `xml:"uom,attr"`
-	CharData string `xml:",chardata"`
-}
-
-type Group struct {
 	CharData string `xml:",chardata"`
 }
 
@@ -630,10 +576,6 @@ type Identifier struct {
 	CharData  string `xml:",chardata"`
 }
 
-type Interpretation struct {
-	CharData string `xml:",chardata"`
-}
-
 type Language struct {
 	LanguageCode LanguageCode `xml:"LanguageCode"`
 }
@@ -658,10 +600,6 @@ type LightElement struct {
 	Type Type   `xml:"type"`
 }
 
-type Lighted struct {
-	CharData string `xml:",chardata"`
-}
-
 type Lighting struct {
 	LightElement LightElement `xml:"LightElement"`
 }
@@ -676,29 +614,13 @@ type LinguisticNote struct {
 	LowerNote LowerNote `xml:"note"`
 }
 
-type LocalType struct {
-	CharData string `xml:",chardata"`
-}
-
 type Location struct {
 	ElevatedPoint *ElevatedPoint `xml:"ElevatedPoint"`
 	Point         Point          `xml:"Point"`
 }
 
-type LocationIndicatorICAO struct {
-	CharData string `xml:",chardata"`
-}
-
-type LowerCorner struct {
-	CharData string `xml:",chardata"`
-}
-
 type LowerLimit struct {
 	UOM      string `xml:"uom,attr"`
-	CharData string `xml:",chardata"`
-}
-
-type LowerLimitReference struct {
 	CharData string `xml:",chardata"`
 }
 
@@ -736,18 +658,6 @@ type MDMetadata struct {
 	IdentificationInfo IdentificationInfo `xml:"identificationInfo"`
 }
 
-type MDTopicCategoryCode struct {
-	CharData string `xml:",chardata"`
-}
-
-type MagneticBearing struct {
-	CharData string `xml:",chardata"`
-}
-
-type MagneticVariation struct {
-	CharData string `xml:",chardata"`
-}
-
 type MagneticVariationAccuracy struct {
 	Nil       bool   `xml:"nil,attr"`
 	NilReason string `xml:"nilReason,attr"`
@@ -779,16 +689,8 @@ type MarkingSecondColour struct {
 	CharData string `xml:",chardata"`
 }
 
-type MaxTyrePressurePCN struct {
-	CharData string `xml:",chardata"`
-}
-
 type MaximumLimit struct {
 	UOM      string `xml:"uom,attr"`
-	CharData string `xml:",chardata"`
-}
-
-type MaximumLimitReference struct {
 	CharData string `xml:",chardata"`
 }
 
@@ -810,10 +712,6 @@ type MinimumLimit struct {
 	CharData string `xml:",chardata"`
 }
 
-type MinimumLimitReference struct {
-	CharData string `xml:",chardata"`
-}
-
 type Mobile struct {
 	Nil      *bool  `xml:"nil,attr"`
 	CharData string `xml:",chardata"`
@@ -826,21 +724,17 @@ type NDB struct {
 }
 
 type NDBTimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	Authority        Authority        `xml:"authority"`
-	Class            Class            `xml:"class"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Designator       Designator       `xml:"designator"`
-	Frequency        Frequency        `xml:"frequency"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Location         Location         `xml:"location"`
-	Name             *Name            `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	ValidTime        ValidTime        `xml:"validTime"`
-}
-
-type Name struct {
-	CharData string `xml:",chardata"`
+	ID               string     `xml:"id,attr"`
+	Authority        Authority  `xml:"authority"`
+	Class            Class      `xml:"class"`
+	CorrectionNumber bool       `xml:"correctionNumber"`
+	Designator       Designator `xml:"designator"`
+	Frequency        Frequency  `xml:"frequency"`
+	Interpretation   string     `xml:"interpretation"`
+	Location         Location   `xml:"location"`
+	Name             *string    `xml:"name"`
+	SequenceNumber   string     `xml:"sequenceNumber"`
+	ValidTime        ValidTime  `xml:"validTime"`
 }
 
 type Navaid struct {
@@ -850,10 +744,10 @@ type Navaid struct {
 }
 
 type NavaidComponent struct {
-	ID                        string                    `xml:"id,attr"`
-	CollocationGroup          *CollocationGroup         `xml:"collocationGroup"`
-	ProvidesNavigableLocation ProvidesNavigableLocation `xml:"providesNavigableLocation"`
-	TheNavaidEquipment        TheNavaidEquipment        `xml:"theNavaidEquipment"`
+	ID                        string             `xml:"id,attr"`
+	CollocationGroup          *bool              `xml:"collocationGroup"`
+	ProvidesNavigableLocation string             `xml:"providesNavigableLocation"`
+	TheNavaidEquipment        TheNavaidEquipment `xml:"theNavaidEquipment"`
 }
 
 type NavaidEquipment struct {
@@ -861,21 +755,21 @@ type NavaidEquipment struct {
 }
 
 type NavaidOperationalStatus struct {
-	ID                string            `xml:"id,attr"`
-	OperationalStatus OperationalStatus `xml:"operationalStatus"`
-	TimeInterval      TimeInterval      `xml:"timeInterval"`
+	ID                string       `xml:"id,attr"`
+	OperationalStatus string       `xml:"operationalStatus"`
+	TimeInterval      TimeInterval `xml:"timeInterval"`
 }
 
 type NavaidTimeSlice struct {
 	ID               string            `xml:"id,attr"`
 	Availability     Availability      `xml:"availability"`
-	CorrectionNumber CorrectionNumber  `xml:"correctionNumber"`
+	CorrectionNumber bool              `xml:"correctionNumber"`
 	Designator       Designator        `xml:"designator"`
-	Interpretation   Interpretation    `xml:"interpretation"`
+	Interpretation   string            `xml:"interpretation"`
 	Location         Location          `xml:"location"`
-	Name             *Name             `xml:"name"`
+	Name             *string           `xml:"name"`
 	NavaidEquipment  []NavaidEquipment `xml:"navaidEquipment"`
-	SequenceNumber   SequenceNumber    `xml:"sequenceNumber"`
+	SequenceNumber   string            `xml:"sequenceNumber"`
 	Type             Type              `xml:"type"`
 	ValidTime        ValidTime         `xml:"validTime"`
 }
@@ -892,8 +786,8 @@ type NominalWidth struct {
 
 type Note struct {
 	ID             string           `xml:"id,attr"`
-	PropertyName   *PropertyName    `xml:"propertyName"`
-	Purpose        Purpose          `xml:"purpose"`
+	PropertyName   *string          `xml:"propertyName"`
+	Purpose        string           `xml:"purpose"`
 	TranslatedNote []TranslatedNote `xml:"translatedNote"`
 }
 
@@ -910,22 +804,18 @@ type ObstacleArea struct {
 
 type ObstacleAreaTimeSlice struct {
 	ID                         string                     `xml:"id,attr"`
-	CorrectionNumber           CorrectionNumber           `xml:"correctionNumber"`
+	CorrectionNumber           bool                       `xml:"correctionNumber"`
 	FeatureLifetime            FeatureLifetime            `xml:"featureLifetime"`
-	Interpretation             Interpretation             `xml:"interpretation"`
+	Interpretation             string                     `xml:"interpretation"`
 	Obstacle                   []Obstacle                 `xml:"obstacle"`
 	ReferenceOwnerOrganisation ReferenceOwnerOrganisation `xml:"reference_ownerOrganisation"`
-	SequenceNumber             SequenceNumber             `xml:"sequenceNumber"`
+	SequenceNumber             string                     `xml:"sequenceNumber"`
 	Type                       Type                       `xml:"type"`
 	ValidTime                  ValidTime                  `xml:"validTime"`
 }
 
 type OnRunway struct {
 	Href string `xml:"href,attr"`
-}
-
-type OperationalStatus struct {
-	CharData string `xml:",chardata"`
 }
 
 type OrganisationAuthority struct {
@@ -935,20 +825,20 @@ type OrganisationAuthority struct {
 }
 
 type OrganisationAuthorityTimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Designator       Designator       `xml:"designator"`
-	FeatureLifetime  FeatureLifetime  `xml:"featureLifetime"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Military         Military         `xml:"military"`
-	Name             Name             `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	Type             Type             `xml:"type"`
-	ValidTime        ValidTime        `xml:"validTime"`
+	ID               string          `xml:"id,attr"`
+	CorrectionNumber bool            `xml:"correctionNumber"`
+	Designator       Designator      `xml:"designator"`
+	FeatureLifetime  FeatureLifetime `xml:"featureLifetime"`
+	Interpretation   string          `xml:"interpretation"`
+	Military         Military        `xml:"military"`
+	Name             string          `xml:"name"`
+	SequenceNumber   string          `xml:"sequenceNumber"`
+	Type             Type            `xml:"type"`
+	ValidTime        ValidTime       `xml:"validTime"`
 }
 
 type OrganisationName struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type Part struct {
@@ -959,18 +849,10 @@ type Patches struct {
 	PolygonPatch PolygonPatch `xml:"PolygonPatch"`
 }
 
-type PavementSubgradePCN struct {
-	CharData string `xml:",chardata"`
-}
-
-type PavementTypePCN struct {
-	CharData string `xml:",chardata"`
-}
-
 type Point struct {
 	ID      string `xml:"id,attr"`
 	SrsName string `xml:"srsName,attr"`
-	Pos     Pos    `xml:"pos"`
+	Pos     string `xml:"pos"`
 }
 
 type PointOfContact struct {
@@ -981,33 +863,9 @@ type PolygonPatch struct {
 	Exterior Exterior `xml:"exterior"`
 }
 
-type Pos struct {
-	CharData string `xml:",chardata"`
-}
-
 type PosList struct {
 	SrsName  *string `xml:"srsName,attr"`
 	CharData string  `xml:",chardata"`
-}
-
-type Position struct {
-	CharData string `xml:",chardata"`
-}
-
-type PrivateUse struct {
-	CharData string `xml:",chardata"`
-}
-
-type PropertyName struct {
-	CharData string `xml:",chardata"`
-}
-
-type ProvidesNavigableLocation struct {
-	CharData string `xml:",chardata"`
-}
-
-type Purpose struct {
-	CharData string `xml:",chardata"`
 }
 
 type Radius struct {
@@ -1057,13 +915,13 @@ type RunwayCentrelinePoint struct {
 type RunwayCentrelinePointTimeSlice struct {
 	ID                         string                        `xml:"id,attr"`
 	AssociatedDeclaredDistance []*AssociatedDeclaredDistance `xml:"associatedDeclaredDistance"`
-	CorrectionNumber           CorrectionNumber              `xml:"correctionNumber"`
+	CorrectionNumber           bool                          `xml:"correctionNumber"`
 	Designator                 Designator                    `xml:"designator"`
-	Interpretation             Interpretation                `xml:"interpretation"`
+	Interpretation             string                        `xml:"interpretation"`
 	Location                   Location                      `xml:"location"`
 	OnRunway                   OnRunway                      `xml:"onRunway"`
 	Role                       *Role                         `xml:"role"`
-	SequenceNumber             SequenceNumber                `xml:"sequenceNumber"`
+	SequenceNumber             string                        `xml:"sequenceNumber"`
 	ValidTime                  ValidTime                     `xml:"validTime"`
 }
 
@@ -1087,13 +945,13 @@ type RunwayDirection struct {
 
 type RunwayDirectionTimeSlice struct {
 	ID                   string                `xml:"id,attr"`
-	CorrectionNumber     CorrectionNumber      `xml:"correctionNumber"`
+	CorrectionNumber     bool                  `xml:"correctionNumber"`
 	Designator           Designator            `xml:"designator"`
 	ElevationTDZ         *ElevationTDZ         `xml:"elevationTDZ"`
 	ElevationTDZAccuracy *ElevationTDZAccuracy `xml:"elevationTDZAccuracy"`
-	Interpretation       Interpretation        `xml:"interpretation"`
-	MagneticBearing      *MagneticBearing      `xml:"magneticBearing"`
-	SequenceNumber       SequenceNumber        `xml:"sequenceNumber"`
+	Interpretation       string                `xml:"interpretation"`
+	MagneticBearing      *float64              `xml:"magneticBearing"`
+	SequenceNumber       string                `xml:"sequenceNumber"`
 	TrueBearing          TrueBearing           `xml:"trueBearing"`
 	TrueBearingAccuracy  TrueBearingAccuracy   `xml:"trueBearingAccuracy"`
 	UsedRunway           UsedRunway            `xml:"usedRunway"`
@@ -1103,14 +961,14 @@ type RunwayDirectionTimeSlice struct {
 type RunwayTimeSlice struct {
 	ID                        string                    `xml:"id,attr"`
 	AssociatedAirportHeliport AssociatedAirportHeliport `xml:"associatedAirportHeliport"`
-	CorrectionNumber          CorrectionNumber          `xml:"correctionNumber"`
+	CorrectionNumber          bool                      `xml:"correctionNumber"`
 	Designator                Designator                `xml:"designator"`
-	Interpretation            Interpretation            `xml:"interpretation"`
+	Interpretation            string                    `xml:"interpretation"`
 	LengthAccuracy            LengthAccuracy            `xml:"lengthAccuracy"`
 	LengthStrip               *LengthStrip              `xml:"lengthStrip"`
 	NominalLength             NominalLength             `xml:"nominalLength"`
 	NominalWidth              NominalWidth              `xml:"nominalWidth"`
-	SequenceNumber            SequenceNumber            `xml:"sequenceNumber"`
+	SequenceNumber            string                    `xml:"sequenceNumber"`
 	SurfaceProperties         SurfaceProperties         `xml:"surfaceProperties"`
 	Type                      Type                      `xml:"type"`
 	ValidTime                 ValidTime                 `xml:"validTime"`
@@ -1124,16 +982,8 @@ type Segments struct {
 	GeodesicString      []*GeodesicString    `xml:"GeodesicString"`
 }
 
-type SequenceNumber struct {
-	CharData string `xml:",chardata"`
-}
-
 type ServedCity struct {
 	City City `xml:"City"`
-}
-
-type SlopeAngle struct {
-	CharData string `xml:",chardata"`
 }
 
 type StartAngle struct {
@@ -1148,13 +998,13 @@ type Surface struct {
 }
 
 type SurfaceCharacteristics struct {
-	ID                  string               `xml:"id,attr"`
-	ClassPCN            *ClassPCN            `xml:"classPCN"`
-	Composition         Composition          `xml:"composition"`
-	EvaluationMethodPCN *EvaluationMethodPCN `xml:"evaluationMethodPCN"`
-	MaxTyrePressurePCN  *MaxTyrePressurePCN  `xml:"maxTyrePressurePCN"`
-	PavementSubgradePCN *PavementSubgradePCN `xml:"pavementSubgradePCN"`
-	PavementTypePCN     *PavementTypePCN     `xml:"pavementTypePCN"`
+	ID                  string  `xml:"id,attr"`
+	ClassPCN            *int    `xml:"classPCN"`
+	Composition         string  `xml:"composition"`
+	EvaluationMethodPCN *string `xml:"evaluationMethodPCN"`
+	MaxTyrePressurePCN  *string `xml:"maxTyrePressurePCN"`
+	PavementSubgradePCN *string `xml:"pavementSubgradePCN"`
+	PavementTypePCN     *string `xml:"pavementTypePCN"`
 }
 
 type SurfaceProperties struct {
@@ -1173,16 +1023,16 @@ type TACAN struct {
 }
 
 type TACANTimeSlice struct {
-	ID               string           `xml:"id,attr"`
-	Authority        Authority        `xml:"authority"`
-	Channel          Channel          `xml:"channel"`
-	CorrectionNumber CorrectionNumber `xml:"correctionNumber"`
-	Designator       Designator       `xml:"designator"`
-	Interpretation   Interpretation   `xml:"interpretation"`
-	Location         Location         `xml:"location"`
-	Name             *Name            `xml:"name"`
-	SequenceNumber   SequenceNumber   `xml:"sequenceNumber"`
-	ValidTime        ValidTime        `xml:"validTime"`
+	ID               string     `xml:"id,attr"`
+	Authority        Authority  `xml:"authority"`
+	Channel          string     `xml:"channel"`
+	CorrectionNumber bool       `xml:"correctionNumber"`
+	Designator       Designator `xml:"designator"`
+	Interpretation   string     `xml:"interpretation"`
+	Location         Location   `xml:"location"`
+	Name             *string    `xml:"name"`
+	SequenceNumber   string     `xml:"sequenceNumber"`
+	ValidTime        ValidTime  `xml:"validTime"`
 }
 
 type TemporalElement struct {
@@ -1235,11 +1085,11 @@ type Timesheet struct {
 }
 
 type Title struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type TopicCategory struct {
-	MDTopicCategoryCode MDTopicCategoryCode `xml:"MD_TopicCategoryCode"`
+	MDTopicCategoryCode string `xml:"MD_TopicCategoryCode"`
 }
 
 type TransitionAltitude struct {
@@ -1268,21 +1118,13 @@ type Type struct {
 	CharData string `xml:",chardata"`
 }
 
-type UpperCorner struct {
-	CharData string `xml:",chardata"`
-}
-
 type UpperLimit struct {
 	UOM      string `xml:"uom,attr"`
 	CharData string `xml:",chardata"`
 }
 
-type UpperLimitReference struct {
-	CharData string `xml:",chardata"`
-}
-
 type UseLimitation struct {
-	CharacterString CharacterString `xml:"CharacterString"`
+	CharacterString string `xml:"CharacterString"`
 }
 
 type UsedRunway struct {
@@ -1296,18 +1138,18 @@ type VOR struct {
 }
 
 type VORTimeSlice struct {
-	ID                   string               `xml:"id,attr"`
-	Authority            Authority            `xml:"authority"`
-	CorrectionNumber     CorrectionNumber     `xml:"correctionNumber"`
-	Designator           Designator           `xml:"designator"`
-	Frequency            Frequency            `xml:"frequency"`
-	Interpretation       Interpretation       `xml:"interpretation"`
-	Location             Location             `xml:"location"`
-	Name                 *Name                `xml:"name"`
-	SequenceNumber       SequenceNumber       `xml:"sequenceNumber"`
-	Type                 Type                 `xml:"type"`
-	ValidTime            ValidTime            `xml:"validTime"`
-	ZeroBearingDirection ZeroBearingDirection `xml:"zeroBearingDirection"`
+	ID                   string     `xml:"id,attr"`
+	Authority            Authority  `xml:"authority"`
+	CorrectionNumber     bool       `xml:"correctionNumber"`
+	Designator           Designator `xml:"designator"`
+	Frequency            Frequency  `xml:"frequency"`
+	Interpretation       string     `xml:"interpretation"`
+	Location             Location   `xml:"location"`
+	Name                 *string    `xml:"name"`
+	SequenceNumber       string     `xml:"sequenceNumber"`
+	Type                 Type       `xml:"type"`
+	ValidTime            ValidTime  `xml:"validTime"`
+	ZeroBearingDirection string     `xml:"zeroBearingDirection"`
 }
 
 type ValidTime struct {
@@ -1318,10 +1160,6 @@ type VerticalAccuracy struct {
 	Nil      *bool   `xml:"nil,attr"`
 	UOM      *string `xml:"uom,attr"`
 	CharData string  `xml:",chardata"`
-}
-
-type VerticalDatum struct {
-	CharData string `xml:",chardata"`
 }
 
 type VerticalExtent struct {
@@ -1364,16 +1202,16 @@ type VerticalStructurePart struct {
 type VerticalStructureTimeSlice struct {
 	ID                   string               `xml:"id,attr"`
 	Annotation           []*Annotation        `xml:"annotation"`
-	CorrectionNumber     CorrectionNumber     `xml:"correctionNumber"`
+	CorrectionNumber     bool                 `xml:"correctionNumber"`
 	FeatureLifetime      FeatureLifetime      `xml:"featureLifetime"`
-	Group                Group                `xml:"group"`
-	Interpretation       Interpretation       `xml:"interpretation"`
-	Lighted              Lighted              `xml:"lighted"`
+	Group                string               `xml:"group"`
+	Interpretation       string               `xml:"interpretation"`
+	Lighted              string               `xml:"lighted"`
 	LightingICAOStandard LightingICAOStandard `xml:"lightingICAOStandard"`
 	MarkingICAOStandard  MarkingICAOStandard  `xml:"markingICAOStandard"`
-	Name                 Name                 `xml:"name"`
+	Name                 string               `xml:"name"`
 	Part                 []Part               `xml:"part"`
-	SequenceNumber       SequenceNumber       `xml:"sequenceNumber"`
+	SequenceNumber       string               `xml:"sequenceNumber"`
 	SynchronisedLighting SynchronisedLighting `xml:"synchronisedLighting"`
 	Type                 Type                 `xml:"type"`
 	ValidTime            ValidTime            `xml:"validTime"`
@@ -1392,13 +1230,13 @@ type VisualGlideSlopeIndicator struct {
 
 type VisualGlideSlopeIndicatorTimeSlice struct {
 	ID                            string                         `xml:"id,attr"`
-	CorrectionNumber              CorrectionNumber               `xml:"correctionNumber"`
-	Interpretation                Interpretation                 `xml:"interpretation"`
+	CorrectionNumber              bool                           `xml:"correctionNumber"`
+	Interpretation                string                         `xml:"interpretation"`
 	LowerRunwayDirection          LowerRunwayDirection           `xml:"runwayDirection"`
 	MinimumEyeHeightOverThreshold *MinimumEyeHeightOverThreshold `xml:"minimumEyeHeightOverThreshold"`
-	Position                      *Position                      `xml:"position"`
-	SequenceNumber                SequenceNumber                 `xml:"sequenceNumber"`
-	SlopeAngle                    SlopeAngle                     `xml:"slopeAngle"`
+	Position                      *string                        `xml:"position"`
+	SequenceNumber                string                         `xml:"sequenceNumber"`
+	SlopeAngle                    float64                        `xml:"slopeAngle"`
 	Type                          Type                           `xml:"type"`
 	ValidTime                     ValidTime                      `xml:"validTime"`
 }
@@ -1410,9 +1248,5 @@ type WidthAccuracy struct {
 
 type WidthStrip struct {
 	UOM      string `xml:"uom,attr"`
-	CharData string `xml:",chardata"`
-}
-
-type ZeroBearingDirection struct {
 	CharData string `xml:",chardata"`
 }
