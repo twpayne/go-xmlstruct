@@ -3,9 +3,7 @@ package play
 import (
 	"encoding/xml"
 	"os"
-	"strings"
 	"testing"
-	"unicode"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -13,25 +11,26 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
-var exportRenames = map[string]string{
-	"FM":       "FrontMatter",
-	"GRPDESCR": "GroupDescription",
-	"P":        "Paragraph",
-	"PGROUP":   "PersonaGroup",
-	"PLAYSUBT": "PlaySubtitle",
-	"SCNDESCR": "SceneDescription",
-	"STAGEDIR": "StageDirection",
-}
-
 func TestPlay(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
-		xmlstruct.WithExportNameFunc(func(name xml.Name) string {
-			if exportName, ok := exportRenames[name.Local]; ok {
-				return exportName
-			}
-			runes := []rune(strings.ToLower(name.Local))
-			runes[0] = unicode.ToUpper(runes[0])
-			return string(runes)
+		xmlstruct.WithExportRenames(map[string]string{
+			"ACT":      "Act",
+			"EPILOGUE": "Epilogue",
+			"FM":       "FrontMatter",
+			"GRPDESCR": "GroupDescription",
+			"LINE":     "Line",
+			"P":        "Paragraph",
+			"PERSONA":  "Persona",
+			"PERSONAE": "Personae",
+			"PGROUP":   "PersonaGroup",
+			"PLAY":     "Play",
+			"PLAYSUBT": "PlaySubtitle",
+			"SCENE":    "Scene",
+			"SCNDESCR": "SceneDescription",
+			"SPEAKER":  "Speaker",
+			"SPEECH":   "Speech",
+			"STAGEDIR": "StageDirection",
+			"TITLE":    "Title",
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("play"),

@@ -13,19 +13,12 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
-var exportRenames = map[string]string{
-	"note":            "LowerNote",            // Disambiguate between Note and note.
-	"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
-	"uom":             "UOM",                  // Unit of measurement abbreviation.
-}
-
 func TestAIXM(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
-		xmlstruct.WithExportNameFunc(func(name xml.Name) string {
-			if exportName, ok := exportRenames[name.Local]; ok {
-				return exportName
-			}
-			return xmlstruct.DefaultExportNameFunc(name)
+		xmlstruct.WithExportRenames(map[string]string{
+			"note":            "LowerNote",            // Disambiguate between Note and note.
+			"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
+			"uom":             "UOM",                  // Unit of measurement abbreviation.
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("aixm"),

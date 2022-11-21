@@ -20,6 +20,7 @@ import (
 type Generator struct {
 	charDataFieldName            string
 	exportNameFunc               ExportNameFunc
+	exportRenames                map[string]string
 	formatSource                 bool
 	header                       string
 	intType                      string
@@ -49,6 +50,13 @@ func WithCharDataFieldName(charDataFieldName string) GeneratorOption {
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 	return func(g *Generator) {
 		g.exportNameFunc = exportNameFunc
+	}
+}
+
+// WithExportRenames sets the export renames.
+func WithExportRenames(exportRenames map[string]string) GeneratorOption {
+	return func(g *Generator) {
+		g.exportRenames = exportRenames
 	}
 }
 
@@ -126,9 +134,8 @@ func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) Generat
 
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
-	generator := &Generator{
+	g := &Generator{
 		charDataFieldName:            DefaultCharDataFieldName,
-		exportNameFunc:               DefaultExportNameFunc,
 		formatSource:                 DefaultFormatSource,
 		header:                       DefaultHeader,
 		intType:                      DefaultIntType,
@@ -142,10 +149,16 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		typeElements:                 make(map[xml.Name]*element),
 	}
-	for _, option := range options {
-		option(generator)
+	g.exportNameFunc = func(name xml.Name) string {
+		if exportRename, ok := g.exportRenames[name.Local]; ok {
+			return exportRename
+		}
+		return DefaultExportNameFunc(name)
 	}
-	return generator
+	for _, option := range options {
+		option(g)
+	}
+	return g
 }
 
 // Generate returns the generated Go source for all the XML documents observed
