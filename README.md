@@ -6,8 +6,14 @@ Generate Go structs from multiple XML documents.
 
 ## What does go-xmlstruct do and why should I use it?
 
-go-xmlstruct generates Go structs from XML documents. Compared to
-existing Go struct generators like [zek](https://github.com/miku/zek),
+go-xmlstruct generates Go structs from XML documents. Alternatively put,
+go-xmlstruct infers XML schemas from XML documents. For example, given [this XML
+document](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/play/testdata/all_well.xml),
+go-xmlstruct generates [this Go source
+code](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/play/play.gen.go).
+
+Compared to existing Go struct generators like
+[zek](https://github.com/miku/zek),
 [XMLGen](https://github.com/dutchcoders/XMLGen), and
 [chidley](https://github.com/gnewton/chidley), go-xmlstruct offers:
 
@@ -93,7 +99,7 @@ This demonstrates generating a Go struct from multiple XML complex documents.
 
 For an example of configurable field naming and named types by using
 go-xmlstruct as a package, see
-[`internal/tests/aixm/aixm_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/aixm/aixm_test.go).
+[`internal/tests/play/play_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/play/play_test.go).
 
 For an example of a complex schema, see
 [`internal/tests/aixm/aixm_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/aixm/aixm_test.go).
