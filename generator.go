@@ -120,9 +120,16 @@ func (g *Generator) Generate() ([]byte, error) {
 	}
 
 	typesBuilder := &strings.Builder{}
-	for _, typeName := range sortXMLNames(maps.Keys(g.typeElements)) {
-		fmt.Fprintf(typesBuilder, "\ntype %s ", options.exportNameFunc(typeName))
-		typeElement := g.typeElements[typeName]
+	typeElementsByExportedName := make(map[string]*element, len(g.typeElements))
+	for typeName, typeElement := range g.typeElements {
+		exportedName := options.exportNameFunc(typeName)
+		typeElementsByExportedName[exportedName] = typeElement
+	}
+	exportedNames := maps.Keys(typeElementsByExportedName)
+	sort.Strings(exportedNames)
+	for _, exportedName := range exportedNames {
+		fmt.Fprintf(typesBuilder, "\ntype %s ", exportedName)
+		typeElement := typeElementsByExportedName[exportedName]
 		typeElement.writeGoType(typesBuilder, &options, "")
 		typesBuilder.WriteByte('\n')
 	}

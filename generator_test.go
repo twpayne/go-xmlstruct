@@ -173,6 +173,33 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "multiple_top_level_types",
+			xmlStrs: []string{
+				"<c/>",
+				"<b/>",
+				"<a/>",
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				`}`,
+				``,
+				`type B struct {`,
+				"\tXMLName xml.Name `xml:\"b\"`",
+				`}`,
+				``,
+				`type C struct {`,
+				"\tXMLName xml.Name `xml:\"c\"`",
+				`}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)
