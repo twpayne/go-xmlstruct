@@ -13,6 +13,7 @@ import (
 func TestGenerator(t *testing.T) {
 	for _, tc := range []struct {
 		name        string
+		xmlStr      string
 		xmlStrs     []string
 		options     []xmlstruct.GeneratorOption
 		expectedStr string
@@ -20,13 +21,11 @@ func TestGenerator(t *testing.T) {
 	}{
 		{
 			name: "simple_string",
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					"  <b>c</b>",
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b>c</b>",
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -39,13 +38,11 @@ func TestGenerator(t *testing.T) {
 		},
 		{
 			name: "simple_int",
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					"  <b>2</b>",
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b>2</b>",
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -61,13 +58,11 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithHeader("// Custom header."),
 			},
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					"  <b>c</b>",
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b>c</b>",
+				"</a>",
+			),
 			expectedStr: joinLines(
 				`// Custom header.`,
 				``,
@@ -105,14 +100,12 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithIntType("int64"),
 			},
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					`  <b id=""/>`,
-					`  <b id="c"/>`,
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				`  <b id=""/>`,
+				`  <b id="c"/>`,
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -130,13 +123,11 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithIntType("int64"),
 			},
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					`  <b id=""/>`,
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				`  <b id=""/>`,
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -151,13 +142,11 @@ func TestGenerator(t *testing.T) {
 		},
 		{
 			name: "empty_struct",
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					"  <b/>",
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b/>",
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -170,14 +159,12 @@ func TestGenerator(t *testing.T) {
 		},
 		{
 			name: "empty_structs",
-			xmlStrs: []string{
-				joinLines(
-					"<a>",
-					"  <b/>",
-					"  <b/>",
-					"</a>",
-				),
-			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b/>",
+				"  <b/>",
+				"</a>",
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -189,10 +176,8 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
-			name: "empty_top_level_type",
-			xmlStrs: []string{
-				"<a/>",
-			},
+			name:   "empty_top_level_type",
+			xmlStr: "<a/>",
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -225,15 +210,13 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithNamedTypes(true),
 			},
-			xmlStrs: []string{
-				joinLines(
-					`<a>`,
-					`  <b>`,
-					`    <c/>`,
-					`  </b>`,
-					`</a>`,
-				),
-			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`    <c/>`,
+				`  </b>`,
+				`</a>`,
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -269,18 +252,16 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithNamedTypes(true),
 			},
-			xmlStrs: []string{
-				joinLines(
-					`<a>`,
-					`  <b>`,
-					`    <c/>`,
-					`  </b>`,
-					`  <B>`,
-					`    <c/>`,
-					`  </B>`,
-					`</a>`,
-				),
-			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`    <c/>`,
+				`  </b>`,
+				`  <B>`,
+				`    <c/>`,
+				`  </B>`,
+				`</a>`,
+			),
 			expectedErr: "B: duplicate type name",
 		},
 		{
@@ -288,9 +269,7 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithTopLevelAttributes(true),
 			},
-			xmlStrs: []string{
-				`<a b="0"/>`,
-			},
+			xmlStr: `<a b="0"/>`,
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -306,9 +285,7 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithTopLevelAttributes(false),
 			},
-			xmlStrs: []string{
-				`<a b="0"/>`,
-			},
+			xmlStr: `<a b="0"/>`,
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -322,13 +299,11 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithCharDataFieldName("Text"),
 			},
-			xmlStrs: []string{
-				joinLines(
-					`<a>`,
-					`  <b id="c">d</b>`,
-					`</a>`,
-				),
-			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b id="c">d</b>`,
+				`</a>`,
+			),
 			expectedStr: joinLines(
 				xmlstruct.DefaultHeader,
 				``,
@@ -345,6 +320,9 @@ func TestGenerator(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)
+			if tc.xmlStr != "" {
+				require.NoError(t, generator.ObserveReader(strings.NewReader(tc.xmlStr)))
+			}
 			for _, xmlStr := range tc.xmlStrs {
 				require.NoError(t, generator.ObserveReader(strings.NewReader(xmlStr)))
 			}
