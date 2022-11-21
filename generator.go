@@ -135,6 +135,9 @@ func (g *Generator) Generate() ([]byte, error) {
 	typeElementsByExportedName := make(map[string]*element, len(g.typeElements))
 	for typeName, typeElement := range g.typeElements {
 		exportedName := options.exportNameFunc(typeName)
+		if _, ok := typeElementsByExportedName[exportedName]; ok {
+			return nil, fmt.Errorf("%s: duplicate type name", exportedName)
+		}
 		typeElementsByExportedName[exportedName] = typeElement
 	}
 	for _, exportedName := range sortedKeys(typeElementsByExportedName) {

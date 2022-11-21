@@ -16,6 +16,7 @@ func TestGenerator(t *testing.T) {
 		xmlStrs     []string
 		options     []xmlstruct.GeneratorOption
 		expectedStr string
+		expectedErr string
 	}{
 		{
 			name: "simple_string",
@@ -248,6 +249,21 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "duplicate_type_name",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedTypes(true),
+			},
+			xmlStrs: []string{
+				joinLines(
+					`<a>`,
+					`  <b/>`,
+					`  <B/>`,
+					`</a>`,
+				),
+			},
+			expectedErr: "B: duplicate type name",
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)
@@ -255,8 +271,12 @@ func TestGenerator(t *testing.T) {
 				require.NoError(t, generator.ObserveReader(strings.NewReader(xmlStr)))
 			}
 			actual, err := generator.Generate()
-			require.NoError(t, err)
-			assert.Equal(t, tc.expectedStr, string(actual))
+			if tc.expectedErr != "" {
+				require.EqualError(t, err, tc.expectedErr)
+			} else {
+				require.NoError(t, err)
+				assert.Equal(t, tc.expectedStr, string(actual))
+			}
 		})
 	}
 }
