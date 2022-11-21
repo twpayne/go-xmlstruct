@@ -5,9 +5,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"sort"
-
-	"golang.org/x/exp/maps"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and
@@ -128,9 +125,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		exportedAttrName := options.exportNameFunc(attrName)
 		attrValuesByExportedName[exportedAttrName] = attrValue
 	}
-	exportedAttrNames := maps.Keys(attrValuesByExportedName)
-	sort.Strings(exportedAttrNames)
-	for _, exportedAttrName := range exportedAttrNames {
+	for _, exportedAttrName := range sortedKeys(attrValuesByExportedName) {
 		attrValue := attrValuesByExportedName[exportedAttrName]
 		fmt.Fprintf(w, "%s\t%s %s `xml:\"%s,attr\"`\n", indentPrefix, exportedAttrName, attrValue.goType(options), attrValue.name.Local)
 	}
@@ -139,11 +134,16 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\tCharData string `xml:\",chardata\"`\n", indentPrefix)
 	}
 
-	for _, childName := range sortXMLNames(maps.Keys(e.childElements)) {
-		childElement := e.childElements[childName]
-		fmt.Fprintf(w, "%s\t%s ", indentPrefix, options.exportNameFunc(childName))
+	childElementsByExportedName := make(map[string]*element, len(e.childElements))
+	for childName, childElement := range e.childElements {
+		exportedChildName := options.exportNameFunc(childName)
+		childElementsByExportedName[exportedChildName] = childElement
+	}
+	for _, exportedChildName := range sortedKeys(childElementsByExportedName) {
+		childElement := childElementsByExportedName[exportedChildName]
+		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
 		childElement.writeGoType(w, options, indentPrefix+"\t")
-		fmt.Fprintf(w, " `xml:\"%s\"`\n", childName.Local)
+		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
 	}
 
 	fmt.Fprintf(w, "%s}", indentPrefix)

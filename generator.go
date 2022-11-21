@@ -125,9 +125,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		exportedName := options.exportNameFunc(typeName)
 		typeElementsByExportedName[exportedName] = typeElement
 	}
-	exportedNames := maps.Keys(typeElementsByExportedName)
-	sort.Strings(exportedNames)
-	for _, exportedName := range exportedNames {
+	for _, exportedName := range sortedKeys(typeElementsByExportedName) {
 		fmt.Fprintf(typesBuilder, "\ntype %s ", exportedName)
 		typeElement := typeElementsByExportedName[exportedName]
 		typeElement.writeGoType(typesBuilder, &options, "")

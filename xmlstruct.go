@@ -5,6 +5,8 @@ import (
 	"encoding/xml"
 	"unicode"
 
+	"golang.org/x/exp/constraints"
+	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 )
 
@@ -64,18 +66,9 @@ func IgnoreNamespaceNameFunc(name xml.Name) xml.Name {
 	}
 }
 
-// sortXMLNames sorts xmlNames by namespace and then local name and returns the
-// sorted slice.
-func sortXMLNames(xmlNames []xml.Name) []xml.Name {
-	slices.SortFunc(xmlNames, func(a, b xml.Name) bool {
-		switch {
-		case a.Space < b.Space:
-			return true
-		case a.Space == b.Space:
-			return a.Local < b.Local
-		default:
-			return false
-		}
-	})
-	return xmlNames
+// sortedKeys returns the keys of m in order.
+func sortedKeys[M ~map[K]V, K constraints.Ordered, V any](m M) []K {
+	keys := maps.Keys(m)
+	slices.Sort(keys)
+	return keys
 }
