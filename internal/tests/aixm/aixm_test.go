@@ -70,26 +70,26 @@ func TestAIXM(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, string(expectedSource), string(actualSource))
 
-	decodeZipFile := func(zipFile *zip.File) {
+	decodeZipFile := func(zipFile *zip.File) *AIXMBasicMessage {
 		readCloser, err := zipFile.Open()
 		require.NoError(t, err)
 		defer readCloser.Close()
 
 		var aixmBasicMessage AIXMBasicMessage
 		require.NoError(t, xml.NewDecoder(readCloser).Decode(&aixmBasicMessage))
-
-		switch zipFile.Name {
-		case "LO_OBS_DS_AREA1_20221104.xml":
-			assert.Equal(t, "https://sdimd-free.austrocontrol.at/geonetwork/srv/metadata/b0d38a5a-2072-42fc-8402-4ce984db8fae", aixmBasicMessage.MessageMetadata.MDMetadata.DataSetURI.CharacterString)
-		case "LF_AIP_DS_PartOf_20201203_AIRAC.xml":
-			assert.Equal(t, "uuid.729920d4-5360-49e3-b4b2-1a28313261ba", aixmBasicMessage.HasMember[0].AirportHeliport.ID)
-		}
+		return &aixmBasicMessage
 	}
 
 	for _, zipReader := range zipReaders {
 		for _, zipFile := range zipReader.File {
 			if filepath.Ext(zipFile.Name) == ".xml" {
-				decodeZipFile(zipFile)
+				aixmBasicMessage := decodeZipFile(zipFile)
+				switch zipFile.Name {
+				case "LO_OBS_DS_AREA1_20221104.xml":
+					assert.Equal(t, "https://sdimd-free.austrocontrol.at/geonetwork/srv/metadata/b0d38a5a-2072-42fc-8402-4ce984db8fae", aixmBasicMessage.MessageMetadata.MDMetadata.DataSetURI.CharacterString)
+				case "LF_AIP_DS_PartOf_20201203_AIRAC.xml":
+					assert.Equal(t, "uuid.729920d4-5360-49e3-b4b2-1a28313261ba", aixmBasicMessage.HasMember[0].AirportHeliport.ID)
+				}
 			}
 		}
 	}
