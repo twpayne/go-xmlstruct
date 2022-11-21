@@ -18,21 +18,10 @@ import (
 
 var (
 	exportRenames = map[string]string{
-		"aixm":            "AIXM",
-		"gco":             "GCO",
-		"gmd":             "GMD",
-		"gml":             "GML",
-		"gsr":             "GSR",
-		"gss":             "GSS",
-		"gts":             "GTS",
 		"id":              "ID",
-		"ids":             "IDS",
 		"note":            "LowerNote",            // Disambiguate between Note and note.
 		"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
-		"uom":             "UOM",
-		"xlink":           "XLink",
-		"xsd":             "XSD",
-		"xsi":             "XSI",
+		"uom":             "UOM",                  // Unit of measurement abbreviation.
 	}
 
 	snakeCaseLetterRx = regexp.MustCompile(`_([A-Za-z])`)

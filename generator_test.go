@@ -283,6 +283,40 @@ func TestGenerator(t *testing.T) {
 			},
 			expectedErr: "B: duplicate type name",
 		},
+		{
+			name: "with_top_level_attributes",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithTopLevelAttributes(true),
+			},
+			xmlStrs: []string{
+				`<a b="0"/>`,
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct {`,
+				"\tB bool `xml:\"b,attr\"`",
+				`}`,
+			),
+		},
+		{
+			name: "without_top_level_attributes",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithTopLevelAttributes(false),
+			},
+			xmlStrs: []string{
+				`<a b="0"/>`,
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct{}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)

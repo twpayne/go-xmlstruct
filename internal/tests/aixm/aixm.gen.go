@@ -5,20 +5,6 @@ package aixm
 import "time"
 
 type AIXMBasicMessage struct {
-	AIXM            string          `xml:"aixm,attr"`
-	Event           *string         `xml:"event,attr"`
-	GCO             string          `xml:"gco,attr"`
-	GMD             string          `xml:"gmd,attr"`
-	GML             string          `xml:"gml,attr"`
-	GSR             string          `xml:"gsr,attr"`
-	GSS             string          `xml:"gss,attr"`
-	GTS             string          `xml:"gts,attr"`
-	ID              string          `xml:"id,attr"`
-	Message         string          `xml:"message,attr"`
-	SchemaLocation  string          `xml:"schemaLocation,attr"`
-	XLink           string          `xml:"xlink,attr"`
-	XSD             *string         `xml:"xsd,attr"`
-	XSI             string          `xml:"xsi,attr"`
 	BoundedBy       BoundedBy       `xml:"boundedBy"`
 	HasMember       []HasMember     `xml:"hasMember"`
 	Identifier      Identifier      `xml:"identifier"`

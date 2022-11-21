@@ -22,11 +22,12 @@ type Generator struct {
 	header                       string
 	intType                      string
 	nameFunc                     NameFunc
+	namedTypes                   bool
 	packageName                  string
 	timeLayout                   string
-	namedTypes                   bool
-	typeElements                 map[xml.Name]*element
+	topLevelAttributes           bool
 	usePointersForOptionalFields bool
+	typeElements                 map[xml.Name]*element
 }
 
 // A GeneratorOption sets an option on a Generator.
@@ -89,6 +90,13 @@ func WithTimeLayout(timeLayout string) GeneratorOption {
 	}
 }
 
+// WithTopLevelAttributes sets whether to include top level attributes.
+func WithTopLevelAttributes(topLevelAttributes bool) GeneratorOption {
+	return func(g *Generator) {
+		g.topLevelAttributes = topLevelAttributes
+	}
+}
+
 // WithUsePointersForOptionFields sets whether to use pointers for optional
 // fields in the generated Go source.
 func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) GeneratorOption {
@@ -108,6 +116,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		namedTypes:                   DefaultNamedTypes,
 		packageName:                  DefaultPackageName,
 		timeLayout:                   DefaultTimeLayout,
+		topLevelAttributes:           DefaultTopLevelAttributes,
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		typeElements:                 make(map[xml.Name]*element),
 	}
@@ -202,8 +211,9 @@ func (g *Generator) ObserveFile(name string) error {
 // ObserveReader observes an XML document from r.
 func (g *Generator) ObserveReader(r io.Reader) error {
 	options := observeOptions{
-		nameFunc:   g.nameFunc,
-		timeLayout: g.timeLayout,
+		nameFunc:           g.nameFunc,
+		timeLayout:         g.timeLayout,
+		topLevelAttributes: g.topLevelAttributes,
 	}
 	if g.namedTypes {
 		options.topLevelElements = g.typeElements
@@ -224,7 +234,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 					typeElement = newElement(name)
 					g.typeElements[name] = typeElement
 				}
-				if err := typeElement.observeChildElement(decoder, startElement, &options); err != nil {
+				if err := typeElement.observeChildElement(decoder, startElement, 0, &options); err != nil {
 					return err
 				}
 			}

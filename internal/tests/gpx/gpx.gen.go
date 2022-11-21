@@ -5,13 +5,7 @@ package gpx
 import "time"
 
 type Gpx struct {
-	Creator        string  `xml:"creator,attr"`
-	SchemaLocation string  `xml:"schemaLocation,attr"`
-	Topografix     *string `xml:"topografix,attr"`
-	Version        float64 `xml:"version,attr"`
-	Xmlns          string  `xml:"xmlns,attr"`
-	Xsi            string  `xml:"xsi,attr"`
-	Active_point   *struct {
+	Active_point *struct {
 		Lat float64 `xml:"lat,attr"`
 		Lon float64 `xml:"lon,attr"`
 	} `xml:"active_point"`

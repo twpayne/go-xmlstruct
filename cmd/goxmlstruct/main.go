@@ -14,11 +14,12 @@ var (
 	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
 	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
-	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
+	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
-	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
+	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
+	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 )
 
 func run() error {
@@ -33,10 +34,11 @@ func run() error {
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
 		xmlstruct.WithIntType(*intType),
-		xmlstruct.WithNamedTypes(*namedTypes),
 		xmlstruct.WithNameFunc(nameFunc),
+		xmlstruct.WithNamedTypes(*namedTypes),
 		xmlstruct.WithPackageName(*packageName),
 		xmlstruct.WithTimeLayout(*timeLayout),
+		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 	)
 

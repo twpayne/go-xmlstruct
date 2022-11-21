@@ -58,8 +58,10 @@ func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 
 // observeChildElement updates e's observed chardata and child elements with
 // tokens read from decoder.
-func (e *element) observeChildElement(decoder *xml.Decoder, startElement xml.StartElement, options *observeOptions) error {
-	e.observeAttrs(startElement.Attr, options)
+func (e *element) observeChildElement(decoder *xml.Decoder, startElement xml.StartElement, depth int, options *observeOptions) error {
+	if options.topLevelAttributes || depth != 0 {
+		e.observeAttrs(startElement.Attr, options)
+	}
 	childCounts := make(map[xml.Name]int)
 FOR:
 	for {
@@ -86,7 +88,7 @@ FOR:
 				}
 				e.childElements[childName] = childElement
 			}
-			if err := childElement.observeChildElement(decoder, token, options); err != nil {
+			if err := childElement.observeChildElement(decoder, token, depth+1, options); err != nil {
 				return err
 			}
 		case xml.EndElement:
