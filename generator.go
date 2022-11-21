@@ -24,7 +24,9 @@ type Generator struct {
 	intType                      string
 	nameFunc                     NameFunc
 	namedTypes                   bool
+	order                        int
 	packageName                  string
+	preserveOrder                bool
 	timeLayout                   string
 	topLevelAttributes           bool
 	usePointersForOptionalFields bool
@@ -90,6 +92,13 @@ func WithPackageName(packageName string) GeneratorOption {
 	}
 }
 
+// WithPreserveOrder sets whether to preserve the order of types and fields.
+func WithPreserveOrder(preserveOrder bool) GeneratorOption {
+	return func(g *Generator) {
+		g.preserveOrder = preserveOrder
+	}
+}
+
 // WithTimeLayout sets the time layout used to identify times in the observed
 // XML documents. Use an empty string to disable identifying times.
 func WithTimeLayout(timeLayout string) GeneratorOption {
@@ -124,6 +133,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		nameFunc:                     DefaultNameFunc,
 		namedTypes:                   DefaultNamedTypes,
 		packageName:                  DefaultPackageName,
+		preserveOrder:                DefaultPreserveOrder,
 		timeLayout:                   DefaultTimeLayout,
 		topLevelAttributes:           DefaultTopLevelAttributes,
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
@@ -144,6 +154,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),
 		intType:                      g.intType,
+		preserveOrder:                g.preserveOrder,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 	}
 
@@ -221,6 +232,10 @@ func (g *Generator) ObserveFile(name string) error {
 // ObserveReader observes an XML document from r.
 func (g *Generator) ObserveReader(r io.Reader) error {
 	options := observeOptions{
+		getOrder: func() int {
+			g.order++
+			return g.order
+		},
 		nameFunc:           g.nameFunc,
 		timeLayout:         g.timeLayout,
 		topLevelAttributes: g.topLevelAttributes,

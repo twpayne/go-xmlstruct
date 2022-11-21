@@ -35,6 +35,7 @@ func TestPlay(t *testing.T) {
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("play"),
+		xmlstruct.WithPreserveOrder(true),
 	)
 
 	require.NoError(t, generator.ObserveFile("testdata/all_well.xml"))

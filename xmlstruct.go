@@ -20,6 +20,7 @@ const (
 	DefaultIntType                      = "int"
 	DefaultNamedTypes                   = false
 	DefaultPackageName                  = "main"
+	DefaultPreserveOrder                = false
 	DefaultTimeLayout                   = "2006-01-02T15:04:05Z"
 	DefaultUsePointersForOptionalFields = true
 )
@@ -76,6 +77,7 @@ type NameFunc func(xml.Name) xml.Name
 
 // observeOptions contains options for observing XML documents.
 type observeOptions struct {
+	getOrder           func() int
 	nameFunc           NameFunc
 	timeLayout         string
 	topLevelAttributes bool
@@ -90,6 +92,7 @@ type generateOptions struct {
 	importPackageNames           map[string]struct{}
 	intType                      string
 	namedTypes                   map[xml.Name]*element
+	preserveOrder                bool
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
 }

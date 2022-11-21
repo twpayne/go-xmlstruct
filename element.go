@@ -5,6 +5,9 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+
+	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and
@@ -13,6 +16,7 @@ type element struct {
 	attrValues       map[xml.Name]*value
 	charDataValue    value
 	childElements    map[xml.Name]*element
+	childOrder       map[xml.Name]int
 	name             xml.Name
 	optionalChildren map[xml.Name]struct{}
 	repeatedChildren map[xml.Name]struct{}
@@ -24,6 +28,7 @@ func newElement(name xml.Name) *element {
 		name:             name,
 		attrValues:       make(map[xml.Name]*value),
 		childElements:    make(map[xml.Name]*element),
+		childOrder:       make(map[xml.Name]int),
 		optionalChildren: make(map[xml.Name]struct{}),
 		repeatedChildren: make(map[xml.Name]struct{}),
 	}
@@ -88,6 +93,9 @@ FOR:
 				}
 				e.childElements[childName] = childElement
 			}
+			if _, ok := e.childOrder[childName]; !ok {
+				e.childOrder[childName] = options.getOrder()
+			}
 			if err := childElement.observeChildElement(decoder, token, depth+1, options); err != nil {
 				return err
 			}
@@ -146,18 +154,25 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\t%s string `xml:\",chardata\"`\n", indentPrefix, fieldName)
 	}
 
-	childElementsByExportedName := make(map[string]*element, len(e.childElements))
-	for childName, childElement := range e.childElements {
-		exportedChildName := options.exportNameFunc(childName)
-		childElementsByExportedName[exportedChildName] = childElement
+	childElements := maps.Values(e.childElements)
+	if options.preserveOrder {
+		slices.SortFunc(childElements, func(a, b *element) bool {
+			return e.childOrder[a.name] < e.childOrder[b.name]
+		})
+	} else {
+		slices.SortFunc(childElements, func(a, b *element) bool {
+			return options.exportNameFunc(a.name) < options.exportNameFunc(b.name)
+		})
 	}
-	for _, exportedChildName := range sortedKeys(childElementsByExportedName) {
+
+	for _, childElement := range childElements {
+		exportedChildName := options.exportNameFunc(childElement.name)
+
 		if _, ok := fieldNames[exportedChildName]; ok {
 			fieldNames[exportedChildName] = struct{}{}
 		}
 		fieldNames[exportedChildName] = struct{}{}
 
-		childElement := childElementsByExportedName[exportedChildName]
 		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
 		if _, repeated := e.repeatedChildren[childElement.name]; repeated {
 			fmt.Fprintf(w, "[]")

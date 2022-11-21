@@ -18,6 +18,7 @@ var (
 	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
+	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
@@ -39,6 +40,7 @@ func run() error {
 		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithNamedTypes(*namedTypes),
 		xmlstruct.WithPackageName(*packageName),
+		xmlstruct.WithPreserveOrder(*preserveOrder),
 		xmlstruct.WithTimeLayout(*timeLayout),
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
