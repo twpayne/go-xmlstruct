@@ -112,6 +112,61 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
+			name: "string_attribute",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithIntType("int64"),
+			},
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					`  <b id=""/>`,
+					`  <b id="c"/>`,
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       []struct {",
+				"\t\tId string `xml:\"id,attr\"`",
+				"\t} `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
+			name: "empty_attribute",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithIntType("int64"),
+			},
+			xmlStrs: []string{
+				joinLines(
+					"<a>",
+					`  <b id=""/>`,
+					"</a>",
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       struct {",
+				"\t\tId string `xml:\"id,attr\"`",
+				"\t} `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
 			name: "empty_struct",
 			xmlStrs: []string{
 				joinLines(

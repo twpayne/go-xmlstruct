@@ -10,7 +10,6 @@ import (
 // chardata.
 type value struct {
 	boolCount    int
-	emptyCount   int
 	float64Count int
 	intCount     int
 	name         xml.Name
@@ -25,9 +24,6 @@ type value struct {
 // observed for v.
 func (v *value) goType(options *generateOptions) string {
 	distinctTypes := 0
-	if v.emptyCount > 0 {
-		distinctTypes++
-	}
 	if v.boolCount > 0 {
 		distinctTypes++
 	}
@@ -72,10 +68,6 @@ func (v *value) goType(options *generateOptions) string {
 // observe records s as being observed for v.
 func (v *value) observe(s string, options *observeOptions) {
 	v.observations++
-	if s == "" {
-		v.emptyCount++
-		return
-	}
 	if _, err := strconv.ParseBool(s); err == nil {
 		v.boolCount++
 		return
