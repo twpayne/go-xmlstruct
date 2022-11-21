@@ -138,7 +138,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	}
 
 	if e.charDataValue.observations > 0 {
-		fieldName := "CharData"
+		fieldName := options.charDataFieldName
 		if _, ok := fieldNames[fieldName]; ok {
 			return fmt.Errorf("%s: duplicate field name", fieldName)
 		}

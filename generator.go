@@ -17,6 +17,7 @@ import (
 // A Generator observes XML documents and generates Go structs into which the
 // XML documents can be unmarshalled.
 type Generator struct {
+	charDataFieldName            string
 	exportNameFunc               ExportNameFunc
 	formatSource                 bool
 	header                       string
@@ -32,6 +33,13 @@ type Generator struct {
 
 // A GeneratorOption sets an option on a Generator.
 type GeneratorOption func(*Generator)
+
+// WithCharDataFieldName sets the char data field name.
+func WithCharDataFieldName(charDataFieldName string) GeneratorOption {
+	return func(g *Generator) {
+		g.charDataFieldName = charDataFieldName
+	}
+}
 
 // WithExportNameFunc sets the export name function for the generated Go source.
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
@@ -108,6 +116,7 @@ func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) Generat
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	generator := &Generator{
+		charDataFieldName:            DefaultCharDataFieldName,
 		exportNameFunc:               DefaultExportNameFunc,
 		formatSource:                 DefaultFormatSource,
 		header:                       DefaultHeader,
@@ -130,6 +139,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 // so far.
 func (g *Generator) Generate() ([]byte, error) {
 	options := generateOptions{
+		charDataFieldName:            g.charDataFieldName,
 		exportNameFunc:               g.exportNameFunc,
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),

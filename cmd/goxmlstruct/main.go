@@ -10,6 +10,7 @@ import (
 )
 
 var (
+	charDataFieldName            = flag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
 	formatSource                 = flag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
 	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
@@ -31,6 +32,7 @@ func run() error {
 	}
 
 	generator := xmlstruct.NewGenerator(
+		xmlstruct.WithCharDataFieldName(*charDataFieldName),
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
 		xmlstruct.WithIntType(*intType),

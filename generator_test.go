@@ -317,6 +317,31 @@ func TestGenerator(t *testing.T) {
 				`type A struct{}`,
 			),
 		},
+		{
+			name: "char_data_field_name",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithCharDataFieldName("Text"),
+			},
+			xmlStrs: []string{
+				joinLines(
+					`<a>`,
+					`  <b id="c">d</b>`,
+					`</a>`,
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct {`,
+				"\tB struct {",
+				"\t\tID   string `xml:\"id,attr\"`",
+				"\t\tText string `xml:\",chardata\"`",
+				"\t} `xml:\"b\"`",
+				`}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)
