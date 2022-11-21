@@ -12,12 +12,12 @@ import (
 // An element describes an observed XML element, its attributes, chardata, and
 // children.
 type element struct {
-	name          xml.Name
-	repeated      bool
-	optional      bool
 	attrValues    map[xml.Name]*value
 	charDataValue value
 	childElements map[xml.Name]*element
+	name          xml.Name
+	optional      bool
+	repeated      bool
 }
 
 // newElement returns a new element.

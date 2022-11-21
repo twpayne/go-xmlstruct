@@ -21,11 +21,11 @@ type Generator struct {
 	formatSource                 bool
 	header                       string
 	intType                      string
-	packageName                  string
 	nameFunc                     NameFunc
+	packageName                  string
 	timeLayout                   string
-	usePointersForOptionalFields bool
 	typeElements                 map[xml.Name]*element
+	usePointersForOptionalFields bool
 }
 
 // A GeneratorOption sets an option on a Generator.

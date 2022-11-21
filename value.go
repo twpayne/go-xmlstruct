@@ -8,15 +8,15 @@ import (
 // A value describes an observed simple value, either an attribute value or
 // chardata.
 type value struct {
-	repeated     bool
-	optional     bool
-	observations int
-	emptyCount   int
 	boolCount    int
-	intCount     int
+	emptyCount   int
 	float64Count int
-	timeCount    int
+	intCount     int
+	observations int
+	optional     bool
+	repeated     bool
 	stringCount  int
+	timeCount    int
 }
 
 // goType returns the most specific Go type that can represent all of the values
