@@ -88,6 +88,9 @@ FOR:
 						options.topLevelElements[childName] = topLevelElement
 						childElement = topLevelElement
 					}
+					if _, ok := options.typeOrder[childName]; !ok {
+						options.typeOrder[childName] = options.getOrder()
+					}
 				} else {
 					childElement = newElement(childName)
 				}

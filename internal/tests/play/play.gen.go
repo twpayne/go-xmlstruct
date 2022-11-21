@@ -2,30 +2,17 @@
 
 package play
 
-type Act struct {
-	Title    string   `xml:"TITLE"`
-	Scene    []Scene  `xml:"SCENE"`
-	Epilogue Epilogue `xml:"EPILOGUE"`
-}
-
-type Epilogue struct {
-	Title          string `xml:"TITLE"`
-	Speech         Speech `xml:"SPEECH"`
-	StageDirection string `xml:"STAGEDIR"`
+type Play struct {
+	Title             string      `xml:"TITLE"`
+	FrontMatter       FrontMatter `xml:"FM"`
+	Personae          Personae    `xml:"PERSONAE"`
+	ScreenDescription string      `xml:"SCNDESCR"`
+	PlaySubtitle      string      `xml:"PLAYSUBT"`
+	Act               []Act       `xml:"ACT"`
 }
 
 type FrontMatter struct {
 	Paragraph []string `xml:"P"`
-}
-
-type Line struct {
-	CharData       string  `xml:",chardata"`
-	StageDirection *string `xml:"STAGEDIR"`
-}
-
-type PersonaGroup struct {
-	Persona          []string `xml:"PERSONA"`
-	GroupDescription string   `xml:"GRPDESCR"`
 }
 
 type Personae struct {
@@ -34,13 +21,15 @@ type Personae struct {
 	PersonaGroup []PersonaGroup `xml:"PGROUP"`
 }
 
-type Play struct {
-	Title             string      `xml:"TITLE"`
-	FrontMatter       FrontMatter `xml:"FM"`
-	Personae          Personae    `xml:"PERSONAE"`
-	ScreenDescription string      `xml:"SCNDESCR"`
-	PlaySubtitle      string      `xml:"PLAYSUBT"`
-	Act               []Act       `xml:"ACT"`
+type PersonaGroup struct {
+	Persona          []string `xml:"PERSONA"`
+	GroupDescription string   `xml:"GRPDESCR"`
+}
+
+type Act struct {
+	Title    string   `xml:"TITLE"`
+	Scene    []Scene  `xml:"SCENE"`
+	Epilogue Epilogue `xml:"EPILOGUE"`
 }
 
 type Scene struct {
@@ -53,4 +42,15 @@ type Speech struct {
 	Speaker        string    `xml:"SPEAKER"`
 	Line           []Line    `xml:"LINE"`
 	StageDirection []*string `xml:"STAGEDIR"`
+}
+
+type Line struct {
+	CharData       string  `xml:",chardata"`
+	StageDirection *string `xml:"STAGEDIR"`
+}
+
+type Epilogue struct {
+	Title          string `xml:"TITLE"`
+	Speech         Speech `xml:"SPEECH"`
+	StageDirection string `xml:"STAGEDIR"`
 }

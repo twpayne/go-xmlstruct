@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"golang.org/x/exp/maps"
+	"golang.org/x/exp/slices"
 	"golang.org/x/net/html/charset"
 )
 
@@ -29,6 +30,7 @@ type Generator struct {
 	preserveOrder                bool
 	timeLayout                   string
 	topLevelAttributes           bool
+	typeOrder                    map[xml.Name]int
 	usePointersForOptionalFields bool
 	typeElements                 map[xml.Name]*element
 }
@@ -136,6 +138,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		preserveOrder:                DefaultPreserveOrder,
 		timeLayout:                   DefaultTimeLayout,
 		topLevelAttributes:           DefaultTopLevelAttributes,
+		typeOrder:                    make(map[xml.Name]int),
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		typeElements:                 make(map[xml.Name]*element),
 	}
@@ -158,9 +161,9 @@ func (g *Generator) Generate() ([]byte, error) {
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 	}
 
-	typeElements := maps.Clone(g.typeElements)
+	var typeElements []*element
 	if g.namedTypes {
-		options.namedTypes = typeElements
+		options.namedTypes = maps.Clone(g.typeElements)
 		options.simpleTypes = make(map[xml.Name]struct{})
 		for name, element := range options.namedTypes {
 			if len(element.attrValues) != 0 || len(element.childElements) != 0 {
@@ -169,20 +172,30 @@ func (g *Generator) Generate() ([]byte, error) {
 			options.simpleTypes[name] = struct{}{}
 			delete(options.namedTypes, name)
 		}
+		typeElements = maps.Values(options.namedTypes)
+	} else {
+		typeElements = maps.Values(g.typeElements)
+	}
+
+	if options.preserveOrder {
+		slices.SortFunc(typeElements, func(a, b *element) bool {
+			return g.typeOrder[a.name] < g.typeOrder[b.name]
+		})
+	} else {
+		slices.SortFunc(typeElements, func(a, b *element) bool {
+			return options.exportNameFunc(a.name) < options.exportNameFunc(b.name)
+		})
 	}
 
 	typesBuilder := &strings.Builder{}
-	typeElementsByExportedName := make(map[string]*element, len(typeElements))
-	for typeName, typeElement := range typeElements {
-		exportedName := options.exportNameFunc(typeName)
-		if _, ok := typeElementsByExportedName[exportedName]; ok {
-			return nil, fmt.Errorf("%s: duplicate type name", exportedName)
+	typeNames := make(map[string]struct{})
+	for _, typeElement := range typeElements {
+		typeName := options.exportNameFunc(typeElement.name)
+		if _, ok := typeNames[typeName]; ok {
+			return nil, fmt.Errorf("%s: duplicate type name", typeName)
 		}
-		typeElementsByExportedName[exportedName] = typeElement
-	}
-	for _, exportedName := range sortedKeys(typeElementsByExportedName) {
-		fmt.Fprintf(typesBuilder, "\ntype %s ", exportedName)
-		typeElement := typeElementsByExportedName[exportedName]
+		typeNames[typeName] = struct{}{}
+		fmt.Fprintf(typesBuilder, "\ntype %s ", typeName)
 		if err := typeElement.writeGoType(typesBuilder, &options, ""); err != nil {
 			return nil, err
 		}
@@ -239,6 +252,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 		nameFunc:           g.nameFunc,
 		timeLayout:         g.timeLayout,
 		topLevelAttributes: g.topLevelAttributes,
+		typeOrder:          g.typeOrder,
 	}
 	if g.namedTypes {
 		options.topLevelElements = g.typeElements
@@ -259,6 +273,9 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 				if !ok {
 					typeElement = newElement(name)
 					g.typeElements[name] = typeElement
+				}
+				if _, ok := g.typeOrder[name]; !ok {
+					g.typeOrder[name] = options.getOrder()
 				}
 				if err := typeElement.observeChildElement(decoder, startElement, 0, &options); err != nil {
 					return err

@@ -80,6 +80,7 @@ type observeOptions struct {
 	getOrder           func() int
 	nameFunc           NameFunc
 	timeLayout         string
+	typeOrder          map[xml.Name]int
 	topLevelAttributes bool
 	topLevelElements   map[xml.Name]*element
 }
