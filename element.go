@@ -10,20 +10,22 @@ import (
 // An element describes an observed XML element, its attributes, chardata, and
 // children.
 type element struct {
-	attrValues    map[xml.Name]*value
-	charDataValue value
-	childElements map[xml.Name]*element
-	name          xml.Name
-	optional      bool
-	repeated      bool
+	attrValues       map[xml.Name]*value
+	charDataValue    value
+	childElements    map[xml.Name]*element
+	name             xml.Name
+	optionalChildren map[xml.Name]struct{}
+	repeatedChildren map[xml.Name]struct{}
 }
 
 // newElement returns a new element.
 func newElement(name xml.Name) *element {
 	return &element{
-		name:          name,
-		attrValues:    make(map[xml.Name]*value),
-		childElements: make(map[xml.Name]*element),
+		name:             name,
+		attrValues:       make(map[xml.Name]*value),
+		childElements:    make(map[xml.Name]*element),
+		optionalChildren: make(map[xml.Name]struct{}),
+		repeatedChildren: make(map[xml.Name]struct{}),
 	}
 }
 
@@ -87,12 +89,12 @@ FOR:
 	}
 	for childName, count := range childCounts {
 		if count > 1 {
-			e.childElements[childName].repeated = true
+			e.repeatedChildren[childName] = struct{}{}
 		}
 	}
-	for childName, childElement := range e.childElements {
+	for childName := range e.childElements {
 		if childCounts[childName] == 0 {
-			childElement.optional = true
+			e.optionalChildren[childName] = struct{}{}
 		}
 	}
 	return nil
@@ -100,20 +102,12 @@ FOR:
 
 // writeGoType writes e's Go type to w.
 func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) {
-	prefix := ""
-	if e.repeated {
-		prefix += "[]"
-	}
-	if options.usePointersForOptionalFields && e.optional {
-		prefix += "*"
-	}
-
 	if indentPrefix != "" && len(e.attrValues) == 0 && len(e.childElements) == 0 {
-		fmt.Fprintf(w, "%s%s", prefix, e.charDataValue.goType(options))
+		fmt.Fprintf(w, "%s", e.charDataValue.goType(options))
 		return
 	}
 
-	fmt.Fprintf(w, "%sstruct {\n", prefix)
+	fmt.Fprintf(w, "struct {\n")
 
 	if indentPrefix == "" {
 		options.importPackageNames["encoding/xml"] = struct{}{}
@@ -142,6 +136,14 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	for _, exportedChildName := range sortedKeys(childElementsByExportedName) {
 		childElement := childElementsByExportedName[exportedChildName]
 		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
+		if _, repeated := e.repeatedChildren[childElement.name]; repeated {
+			fmt.Fprintf(w, "[]")
+		}
+		if options.usePointersForOptionalFields {
+			if _, optional := e.optionalChildren[childElement.name]; optional {
+				fmt.Fprintf(w, "*")
+			}
+		}
 		childElement.writeGoType(w, options, indentPrefix+"\t")
 		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
 	}
