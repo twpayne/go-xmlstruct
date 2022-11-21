@@ -1,6 +1,7 @@
 package xmlstruct
 
 import (
+	"encoding/xml"
 	"strconv"
 	"time"
 )
@@ -12,6 +13,7 @@ type value struct {
 	emptyCount   int
 	float64Count int
 	intCount     int
+	name         xml.Name
 	observations int
 	optional     bool
 	repeated     bool

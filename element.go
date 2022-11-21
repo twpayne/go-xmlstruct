@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"sort"
 
 	"golang.org/x/exp/maps"
 )
@@ -37,7 +38,9 @@ func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 		attrCounts[attrName]++
 		attrValue, ok := e.attrValues[attrName]
 		if !ok {
-			attrValue = &value{}
+			attrValue = &value{
+				name: attrName,
+			}
 			e.attrValues[attrName] = attrValue
 		}
 		attrValue.observe(attr.Value, options)
@@ -120,9 +123,16 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\tXMLName xml.Name `xml:\"%s\"`\n", indentPrefix, e.name.Local)
 	}
 
-	for _, attrName := range sortXMLNames(maps.Keys(e.attrValues)) {
-		attrValue := e.attrValues[attrName]
-		fmt.Fprintf(w, "%s\t%s %s `xml:\"%s,attr\"`\n", indentPrefix, options.exportNameFunc(attrName), attrValue.goType(options), attrName.Local)
+	attrValuesByExportedName := make(map[string]*value, len(e.attrValues))
+	for attrName, attrValue := range e.attrValues {
+		exportedAttrName := options.exportNameFunc(attrName)
+		attrValuesByExportedName[exportedAttrName] = attrValue
+	}
+	exportedAttrNames := maps.Keys(attrValuesByExportedName)
+	sort.Strings(exportedAttrNames)
+	for _, exportedAttrName := range exportedAttrNames {
+		attrValue := attrValuesByExportedName[exportedAttrName]
+		fmt.Fprintf(w, "%s\t%s %s `xml:\"%s,attr\"`\n", indentPrefix, exportedAttrName, attrValue.goType(options), attrValue.name.Local)
 	}
 
 	if e.charDataValue.observations > 0 {
