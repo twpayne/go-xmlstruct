@@ -33,59 +33,59 @@ type GeneratorOption func(*Generator)
 
 // WithExportNameFunc sets the export name function for the generated Go source.
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
-	return func(o *Generator) {
-		o.exportNameFunc = exportNameFunc
+	return func(g *Generator) {
+		g.exportNameFunc = exportNameFunc
 	}
 }
 
 // WithFormatSource sets whether to format the generated Go source.
 func WithFormatSource(formatSource bool) GeneratorOption {
-	return func(o *Generator) {
-		o.formatSource = formatSource
+	return func(g *Generator) {
+		g.formatSource = formatSource
 	}
 }
 
 // WithHeader sets the header of the generated Go source.
 func WithHeader(header string) GeneratorOption {
-	return func(o *Generator) {
-		o.header = header
+	return func(g *Generator) {
+		g.header = header
 	}
 }
 
 // WithIntType sets the int type in the generated Go source.
 func WithIntType(intType string) GeneratorOption {
-	return func(o *Generator) {
-		o.intType = intType
+	return func(g *Generator) {
+		g.intType = intType
 	}
 }
 
 // WithNameFunc sets the name function.
 func WithNameFunc(nameFunc NameFunc) GeneratorOption {
-	return func(o *Generator) {
-		o.nameFunc = nameFunc
+	return func(g *Generator) {
+		g.nameFunc = nameFunc
 	}
 }
 
 // WithPackageName sets the package name of the generated Go source.
 func WithPackageName(packageName string) GeneratorOption {
-	return func(o *Generator) {
-		o.packageName = packageName
+	return func(g *Generator) {
+		g.packageName = packageName
 	}
 }
 
 // WithTimeLayout sets the time layout used to identify times in the observed
 // XML documents. Use an empty string to disable identifying times.
 func WithTimeLayout(timeLayout string) GeneratorOption {
-	return func(o *Generator) {
-		o.timeLayout = timeLayout
+	return func(g *Generator) {
+		g.timeLayout = timeLayout
 	}
 }
 
 // WithUsePointersForOptionFields sets whether to use pointers for optional
 // fields in the generated Go source.
 func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) GeneratorOption {
-	return func(o *Generator) {
-		o.usePointersForOptionalFields = usePointersForOptionalFields
+	return func(g *Generator) {
+		g.usePointersForOptionalFields = usePointersForOptionalFields
 	}
 }
 
