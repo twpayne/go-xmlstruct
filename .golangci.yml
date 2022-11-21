@@ -21,7 +21,6 @@ linters:
   - ineffassign
   - misspell
   - nakedret
-  - nestif
   - noctx
   - nolintlint
   - prealloc
@@ -42,6 +41,7 @@ linters:
   - gosec
   - lll
   - maligned
+  - nestif
   - sqlclosecheck
   - stylecheck
   - testpackage
