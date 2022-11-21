@@ -223,6 +223,31 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "named_types",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedTypes(true),
+			},
+			xmlStrs: []string{
+				joinLines(
+					`<a>`,
+					`  <b/>`,
+					`</a>`,
+				),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct {`,
+				"\tB B `xml:\"b\"`",
+				`}`,
+				``,
+				`type B struct {`,
+				`}`,
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)

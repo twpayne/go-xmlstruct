@@ -14,6 +14,7 @@ existing Go struct generators like [zek](https://github.com/miku/zek),
 * Takes multiple XML documents as input.
 * Generates field types of `bool`, `int`, `string`, or `time.Time` as
   appropriate.
+* Creates named types for all elements.
 * Handles optional attributes and elements.
 * Handles repeated attributes and elements.
 * Ignores empty chardata.
@@ -90,9 +91,12 @@ $ goxmlstruct internal/tests/gpx/testdata/*.gpx
 
 This demonstrates generating a Go struct from multiple XML complex documents.
 
-For an example of configurable field naming by using go-xmlstruct as a package,
-see
-[`internal/tests/play/play_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/play/play_test.go).
+For an example of configurable field naming and named types by using
+go-xmlstruct as a package, see
+[`internal/tests/aixm/aixm_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/aixm/aixm_test.go).
+
+For an example of a complex schema, see
+[`internal/tests/aixm/aixm_test.go`](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/aixm/aixm_test.go).
 
 ## How does go-xmlstruct work?
 

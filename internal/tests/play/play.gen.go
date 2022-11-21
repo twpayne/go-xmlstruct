@@ -2,42 +2,87 @@
 
 package play
 
+type Act struct {
+	Epilogue Epilogue `xml:"EPILOGUE"`
+	Scene    []Scene  `xml:"SCENE"`
+	Title    Title    `xml:"TITLE"`
+}
+
+type Epilogue struct {
+	Speech         Speech         `xml:"SPEECH"`
+	StageDirection StageDirection `xml:"STAGEDIR"`
+	Title          Title          `xml:"TITLE"`
+}
+
+type FrontMatter struct {
+	Paragraph []Paragraph `xml:"P"`
+}
+
+type GroupDescription struct {
+	CharData string `xml:",chardata"`
+}
+
+type Line struct {
+	CharData       string          `xml:",chardata"`
+	StageDirection *StageDirection `xml:"STAGEDIR"`
+}
+
+type Paragraph struct {
+	CharData string `xml:",chardata"`
+}
+
+type Persona struct {
+	CharData string `xml:",chardata"`
+}
+
+type PersonaGroup struct {
+	GroupDescription GroupDescription `xml:"GRPDESCR"`
+	Persona          []Persona        `xml:"PERSONA"`
+}
+
+type Personae struct {
+	Persona      []Persona      `xml:"PERSONA"`
+	PersonaGroup []PersonaGroup `xml:"PGROUP"`
+	Title        Title          `xml:"TITLE"`
+}
+
 type Play struct {
-	Act []struct {
-		Epilogue struct {
-			Speech struct {
-				Line    []string `xml:"LINE"`
-				Speaker string   `xml:"SPEAKER"`
-			} `xml:"SPEECH"`
-			StageDirection string `xml:"STAGEDIR"`
-			Title          string `xml:"TITLE"`
-		} `xml:"EPILOGUE"`
-		Scene []struct {
-			Speech []struct {
-				Line []struct {
-					CharData       string  `xml:",chardata"`
-					StageDirection *string `xml:"STAGEDIR"`
-				} `xml:"LINE"`
-				Speaker        string    `xml:"SPEAKER"`
-				StageDirection []*string `xml:"STAGEDIR"`
-			} `xml:"SPEECH"`
-			StageDirection []string `xml:"STAGEDIR"`
-			Title          string   `xml:"TITLE"`
-		} `xml:"SCENE"`
-		Title string `xml:"TITLE"`
-	} `xml:"ACT"`
-	FrontMatter struct {
-		Paragraph []string `xml:"P"`
-	} `xml:"FM"`
-	Personae struct {
-		Persona      []string `xml:"PERSONA"`
-		PersonaGroup []struct {
-			GroupDescription string   `xml:"GRPDESCR"`
-			Persona          []string `xml:"PERSONA"`
-		} `xml:"PGROUP"`
-		Title string `xml:"TITLE"`
-	} `xml:"PERSONAE"`
-	PlaySubtitle      string `xml:"PLAYSUBT"`
-	ScreenDescription string `xml:"SCNDESCR"`
-	Title             string `xml:"TITLE"`
+	Act               []Act             `xml:"ACT"`
+	FrontMatter       FrontMatter       `xml:"FM"`
+	Personae          Personae          `xml:"PERSONAE"`
+	PlaySubtitle      PlaySubtitle      `xml:"PLAYSUBT"`
+	ScreenDescription ScreenDescription `xml:"SCNDESCR"`
+	Title             Title             `xml:"TITLE"`
+}
+
+type PlaySubtitle struct {
+	CharData string `xml:",chardata"`
+}
+
+type Scene struct {
+	Speech         []Speech         `xml:"SPEECH"`
+	StageDirection []StageDirection `xml:"STAGEDIR"`
+	Title          Title            `xml:"TITLE"`
+}
+
+type ScreenDescription struct {
+	CharData string `xml:",chardata"`
+}
+
+type Speaker struct {
+	CharData string `xml:",chardata"`
+}
+
+type Speech struct {
+	Line           []Line            `xml:"LINE"`
+	Speaker        Speaker           `xml:"SPEAKER"`
+	StageDirection []*StageDirection `xml:"STAGEDIR"`
+}
+
+type StageDirection struct {
+	CharData string `xml:",chardata"`
+}
+
+type Title struct {
+	CharData string `xml:",chardata"`
 }

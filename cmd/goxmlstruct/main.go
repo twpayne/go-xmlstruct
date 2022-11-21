@@ -18,6 +18,7 @@ var (
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
+	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
 )
 
 func run() error {
@@ -32,6 +33,7 @@ func run() error {
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
 		xmlstruct.WithIntType(*intType),
+		xmlstruct.WithNamedTypes(*namedTypes),
 		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithPackageName(*packageName),
 		xmlstruct.WithTimeLayout(*timeLayout),

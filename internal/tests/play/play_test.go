@@ -33,6 +33,7 @@ func TestPlay(t *testing.T) {
 			runes[0] = unicode.ToUpper(runes[0])
 			return string(runes)
 		}),
+		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("play"),
 	)
 

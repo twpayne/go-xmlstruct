@@ -24,6 +24,7 @@ type Generator struct {
 	nameFunc                     NameFunc
 	packageName                  string
 	timeLayout                   string
+	namedTypes                   bool
 	typeElements                 map[xml.Name]*element
 	usePointersForOptionalFields bool
 }
@@ -66,6 +67,13 @@ func WithNameFunc(nameFunc NameFunc) GeneratorOption {
 	}
 }
 
+// WithNamedTypes sets whether all to generate named types for all elements.
+func WithNamedTypes(namedTypes bool) GeneratorOption {
+	return func(o *Generator) {
+		o.namedTypes = namedTypes
+	}
+}
+
 // WithPackageName sets the package name of the generated Go source.
 func WithPackageName(packageName string) GeneratorOption {
 	return func(g *Generator) {
@@ -97,6 +105,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		header:                       DefaultHeader,
 		intType:                      DefaultIntType,
 		nameFunc:                     DefaultNameFunc,
+		namedTypes:                   DefaultNamedTypes,
 		packageName:                  DefaultPackageName,
 		timeLayout:                   DefaultTimeLayout,
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
@@ -117,6 +126,9 @@ func (g *Generator) Generate() ([]byte, error) {
 		importPackageNames:           make(map[string]struct{}),
 		intType:                      g.intType,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
+	}
+	if g.namedTypes {
+		options.namedTypes = g.typeElements
 	}
 
 	typesBuilder := &strings.Builder{}
@@ -177,6 +189,9 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 	options := observeOptions{
 		nameFunc:   g.nameFunc,
 		timeLayout: g.timeLayout,
+	}
+	if g.namedTypes {
+		options.topLevelElements = g.typeElements
 	}
 	decoder := xml.NewDecoder(r)
 	decoder.CharsetReader = charset.NewReaderLabel

@@ -12,6 +12,22 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
+var exportRenames = map[string]string{
+	"aixm":  "AIXM",
+	"gco":   "GCO",
+	"gmd":   "GMD",
+	"gml":   "GML",
+	"gsr":   "GSR",
+	"gss":   "GSS",
+	"gts":   "GTS",
+	"id":    "ID",
+	"note":  "LowerNote", // Disambiguate between Note and note.
+	"uom":   "UOM",
+	"xlink": "XLink",
+	"xsd":   "XSD",
+	"xsi":   "XSI",
+}
+
 func TestAIXM(t *testing.T) {
 	file, err := os.Open("testdata/LF_AIP_DS_PartOf_20201203_AIRAC.zip")
 	require.NoError(t, err)
@@ -24,6 +40,13 @@ func TestAIXM(t *testing.T) {
 	require.NoError(t, err)
 
 	generator := xmlstruct.NewGenerator(
+		xmlstruct.WithExportNameFunc(func(name xml.Name) string {
+			if exportName, ok := exportRenames[name.Local]; ok {
+				return exportName
+			}
+			return xmlstruct.TitleFirstRune(name)
+		}),
+		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("aixm"),
 	)
 	observeZipFile := func(zipFile *zip.File) {
@@ -54,7 +77,7 @@ func TestAIXM(t *testing.T) {
 		require.NoError(t, xml.NewDecoder(readCloser).Decode(&aixmBasicMessage))
 		switch zipFile.Name {
 		case "LF_AIP_DS_PartOf_20201203_AIRAC.xml":
-			assert.Equal(t, "uuid.729920d4-5360-49e3-b4b2-1a28313261ba", aixmBasicMessage.HasMember[0].AirportHeliport.Id)
+			assert.Equal(t, "uuid.729920d4-5360-49e3-b4b2-1a28313261ba", aixmBasicMessage.HasMember[0].AirportHeliport.ID)
 		}
 	}
 	for _, zipFile := range zipReader.File {

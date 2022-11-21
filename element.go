@@ -73,7 +73,17 @@ FOR:
 			childCounts[childName]++
 			childElement, ok := e.childElements[childName]
 			if !ok {
-				childElement = newElement(childName)
+				if options.topLevelElements != nil {
+					if topLevelElement, ok := options.topLevelElements[childName]; ok {
+						childElement = topLevelElement
+					} else {
+						topLevelElement = newElement(childName)
+						options.topLevelElements[childName] = topLevelElement
+						childElement = topLevelElement
+					}
+				} else {
+					childElement = newElement(childName)
+				}
 				e.childElements[childName] = childElement
 			}
 			if err := childElement.observeChildElement(decoder, token, options); err != nil {
@@ -139,7 +149,11 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 				fmt.Fprintf(w, "*")
 			}
 		}
-		childElement.writeGoType(w, options, indentPrefix+"\t")
+		if topLevelElement, ok := options.namedTypes[childElement.name]; ok {
+			fmt.Fprintf(w, "%s", options.exportNameFunc(topLevelElement.name))
+		} else {
+			childElement.writeGoType(w, options, indentPrefix+"\t")
+		}
 		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
 	}
 
