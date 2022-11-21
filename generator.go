@@ -218,6 +218,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 	if g.namedTypes {
 		options.topLevelElements = g.typeElements
 	}
+
 	decoder := xml.NewDecoder(r)
 	decoder.CharsetReader = charset.NewReaderLabel
 	for {

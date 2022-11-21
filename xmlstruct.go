@@ -22,8 +22,33 @@ const (
 )
 
 var (
-	DefaultExportNameFunc = TitleFirstRune
-	DefaultNameFunc       = IgnoreNamespaceNameFunc
+	// TitleFirstRuneExportNameFunc returns name.Local with the initial rune
+	// capitalized.
+	TitleFirstRuneExportNameFunc = func(name xml.Name) string {
+		runes := []rune(name.Local)
+		runes[0] = unicode.ToUpper(runes[0])
+		return string(runes)
+	}
+
+	DefaultExportNameFunc = TitleFirstRuneExportNameFunc
+)
+
+var (
+	// IgnoreNamespaceNameFunc returns name with name.Space cleared. The same
+	// local name in different namespaces will be treated as identical names.
+	IgnoreNamespaceNameFunc = func(name xml.Name) xml.Name {
+		return xml.Name{
+			Local: name.Local,
+		}
+	}
+
+	// The IdentityNameFunc returns name unchanged. The same local name in
+	// different namespaces will be treated as distinct names.
+	IdentityNameFunc = func(name xml.Name) xml.Name {
+		return name
+	}
+
+	DefaultNameFunc = IgnoreNamespaceNameFunc
 )
 
 // An ExportNameFunc returns the exported Go identifier for the given xml.Name.
@@ -49,27 +74,6 @@ type generateOptions struct {
 	namedTypes                   map[xml.Name]*element
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
-}
-
-// TitleFirstRune returns name.Local with the initial rune capitalized.
-func TitleFirstRune(name xml.Name) string {
-	runes := []rune(name.Local)
-	runes[0] = unicode.ToUpper(runes[0])
-	return string(runes)
-}
-
-// The IdentityNameFunc returns name unchanged. The same local name in different
-// namespaces will be treated as distinct names.
-func IdentityNameFunc(name xml.Name) xml.Name {
-	return name
-}
-
-// IgnoreNamespaceNameFunc returns name with name.Space cleared. The same local
-// name in different namespaces will be treated as identical names.
-func IgnoreNamespaceNameFunc(name xml.Name) xml.Name {
-	return xml.Name{
-		Local: name.Local,
-	}
 }
 
 // sortedKeys returns the keys of m in order.
