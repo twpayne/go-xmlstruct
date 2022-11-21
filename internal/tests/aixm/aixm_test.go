@@ -5,10 +5,7 @@ import (
 	"encoding/xml"
 	"os"
 	"path/filepath"
-	"regexp"
-	"strings"
 	"testing"
-	"unicode"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -16,16 +13,11 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
-var (
-	exportRenames = map[string]string{
-		"id":              "ID",
-		"note":            "LowerNote",            // Disambiguate between Note and note.
-		"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
-		"uom":             "UOM",                  // Unit of measurement abbreviation.
-	}
-
-	snakeCaseLetterRx = regexp.MustCompile(`_([A-Za-z])`)
-)
+var exportRenames = map[string]string{
+	"note":            "LowerNote",            // Disambiguate between Note and note.
+	"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
+	"uom":             "UOM",                  // Unit of measurement abbreviation.
+}
 
 func TestAIXM(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
@@ -33,13 +25,7 @@ func TestAIXM(t *testing.T) {
 			if exportName, ok := exportRenames[name.Local]; ok {
 				return exportName
 			}
-			exportedName := name.Local
-			exportedName = snakeCaseLetterRx.ReplaceAllStringFunc(exportedName, func(s string) string {
-				return strings.ToUpper(s[1:])
-			})
-			runes := []rune(exportedName)
-			runes[0] = unicode.ToUpper(runes[0])
-			return string(runes)
+			return xmlstruct.DefaultExportNameFunc(name)
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("aixm"),

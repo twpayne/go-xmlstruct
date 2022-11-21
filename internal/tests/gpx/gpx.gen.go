@@ -5,7 +5,7 @@ package gpx
 import "time"
 
 type Gpx struct {
-	Active_point *struct {
+	ActivePoint *struct {
 		Lat float64 `xml:"lat,attr"`
 		Lon float64 `xml:"lon,attr"`
 	} `xml:"active_point"`
@@ -23,7 +23,7 @@ type Gpx struct {
 		Author struct {
 			Email struct {
 				Domain string `xml:"domain,attr"`
-				Id     string `xml:"id,attr"`
+				ID     string `xml:"id,attr"`
 			} `xml:"email"`
 			Link struct {
 				Href string `xml:"href,attr"`

@@ -3,6 +3,8 @@ package xmlstruct
 
 import (
 	"encoding/xml"
+	"regexp"
+	"strings"
 	"unicode"
 
 	"golang.org/x/exp/constraints"
@@ -30,7 +32,21 @@ var (
 		return string(runes)
 	}
 
-	DefaultExportNameFunc = TitleFirstRuneExportNameFunc
+	kebabOrSnakeCaseWordBoundaryRx = regexp.MustCompile(`[-_]+\pL`)
+
+	// DefaultExportNameFunc returns name.Local with kebab- and snakecase words
+	// converted to camelcase and any Id suffix converted to ID.
+	DefaultExportNameFunc = func(name xml.Name) string {
+		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
+			return strings.ToUpper(s[len(s)-1:])
+		})
+		runes := []rune(localName)
+		runes[0] = unicode.ToUpper(runes[0])
+		if len(runes) > 1 && runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
+			runes[len(runes)-1] = 'D'
+		}
+		return string(runes)
+	}
 )
 
 var (
