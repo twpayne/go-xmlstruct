@@ -4,17 +4,17 @@ package gpx
 
 import "time"
 
-type Gpx struct {
+type GPX struct {
 	ActivePoint *struct {
 		Lat float64 `xml:"lat,attr"`
 		Lon float64 `xml:"lon,attr"`
 	} `xml:"active_point"`
 	Author *string `xml:"author"`
 	Bounds *struct {
-		Maxlat float64 `xml:"maxlat,attr"`
-		Maxlon float64 `xml:"maxlon,attr"`
-		Minlat float64 `xml:"minlat,attr"`
-		Minlon float64 `xml:"minlon,attr"`
+		MaxLat float64 `xml:"maxlat,attr"`
+		MaxLon float64 `xml:"maxlon,attr"`
+		MinLat float64 `xml:"minlat,attr"`
+		MinLon float64 `xml:"minlon,attr"`
 	} `xml:"bounds"`
 	Desc     *string `xml:"desc"`
 	Email    *string `xml:"email"`
@@ -55,7 +55,7 @@ type Gpx struct {
 		} `xml:"link"`
 		Name   string `xml:"name"`
 		Number string `xml:"number"`
-		Rtept  []struct {
+		RtePt  []struct {
 			Lat  float64  `xml:"lat,attr"`
 			Lon  float64  `xml:"lon,attr"`
 			Cmt  *string  `xml:"cmt"`
@@ -81,8 +81,8 @@ type Gpx struct {
 		} `xml:"link"`
 		Name   string `xml:"name"`
 		Number string `xml:"number"`
-		Trkseg struct {
-			Trkpt []struct {
+		TrkSeg struct {
+			TrkPt []struct {
 				Lat  float64    `xml:"lat,attr"`
 				Lon  float64    `xml:"lon,attr"`
 				Ele  *float64   `xml:"ele"`
@@ -91,8 +91,8 @@ type Gpx struct {
 			} `xml:"trkpt"`
 		} `xml:"trkseg"`
 	} `xml:"trk"`
-	Url     *string `xml:"url"`
-	Urlname *string `xml:"urlname"`
+	URL     *string `xml:"url"`
+	URLName *string `xml:"urlname"`
 	Wpt     []struct {
 		Lat  float64  `xml:"lat,attr"`
 		Lon  float64  `xml:"lon,attr"`

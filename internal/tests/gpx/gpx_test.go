@@ -16,6 +16,18 @@ import (
 
 func TestGPX(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
+		xmlstruct.WithExportRenames(map[string]string{
+			"gpx":     "GPX",
+			"maxlat":  "MaxLat",
+			"maxlon":  "MaxLon",
+			"minlat":  "MinLat",
+			"minlon":  "MinLon",
+			"rtept":   "RtePt",
+			"trkpt":   "TrkPt",
+			"trkseg":  "TrkSeg",
+			"url":     "URL",
+			"urlname": "URLName",
+		}),
 		xmlstruct.WithPackageName("gpx"),
 	)
 
@@ -41,10 +53,13 @@ func TestGPX(t *testing.T) {
 	for _, filename := range filenames {
 		data, err := os.ReadFile(filename)
 		require.NoError(t, err)
-		var gpx Gpx
+
 		decoder := xml.NewDecoder(bytes.NewReader(data))
 		decoder.CharsetReader = charset.NewReaderLabel
+
+		var gpx GPX
 		require.NoError(t, decoder.Decode(&gpx))
+
 		switch filename {
 		case "testdata/ashland.gpx":
 			assert.Equal(t, "Vil and Dan", *gpx.Author)
