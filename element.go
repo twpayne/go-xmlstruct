@@ -179,8 +179,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
 		if _, repeated := e.repeatedChildren[childElement.name]; repeated {
 			fmt.Fprintf(w, "[]")
-		}
-		if options.usePointersForOptionalFields {
+		} else if options.usePointersForOptionalFields {
 			if _, optional := e.optionalChildren[childElement.name]; optional {
 				fmt.Fprintf(w, "*")
 			}

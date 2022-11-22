@@ -72,7 +72,7 @@ type GPX struct {
 		} `xml:"rtept"`
 	} `xml:"rte"`
 	Time *time.Time `xml:"time"`
-	Trk  []*struct {
+	Trk  []struct {
 		Color *string `xml:"color"`
 		Desc  string  `xml:"desc"`
 		Link  *struct {

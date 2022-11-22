@@ -39,9 +39,9 @@ type Scene struct {
 }
 
 type Speech struct {
-	Speaker        string    `xml:"SPEAKER"`
-	Line           []Line    `xml:"LINE"`
-	StageDirection []*string `xml:"STAGEDIR"`
+	Speaker        string   `xml:"SPEAKER"`
+	Line           []Line   `xml:"LINE"`
+	StageDirection []string `xml:"STAGEDIR"`
 }
 
 type Line struct {

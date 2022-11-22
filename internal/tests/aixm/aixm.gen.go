@@ -38,7 +38,7 @@ type AirportHeliportTimeSlice struct {
 	ID                          string                      `xml:"id,attr"`
 	ARP                         ARP                         `xml:"ARP"`
 	Abandoned                   *string                     `xml:"abandoned"`
-	Annotation                  []*Annotation               `xml:"annotation"`
+	Annotation                  []Annotation                `xml:"annotation"`
 	CertificationDate           CertificationDate           `xml:"certificationDate"`
 	CertificationExpirationDate CertificationExpirationDate `xml:"certificationExpirationDate"`
 	CertifiedICAO               CertifiedICAO               `xml:"certifiedICAO"`
@@ -899,16 +899,16 @@ type RunwayCentrelinePoint struct {
 }
 
 type RunwayCentrelinePointTimeSlice struct {
-	ID                         string                        `xml:"id,attr"`
-	AssociatedDeclaredDistance []*AssociatedDeclaredDistance `xml:"associatedDeclaredDistance"`
-	CorrectionNumber           bool                          `xml:"correctionNumber"`
-	Designator                 Designator                    `xml:"designator"`
-	Interpretation             string                        `xml:"interpretation"`
-	Location                   Location                      `xml:"location"`
-	OnRunway                   OnRunway                      `xml:"onRunway"`
-	Role                       *Role                         `xml:"role"`
-	SequenceNumber             string                        `xml:"sequenceNumber"`
-	ValidTime                  ValidTime                     `xml:"validTime"`
+	ID                         string                       `xml:"id,attr"`
+	AssociatedDeclaredDistance []AssociatedDeclaredDistance `xml:"associatedDeclaredDistance"`
+	CorrectionNumber           bool                         `xml:"correctionNumber"`
+	Designator                 Designator                   `xml:"designator"`
+	Interpretation             string                       `xml:"interpretation"`
+	Location                   Location                     `xml:"location"`
+	OnRunway                   OnRunway                     `xml:"onRunway"`
+	Role                       *Role                        `xml:"role"`
+	SequenceNumber             string                       `xml:"sequenceNumber"`
+	ValidTime                  ValidTime                    `xml:"validTime"`
 }
 
 type RunwayDeclaredDistance struct {
@@ -963,9 +963,9 @@ type RunwayTimeSlice struct {
 }
 
 type Segments struct {
-	ArcByCenterPoint    []*ArcByCenterPoint  `xml:"ArcByCenterPoint"`
+	ArcByCenterPoint    []ArcByCenterPoint   `xml:"ArcByCenterPoint"`
 	CircleByCenterPoint *CircleByCenterPoint `xml:"CircleByCenterPoint"`
-	GeodesicString      []*GeodesicString    `xml:"GeodesicString"`
+	GeodesicString      []GeodesicString     `xml:"GeodesicString"`
 }
 
 type ServedCity struct {
@@ -1187,7 +1187,7 @@ type VerticalStructurePart struct {
 
 type VerticalStructureTimeSlice struct {
 	ID                   string               `xml:"id,attr"`
-	Annotation           []*Annotation        `xml:"annotation"`
+	Annotation           []Annotation         `xml:"annotation"`
 	CorrectionNumber     bool                 `xml:"correctionNumber"`
 	FeatureLifetime      FeatureLifetime      `xml:"featureLifetime"`
 	Group                string               `xml:"group"`
