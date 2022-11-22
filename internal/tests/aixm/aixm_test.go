@@ -18,7 +18,7 @@ func TestAIXM(t *testing.T) {
 		xmlstruct.WithExportRenames(map[string]string{
 			"note":            "LowerNote",            // Disambiguate between Note and note.
 			"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
-			"uom":             "UOM",                  // Unit of measurement abbreviation.
+			"uom":             "UOM",                  // Capitalize unit of measurement abbreviation.
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("aixm"),
