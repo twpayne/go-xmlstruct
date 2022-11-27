@@ -39,6 +39,9 @@ func (e *element) observeAttrs(attrs []xml.Attr, options *observeOptions) {
 	attrCounts := make(map[xml.Name]int)
 	for _, attr := range attrs {
 		attrName := options.nameFunc(attr.Name)
+		if attrName == (xml.Name{}) {
+			continue
+		}
 		attrCounts[attrName]++
 		attrValue, ok := e.attrValues[attrName]
 		if !ok {
@@ -77,6 +80,9 @@ FOR:
 		switch token := token.(type) {
 		case xml.StartElement:
 			childName := options.nameFunc(token.Name)
+			if childName == (xml.Name{}) {
+				break
+			}
 			childCounts[childName]++
 			childElement, ok := e.childElements[childName]
 			if !ok {
