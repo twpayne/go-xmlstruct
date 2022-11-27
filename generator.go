@@ -17,8 +17,9 @@ import (
 )
 
 var (
-	SkipDir  = fs.SkipDir
-	SkipFile = errors.New("skip file") //nolint:ST1012
+	SkipDir = fs.SkipDir
+	//lint:ignore ST1012 SkipFile is not an error
+	SkipFile = errors.New("skip file")
 )
 
 // A Generator observes XML documents and generates Go structs into which the
