@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"go/format"
 	"io"
+	"io/fs"
 	"os"
 	"sort"
 	"strings"
@@ -13,6 +14,11 @@ import (
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"golang.org/x/net/html/charset"
+)
+
+var (
+	SkipDir  = fs.SkipDir
+	SkipFile = errors.New("skip file") //nolint:ST1012
 )
 
 // A Generator observes XML documents and generates Go structs into which the
@@ -243,6 +249,27 @@ func (g *Generator) Generate() ([]byte, error) {
 		return source, nil
 	}
 	return format.Source(source)
+}
+
+// ObserveFS observes all XML documents in fs.
+func (g *Generator) ObserveFS(fsys fs.FS, root string, observeFunc func(string, fs.DirEntry, error) error) error {
+	return fs.WalkDir(fsys, root, func(path string, dirEntry fs.DirEntry, err error) error {
+		switch err := observeFunc(path, dirEntry, err); {
+		case errors.Is(err, fs.SkipDir):
+			return fs.SkipDir
+		case errors.Is(err, SkipFile):
+			return nil
+		case dirEntry.IsDir():
+			return nil
+		default:
+			file, err := fsys.Open(path)
+			if err != nil {
+				return err
+			}
+			defer file.Close()
+			return g.ObserveReader(file)
+		}
+	})
 }
 
 // ObserveFile observes an XML document in the given file.
