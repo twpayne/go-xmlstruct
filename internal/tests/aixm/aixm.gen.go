@@ -597,7 +597,7 @@ type LightingICAOStandard struct {
 
 type LinguisticNote struct {
 	ID        string    `xml:"id,attr"`
-	LowerNote LowerNote `xml:"note"`
+	NoteLower NoteLower `xml:"note"`
 }
 
 type Location struct {
@@ -608,15 +608,6 @@ type Location struct {
 type LowerLimit struct {
 	UOM      string `xml:"uom,attr"`
 	CharData string `xml:",chardata"`
-}
-
-type LowerNote struct {
-	Lang     *string `xml:"lang,attr"`
-	CharData string  `xml:",chardata"`
-}
-
-type LowerRunwayDirection struct {
-	Href string `xml:"href,attr"`
 }
 
 type MDConstraints struct {
@@ -777,6 +768,11 @@ type Note struct {
 	TranslatedNote []TranslatedNote `xml:"translatedNote"`
 }
 
+type NoteLower struct {
+	Lang     *string `xml:"lang,attr"`
+	CharData string  `xml:",chardata"`
+}
+
 type Obstacle struct {
 	Href  string `xml:"href,attr"`
 	Title string `xml:"title,attr"`
@@ -927,6 +923,10 @@ type RunwayDirection struct {
 	ID         string     `xml:"id,attr"`
 	Identifier Identifier `xml:"identifier"`
 	TimeSlice  TimeSlice  `xml:"timeSlice"`
+}
+
+type RunwayDirectionLower struct {
+	Href string `xml:"href,attr"`
 }
 
 type RunwayDirectionTimeSlice struct {
@@ -1218,9 +1218,9 @@ type VisualGlideSlopeIndicatorTimeSlice struct {
 	ID                            string                         `xml:"id,attr"`
 	CorrectionNumber              bool                           `xml:"correctionNumber"`
 	Interpretation                string                         `xml:"interpretation"`
-	LowerRunwayDirection          LowerRunwayDirection           `xml:"runwayDirection"`
 	MinimumEyeHeightOverThreshold *MinimumEyeHeightOverThreshold `xml:"minimumEyeHeightOverThreshold"`
 	Position                      *string                        `xml:"position"`
+	RunwayDirectionLower          RunwayDirectionLower           `xml:"runwayDirection"`
 	SequenceNumber                string                         `xml:"sequenceNumber"`
 	SlopeAngle                    float64                        `xml:"slopeAngle"`
 	Type                          Type                           `xml:"type"`

@@ -16,8 +16,8 @@ import (
 func TestAIXM(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
-			"note":            "LowerNote",            // Disambiguate between Note and note.
-			"runwayDirection": "LowerRunwayDirection", // Disambiguate between RunwayDirection and runwayDirection.
+			"note":            "NoteLower",            // Disambiguate between Note and note.
+			"runwayDirection": "RunwayDirectionLower", // Disambiguate between RunwayDirection and runwayDirection.
 			"uom":             "UOM",                  // Capitalize unit of measurement abbreviation.
 		}),
 		xmlstruct.WithNamedTypes(true),
