@@ -300,6 +300,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 
 	decoder := xml.NewDecoder(r)
 	decoder.CharsetReader = charset.NewReaderLabel
+FOR:
 	for {
 		switch token, err := decoder.Token(); {
 		case errors.Is(err, io.EOF):
@@ -309,6 +310,9 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 		default:
 			if startElement, ok := token.(xml.StartElement); ok {
 				name := g.nameFunc(startElement.Name)
+				if name == (xml.Name{}) {
+					continue FOR
+				}
 				typeElement, ok := g.typeElements[name]
 				if !ok {
 					typeElement = newElement(name)
