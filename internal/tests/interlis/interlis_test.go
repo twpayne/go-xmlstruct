@@ -11,7 +11,7 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
-func TestPlay(t *testing.T) {
+func TestInterlis(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"BOUNDARY":      "Boundary",

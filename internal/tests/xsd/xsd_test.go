@@ -13,7 +13,7 @@ import (
 	"github.com/twpayne/go-xmlstruct"
 )
 
-func TestGPX(t *testing.T) {
+func TestXSD(t *testing.T) {
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"appinfo": "AppInfo",
