@@ -40,6 +40,7 @@ type Generator struct {
 	topLevelAttributes           bool
 	typeOrder                    map[xml.Name]int
 	usePointersForOptionalFields bool
+	useRawToken                  bool
 	typeElements                 map[xml.Name]*element
 }
 
@@ -139,6 +140,14 @@ func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) Generat
 	}
 }
 
+// WithUseRawToken sets whether to use encoding/xml.Decoder.Token or
+// encoding/xml.Decoder.RawToken.
+func WithUseRawToken(useRawToken bool) GeneratorOption {
+	return func(g *Generator) {
+		g.useRawToken = useRawToken
+	}
+}
+
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	g := &Generator{
@@ -154,6 +163,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		topLevelAttributes:           DefaultTopLevelAttributes,
 		typeOrder:                    make(map[xml.Name]int),
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
+		useRawToken:                  DefaultUseRawToken,
 		typeElements:                 make(map[xml.Name]*element),
 	}
 	g.exportNameFunc = func(name xml.Name) string {
@@ -294,6 +304,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 		timeLayout:         g.timeLayout,
 		topLevelAttributes: g.topLevelAttributes,
 		typeOrder:          g.typeOrder,
+		useRawToken:        g.useRawToken,
 	}
 	if g.namedTypes {
 		options.topLevelElements = g.typeElements
@@ -303,7 +314,14 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 	decoder.CharsetReader = charset.NewReaderLabel
 FOR:
 	for {
-		switch token, err := decoder.Token(); {
+		var token xml.Token
+		var err error
+		if g.useRawToken {
+			token, err = decoder.RawToken()
+		} else {
+			token, err = decoder.Token()
+		}
+		switch {
 		case errors.Is(err, io.EOF):
 			return nil
 		case err != nil:

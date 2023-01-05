@@ -22,6 +22,7 @@ var (
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
+	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
 )
 
 func run() error {
@@ -44,6 +45,7 @@ func run() error {
 		xmlstruct.WithTimeLayout(*timeLayout),
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
+		xmlstruct.WithUseRawToken(*useRawToken),
 	)
 
 	if flag.NArg() == 0 {

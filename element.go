@@ -73,7 +73,13 @@ func (e *element) observeChildElement(decoder *xml.Decoder, startElement xml.Sta
 	childCounts := make(map[xml.Name]int)
 FOR:
 	for {
-		token, err := decoder.Token()
+		var token xml.Token
+		var err error
+		if options.useRawToken {
+			token, err = decoder.RawToken()
+		} else {
+			token, err = decoder.Token()
+		}
 		if err != nil {
 			return err
 		}

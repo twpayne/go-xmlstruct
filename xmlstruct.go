@@ -23,6 +23,7 @@ const (
 	DefaultPreserveOrder                = false
 	DefaultTimeLayout                   = "2006-01-02T15:04:05Z"
 	DefaultUsePointersForOptionalFields = true
+	DefaultUseRawToken                  = false
 )
 
 var (
@@ -85,6 +86,7 @@ type observeOptions struct {
 	typeOrder          map[xml.Name]int
 	topLevelAttributes bool
 	topLevelElements   map[xml.Name]*element
+	useRawToken        bool
 }
 
 // generateOptions contains options for generating Go source.
