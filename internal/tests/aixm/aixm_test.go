@@ -22,7 +22,6 @@ func TestAIXM(t *testing.T) {
 		}),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("aixm"),
-		xmlstruct.WithUseRawToken(true),
 	)
 
 	filenames := []string{
