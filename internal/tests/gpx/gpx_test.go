@@ -7,8 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"github.com/alecthomas/assert/v2"
 	"golang.org/x/net/html/charset"
 
 	"github.com/twpayne/go-xmlstruct"
@@ -38,27 +37,27 @@ func TestGPX(t *testing.T) {
 	}
 
 	for _, filename := range filenames {
-		require.NoError(t, generator.ObserveFile(filename))
+		assert.NoError(t, generator.ObserveFile(filename))
 	}
 
 	actualSource, err := generator.Generate()
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("gpx.gen.go.actual", actualSource, 0o666))
+	assert.NoError(t, os.WriteFile("gpx.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("gpx.gen.go")
-	require.NoError(t, err)
-	require.Equal(t, string(expectedSource), string(actualSource))
+	assert.NoError(t, err)
+	assert.Equal(t, string(expectedSource), string(actualSource))
 
 	for _, filename := range filenames {
 		data, err := os.ReadFile(filename)
-		require.NoError(t, err)
+		assert.NoError(t, err)
 
 		decoder := xml.NewDecoder(bytes.NewReader(data))
 		decoder.CharsetReader = charset.NewReaderLabel
 
 		var gpx GPX
-		require.NoError(t, decoder.Decode(&gpx))
+		assert.NoError(t, decoder.Decode(&gpx))
 
 		switch filename {
 		case "testdata/ashland.gpx":

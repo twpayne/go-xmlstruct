@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
 )
@@ -25,17 +25,17 @@ func TestOSM(t *testing.T) {
 	)
 
 	file, err := os.Open("testdata/liechtenstein-latest.osm.bz2")
-	require.NoError(t, err)
+	assert.NoError(t, err)
 	defer file.Close()
 
-	require.NoError(t, generator.ObserveReader(bzip2.NewReader(file)))
+	assert.NoError(t, generator.ObserveReader(bzip2.NewReader(file)))
 
 	actualSource, err := generator.Generate()
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("osm.gen.go.actual", actualSource, 0o666))
+	assert.NoError(t, os.WriteFile("osm.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("osm.gen.go")
-	require.NoError(t, err)
-	require.Equal(t, string(expectedSource), string(actualSource))
+	assert.NoError(t, err)
+	assert.Equal(t, string(expectedSource), string(actualSource))
 }
