@@ -4,8 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
 )
@@ -321,16 +320,16 @@ func TestGenerator(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			generator := xmlstruct.NewGenerator(tc.options...)
 			if tc.xmlStr != "" {
-				require.NoError(t, generator.ObserveReader(strings.NewReader(tc.xmlStr)))
+				assert.NoError(t, generator.ObserveReader(strings.NewReader(tc.xmlStr)))
 			}
 			for _, xmlStr := range tc.xmlStrs {
-				require.NoError(t, generator.ObserveReader(strings.NewReader(xmlStr)))
+				assert.NoError(t, generator.ObserveReader(strings.NewReader(xmlStr)))
 			}
 			actual, err := generator.Generate()
 			if tc.expectedErr != "" {
-				require.EqualError(t, err, tc.expectedErr)
+				assert.EqualError(t, err, tc.expectedErr)
 			} else {
-				require.NoError(t, err)
+				assert.NoError(t, err)
 				assert.Equal(t, tc.expectedStr, string(actual))
 			}
 		})

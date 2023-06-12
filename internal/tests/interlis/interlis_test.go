@@ -5,8 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
 )
@@ -30,21 +29,21 @@ func TestInterlis(t *testing.T) {
 		xmlstruct.WithPreserveOrder(true),
 	)
 
-	require.NoError(t, generator.ObserveFile("testdata/metadata_gm03.xml"))
+	assert.NoError(t, generator.ObserveFile("testdata/metadata_gm03.xml"))
 
 	actualSource, err := generator.Generate()
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("interlis.gen.go.actual", actualSource, 0o666))
+	assert.NoError(t, os.WriteFile("interlis.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("interlis.gen.go")
-	require.NoError(t, err)
-	require.Equal(t, string(expectedSource), string(actualSource))
+	assert.NoError(t, err)
+	assert.Equal(t, string(expectedSource), string(actualSource))
 
 	data, err := os.ReadFile("testdata/metadata_gm03.xml")
-	require.NoError(t, err)
+	assert.NoError(t, err)
 	var transfer Transfer
-	require.NoError(t, xml.Unmarshal(data, &transfer))
+	assert.NoError(t, xml.Unmarshal(data, &transfer))
 
 	assert.Equal(t, "geocat.ch", transfer.HeaderSection.Sender)
 }

@@ -7,8 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
+	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
 )
@@ -31,9 +30,9 @@ func TestAIXM(t *testing.T) {
 
 	observeZipFile := func(zipFile *zip.File) {
 		readCloser, err := zipFile.Open()
-		require.NoError(t, err)
+		assert.NoError(t, err)
 		defer readCloser.Close()
-		require.NoError(t, generator.ObserveReader(readCloser))
+		assert.NoError(t, generator.ObserveReader(readCloser))
 	}
 
 	observeZipReader := func(zipReader *zip.Reader) {
@@ -47,14 +46,14 @@ func TestAIXM(t *testing.T) {
 	zipReaders := make([]*zip.Reader, 0, len(filenames))
 	for _, filename := range filenames {
 		file, err := os.Open(filename)
-		require.NoError(t, err)
+		assert.NoError(t, err)
 		defer file.Close()
 
 		fileInfo, err := file.Stat()
-		require.NoError(t, err)
+		assert.NoError(t, err)
 
 		zipReader, err := zip.NewReader(file, fileInfo.Size())
-		require.NoError(t, err)
+		assert.NoError(t, err)
 
 		observeZipReader(zipReader)
 
@@ -62,21 +61,21 @@ func TestAIXM(t *testing.T) {
 	}
 
 	actualSource, err := generator.Generate()
-	require.NoError(t, err)
+	assert.NoError(t, err)
 
-	require.NoError(t, os.WriteFile("aixm.gen.go.actual", actualSource, 0o666))
+	assert.NoError(t, os.WriteFile("aixm.gen.go.actual", actualSource, 0o666))
 
 	expectedSource, err := os.ReadFile("aixm.gen.go")
-	require.NoError(t, err)
-	require.Equal(t, string(expectedSource), string(actualSource))
+	assert.NoError(t, err)
+	assert.Equal(t, string(expectedSource), string(actualSource))
 
 	decodeZipFile := func(zipFile *zip.File) *AIXMBasicMessage {
 		readCloser, err := zipFile.Open()
-		require.NoError(t, err)
+		assert.NoError(t, err)
 		defer readCloser.Close()
 
 		var aixmBasicMessage AIXMBasicMessage
-		require.NoError(t, xml.NewDecoder(readCloser).Decode(&aixmBasicMessage))
+		assert.NoError(t, xml.NewDecoder(readCloser).Decode(&aixmBasicMessage))
 		return &aixmBasicMessage
 	}
 
