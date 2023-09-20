@@ -10,6 +10,8 @@ import (
 )
 
 func TestGenerator(t *testing.T) {
+	t.Parallel()
+
 	for _, tc := range []struct {
 		name        string
 		xmlStr      string
@@ -222,7 +224,7 @@ func TestGenerator(t *testing.T) {
 				`package main`,
 				``,
 				`type A struct {`,
-				"\tB B `xml:\"b\"`",
+				"\tB B `xml:\"b\"`", //nolint:dupword
 				`}`,
 				``,
 				`type B struct {`,
@@ -317,7 +319,10 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 	} {
+		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+
 			generator := xmlstruct.NewGenerator(tc.options...)
 			if tc.xmlStr != "" {
 				assert.NoError(t, generator.ObserveReader(strings.NewReader(tc.xmlStr)))

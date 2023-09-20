@@ -8,6 +8,8 @@ import (
 )
 
 func TestDefaultExportNameFunc(t *testing.T) {
+	t.Parallel()
+
 	for _, tc := range []struct {
 		localName string
 		expected  string
@@ -49,7 +51,10 @@ func TestDefaultExportNameFunc(t *testing.T) {
 			expected:  "SnakeID",
 		},
 	} {
+		tc := tc
 		t.Run(tc.localName, func(t *testing.T) {
+			t.Parallel()
+
 			xmlName := xml.Name{
 				Local: tc.localName,
 			}

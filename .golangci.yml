@@ -1,36 +1,85 @@
 linters:
   enable:
+  - asasalint
   - asciicheck
+  - bidichk
   - bodyclose
+  - containedctx
+  - contextcheck
+  - decorder
   - dogsled
   - dupl
+  - dupword
+  - durationcheck
   - errcheck
+  - errchkjson
+  - errname
+  - errorlint
+  - execinquery
   - exhaustive
   - exportloopref
+  - forbidigo
+  - forcetypeassert
+  - gci
+  - ginkgolinter
+  - gocheckcompilerdirectives
+  - gochecknoinits
   - goconst
   - gocritic
   - godot
   - gofmt
   - gofumpt
+  - goheader
   - goimports
+  - gomoddirectives
   - gomodguard
   - goprintffuncname
   - gosimple
+  - gosmopolitan
   - govet
+  - grouper
+  - importas
   - ineffassign
+  - interfacebloat
+  - ireturn
+  - loggercheck
+  - makezero
+  - mirror
   - misspell
+  - musttag
   - nakedret
+  - nilerr
+  - nilnil
   - noctx
   - nolintlint
+  - nonamedreturns
+  - nosprintfhostport
+  - paralleltest
   - prealloc
+  - predeclared
+  - promlinter
+  - reassign
+  - rowserrcheck
+  - sqlclosecheck
   - staticcheck
+  - tagalign
+  - tagliatelle
+  - tenv
+  - testableexamples
+  - thelper
+  - tparallel
   - typecheck
   - unconvert
   - unparam
   - unused
+  - usestdlibvars
+  - wastedassign
   - whitespace
+  - zerologlint
   disable:
+  - cyclop
   - depguard
+  - exhaustruct
   - funlen
   - gochecknoglobals
   - gocognit
@@ -40,14 +89,26 @@ linters:
   - gomnd
   - gosec
   - lll
+  - maintidx
   - maligned
   - nestif
-  - sqlclosecheck
+  - nlreturn
+  - revive
   - stylecheck
   - testpackage
+  - varnamelen
+  - wrapcheck
   - wsl
 
 linters-settings:
+  gci:
+    sections:
+    - standard
+    - default
+    - prefix(github.com/twpayne/go-xmlstruct)
+  gofumpt:
+    extra-rules: true
+    module-path: github.com/twpayne/go-xmlstruct
   goimports:
     local-prefixes: github.com/twpayne/go-xmlstruct
 
@@ -57,3 +118,6 @@ issues:
     - dupl
     - scopelint
     path: "_test\\.go"
+  - linters:
+    - forbidigo
+    path: "main\\.go"

@@ -13,6 +13,8 @@ import (
 )
 
 func TestAIXM(t *testing.T) {
+	t.Parallel()
+
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"note":            "NoteLower",            // Disambiguate between Note and note.

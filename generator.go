@@ -19,7 +19,7 @@ import (
 var (
 	SkipDir = fs.SkipDir
 	//lint:ignore ST1012 SkipFile is not an error
-	SkipFile = errors.New("skip file")
+	SkipFile = errors.New("skip file") //nolint:errname
 )
 
 // A Generator observes XML documents and generates Go structs into which the

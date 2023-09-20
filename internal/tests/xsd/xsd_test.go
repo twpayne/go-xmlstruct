@@ -13,6 +13,8 @@ import (
 )
 
 func TestXSD(t *testing.T) {
+	t.Parallel()
+
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"appinfo": "AppInfo",
