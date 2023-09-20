@@ -16,7 +16,7 @@ code](https://github.com/twpayne/go-xmlstruct/blob/master/internal/tests/play/pl
 Compared to existing Go struct generators like
 [zek](https://github.com/miku/zek),
 [XMLGen](https://github.com/dutchcoders/XMLGen), and
-[chidley](https://github.com/gnewton/chidley), go-xmlstruct offers:
+[chidley](https://github.com/gnewton/chidley), go-xmlstruct:
 
 * Takes multiple XML documents as input.
 * Generates field types of `bool`, `int`, `string`, or `time.Time` as
