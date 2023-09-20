@@ -208,12 +208,21 @@ func (g *Generator) Generate() ([]byte, error) {
 	}
 
 	if options.preserveOrder {
-		slices.SortFunc(typeElements, func(a, b *element) bool {
-			return g.typeOrder[a.name] < g.typeOrder[b.name]
+		slices.SortFunc(typeElements, func(a, b *element) int {
+			return g.typeOrder[a.name] - g.typeOrder[b.name]
 		})
 	} else {
-		slices.SortFunc(typeElements, func(a, b *element) bool {
-			return options.exportNameFunc(a.name) < options.exportNameFunc(b.name)
+		slices.SortFunc(typeElements, func(a, b *element) int {
+			aExportedName := options.exportNameFunc(a.name)
+			bExportedName := options.exportNameFunc(b.name)
+			switch {
+			case aExportedName < bExportedName:
+				return -1
+			case aExportedName == bExportedName:
+				return 0
+			default:
+				return 1
+			}
 		})
 	}
 
