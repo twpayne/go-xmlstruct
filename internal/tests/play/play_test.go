@@ -11,6 +11,8 @@ import (
 )
 
 func TestPlay(t *testing.T) {
+	t.Parallel()
+
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"ACT":      "Act",

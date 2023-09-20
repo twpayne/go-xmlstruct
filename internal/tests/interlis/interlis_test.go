@@ -11,6 +11,8 @@ import (
 )
 
 func TestInterlis(t *testing.T) {
+	t.Parallel()
+
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"BOUNDARY":      "Boundary",

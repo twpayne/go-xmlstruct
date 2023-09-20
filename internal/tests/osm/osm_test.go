@@ -11,6 +11,8 @@ import (
 )
 
 func TestOSM(t *testing.T) {
+	t.Parallel()
+
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
 			"osm":    "OSM",
