@@ -318,6 +318,54 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "observe_int_eager",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithOberveIntEager(true),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b index="0">one</b>`,
+				`  <b index="1">two</b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct {`,
+				"\tB []struct {",
+				"\t\tIndex    int    `xml:\"index,attr\"`",
+				"\t\tCharData string `xml:\",chardata\"`",
+				"\t} `xml:\"b\"`",
+				`}`,
+			),
+		},
+		{
+			name: "observe_int_eager_false",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithOberveIntEager(false),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b index="0">one</b>`,
+				`  <b index="1">two</b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct {`,
+				"\tB []struct {",
+				"\t\tIndex    bool   `xml:\"index,attr\"`",
+				"\t\tCharData string `xml:\",chardata\"`",
+				"\t} `xml:\"b\"`",
+				`}`,
+			),
+		},
 	} {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {

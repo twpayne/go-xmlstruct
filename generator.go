@@ -42,6 +42,7 @@ type Generator struct {
 	usePointersForOptionalFields bool
 	useRawToken                  bool
 	typeElements                 map[xml.Name]*element
+	oberveIntEager               bool
 }
 
 // A GeneratorOption sets an option on a Generator.
@@ -148,6 +149,15 @@ func WithUseRawToken(useRawToken bool) GeneratorOption {
 	}
 }
 
+// WithOberveIntEager sets whether to observe ints before booleans.
+// this can be useful in the case where an array-like collection of elements
+// are indexed by a field does not exceed 1, and thus is assumed to be boolean
+func WithOberveIntEager(observeIntEager bool) GeneratorOption {
+	return func(g *Generator) {
+		g.oberveIntEager = observeIntEager
+	}
+}
+
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	g := &Generator{
@@ -165,6 +175,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		useRawToken:                  DefaultUseRawToken,
 		typeElements:                 make(map[xml.Name]*element),
+		oberveIntEager:               DefaultObserveIntEager,
 	}
 	g.exportNameFunc = func(name xml.Name) string {
 		if exportRename, ok := g.exportRenames[name.Local]; ok {
@@ -314,6 +325,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 		topLevelAttributes: g.topLevelAttributes,
 		typeOrder:          g.typeOrder,
 		useRawToken:        g.useRawToken,
+		observeIntEager:    g.oberveIntEager,
 	}
 	if g.namedTypes {
 		options.topLevelElements = g.typeElements

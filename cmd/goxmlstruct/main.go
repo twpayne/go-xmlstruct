@@ -23,6 +23,7 @@ var (
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
+	observeIntEager              = flag.Bool("observe-int-eager", xmlstruct.DefaultObserveIntEager, "attempt to cast fields as int before bool")
 )
 
 func run() error {
@@ -46,6 +47,7 @@ func run() error {
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 		xmlstruct.WithUseRawToken(*useRawToken),
+		xmlstruct.WithOberveIntEager(*observeIntEager),
 	)
 
 	if flag.NArg() == 0 {
