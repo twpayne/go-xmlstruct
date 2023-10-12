@@ -277,7 +277,7 @@ func TestGenerator(t *testing.T) {
 				`package main`,
 				``,
 				`type A struct {`,
-				"\tB bool `xml:\"b,attr\"`",
+				"\tB int `xml:\"b,attr\"`",
 				`}`,
 			),
 		},
