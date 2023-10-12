@@ -54,7 +54,7 @@ type GPX struct {
 			Text string `xml:"text"`
 		} `xml:"link"`
 		Name   string `xml:"name"`
-		Number string `xml:"number"`
+		Number int    `xml:"number"`
 		RtePt  []struct {
 			Lat  float64  `xml:"lat,attr"`
 			Lon  float64  `xml:"lon,attr"`
@@ -80,7 +80,7 @@ type GPX struct {
 			Text string `xml:"text"`
 		} `xml:"link"`
 		Name   string `xml:"name"`
-		Number string `xml:"number"`
+		Number int    `xml:"number"`
 		TrkSeg struct {
 			TrkPt []struct {
 				Lat  float64    `xml:"lat,attr"`

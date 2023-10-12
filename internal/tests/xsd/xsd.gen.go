@@ -9,7 +9,7 @@ type Annotation struct {
 
 type Any struct {
 	MaxOccurs       *string `xml:"maxOccurs,attr"`
-	MinOccurs       *bool   `xml:"minOccurs,attr"`
+	MinOccurs       *int    `xml:"minOccurs,attr"`
 	Namespace       string  `xml:"namespace,attr"`
 	ProcessContents string  `xml:"processContents,attr"`
 }
@@ -35,7 +35,7 @@ type AttributeGroup struct {
 
 type Choice struct {
 	MaxOccurs  *string     `xml:"maxOccurs,attr"`
-	MinOccurs  *bool       `xml:"minOccurs,attr"`
+	MinOccurs  *int        `xml:"minOccurs,attr"`
 	Annotation *Annotation `xml:"annotation"`
 	Element    []Element   `xml:"element"`
 }
@@ -63,7 +63,7 @@ type Element struct {
 	Abstract          *bool       `xml:"abstract,attr"`
 	Default           *string     `xml:"default,attr"`
 	MaxOccurs         *string     `xml:"maxOccurs,attr"`
-	MinOccurs         *bool       `xml:"minOccurs,attr"`
+	MinOccurs         *int        `xml:"minOccurs,attr"`
 	Name              *string     `xml:"name,attr"`
 	Ref               *string     `xml:"ref,attr"`
 	SubstitutionGroup *string     `xml:"substitutionGroup,attr"`
@@ -127,7 +127,7 @@ type Schema struct {
 
 type Sequence struct {
 	MaxOccurs *string   `xml:"maxOccurs,attr"`
-	MinOccurs *bool     `xml:"minOccurs,attr"`
+	MinOccurs *int      `xml:"minOccurs,attr"`
 	Any       *Any      `xml:"any"`
 	Choice    []Choice  `xml:"choice"`
 	Element   []Element `xml:"element"`

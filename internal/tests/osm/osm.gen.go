@@ -23,7 +23,7 @@ type Node struct {
 	Lat       float64   `xml:"lat,attr"`
 	Lon       float64   `xml:"lon,attr"`
 	Timestamp time.Time `xml:"timestamp,attr"`
-	Version   string    `xml:"version,attr"`
+	Version   int       `xml:"version,attr"`
 	Tag       []Tag     `xml:"tag"`
 }
 
@@ -35,7 +35,7 @@ type Tag struct {
 type Way struct {
 	ID        int       `xml:"id,attr"`
 	Timestamp time.Time `xml:"timestamp,attr"`
-	Version   string    `xml:"version,attr"`
+	Version   int       `xml:"version,attr"`
 	Nd        []Nd      `xml:"nd"`
 	Tag       []Tag     `xml:"tag"`
 }
@@ -47,7 +47,7 @@ type Nd struct {
 type Relation struct {
 	ID        int       `xml:"id,attr"`
 	Timestamp time.Time `xml:"timestamp,attr"`
-	Version   string    `xml:"version,attr"`
+	Version   int       `xml:"version,attr"`
 	Member    []Member  `xml:"member"`
 	Tag       []Tag     `xml:"tag"`
 }
