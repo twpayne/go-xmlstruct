@@ -68,12 +68,12 @@ func (v *value) goType(options *generateOptions) string {
 // observe records s as being observed for v.
 func (v *value) observe(s string, options *observeOptions) {
 	v.observations++
-	if _, err := strconv.ParseBool(s); err == nil {
-		v.boolCount++
-		return
-	}
 	if _, err := strconv.ParseInt(s, 10, 64); err == nil {
 		v.intCount++
+		return
+	}
+	if _, err := strconv.ParseBool(s); err == nil {
+		v.boolCount++
 		return
 	}
 	if _, err := strconv.ParseFloat(s, 64); err == nil {
