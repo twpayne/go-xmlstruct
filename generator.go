@@ -150,8 +150,8 @@ func WithUseRawToken(useRawToken bool) GeneratorOption {
 }
 
 // WithOberveIntEager sets whether to observe ints before booleans.
-// this can be useful in the case where an array-like collection of elements
-// are indexed by a field does not exceed 1, and thus is assumed to be boolean
+// This can be useful in the case where an array-like collection of elements
+// are indexed by a field does not exceed 1, and thus is assumed to be boolean.
 func WithOberveIntEager(observeIntEager bool) GeneratorOption {
 	return func(g *Generator) {
 		g.oberveIntEager = observeIntEager
