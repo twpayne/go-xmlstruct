@@ -9,7 +9,7 @@ type Arc struct {
 }
 
 type ArcByCenterPoint struct {
-	EndAngle   string  `xml:"endAngle"`
+	EndAngle   float64 `xml:"endAngle"`
 	Pos        *string `xml:"pos"`
 	PosList    string  `xml:"posList"`
 	Radius     float64 `xml:"radius"`
