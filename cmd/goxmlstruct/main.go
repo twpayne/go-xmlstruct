@@ -23,6 +23,8 @@ var (
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
+	supportUnexpectedElements    = flag.Bool("support-unexpected-elements", xmlstruct.DefaultSupportUnexpectedElements, "create field of Node type with xml:any tag on each struct to handle unexpected elements on parse")
+	unexpectedElementTypeName    = flag.String("unexpected-element-type-name", xmlstruct.DefaultUnexpectedElementTypeName, "name for the namedType to contain any unexpected elements encountered on parsing; default: UnexpectedElement")
 )
 
 func run() error {
@@ -46,6 +48,8 @@ func run() error {
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 		xmlstruct.WithUseRawToken(*useRawToken),
+		xmlstruct.WithSupportUnexpectedElements(*supportUnexpectedElements),
+		xmlstruct.WithUnexpectedElementTypeName(*unexpectedElementTypeName),
 	)
 
 	if flag.NArg() == 0 {

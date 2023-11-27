@@ -9,15 +9,16 @@ import (
 // A value describes an observed simple value, either an attribute value or
 // chardata.
 type value struct {
-	boolCount    int
-	float64Count int
-	intCount     int
-	name         xml.Name
-	observations int
-	optional     bool
-	repeated     bool
-	stringCount  int
-	timeCount    int
+	boolCount                 int
+	float64Count              int
+	intCount                  int
+	name                      xml.Name
+	observations              int
+	optional                  bool
+	repeated                  bool
+	stringCount               int
+	timeCount                 int
+	unexpectedElementTypeName string
 }
 
 // goType returns the most specific Go type that can represent all of the values
@@ -45,6 +46,9 @@ func (v *value) goType(options *generateOptions) string {
 	}
 	if options.usePointersForOptionalFields && v.optional {
 		prefix += "*"
+	}
+	if v.unexpectedElementTypeName != "" {
+		return v.unexpectedElementTypeName
 	}
 	switch {
 	case distinctTypes == 0:

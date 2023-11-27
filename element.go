@@ -4,10 +4,9 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
-	"io"
-
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
+	"io"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and
@@ -214,7 +213,23 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 				return err
 			}
 		}
-		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
+
+		if e.name.Local == options.unexpectedElementTypeName {
+			switch childElement.name.Local {
+			case "Attrs":
+				fmt.Fprint(w, " `xml:\",any,attr\"`\n")
+			case "Content":
+				fmt.Fprintf(w, " `xml:\",innerxml\"`\n")
+			case "Nodes":
+				fmt.Fprintf(w, " `xml:\",any\"`\n")
+			}
+		} else {
+			if childElement.name.Local == fmt.Sprintf("%ss", options.unexpectedElementTypeName) {
+				fmt.Fprintf(w, " `xml:\",any\"`\n")
+			} else {
+				fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
+			}
+		}
 	}
 
 	fmt.Fprintf(w, "%s}", indentPrefix)
