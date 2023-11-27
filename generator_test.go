@@ -224,7 +224,7 @@ func TestGenerator(t *testing.T) {
 				`package main`,
 				``,
 				`type A struct {`,
-				"\tB B `xml:\"b\"`",
+				"\tB B `xml:\"b\"`", //nolint:dupword
 				`}`,
 				``,
 				`type B struct {`,
@@ -356,13 +356,13 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type A struct {`,
-				"\tB                  B                    `xml:\"b\"`",
-				"\tD                  D                    `xml:\"d\"`",
+				"\tB                  B                    `xml:\"b\"`", //nolint:dupword
+				"\tD                  D                    `xml:\"d\"`", //nolint:dupword
 				"\tUnexpectedElements []*UnexpectedElement `xml:\",any\"`",
 				`}`,
 				``,
 				`type B struct {`,
-				"\tC                  C                    `xml:\"c\"`",
+				"\tC                  C                    `xml:\"c\"`", //nolint:dupword
 				"\tUnexpectedElements []*UnexpectedElement `xml:\",any\"`",
 				`}`,
 				``,
@@ -371,7 +371,7 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type D struct {`,
-				"\tE                  E                    `xml:\"e\"`",
+				"\tE                  E                    `xml:\"e\"`", //nolint:dupword
 				"\tUnexpectedElements []*UnexpectedElement `xml:\",any\"`",
 				`}`,
 				``,
@@ -412,13 +412,13 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type A struct {`,
-				"\tB       B         `xml:\"b\"`",
-				"\tD       D         `xml:\"d\"`",
+				"\tB       B         `xml:\"b\"`", //nolint:dupword
+				"\tD       D         `xml:\"d\"`", //nolint:dupword
 				"\tMyTypes []*MyType `xml:\",any\"`",
 				`}`,
 				``,
 				`type B struct {`,
-				"\tC       C         `xml:\"c\"`",
+				"\tC       C         `xml:\"c\"`", //nolint:dupword
 				"\tMyTypes []*MyType `xml:\",any\"`",
 				`}`,
 				``,
@@ -427,7 +427,7 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type D struct {`,
-				"\tE       E         `xml:\"e\"`",
+				"\tE       E         `xml:\"e\"`", //nolint:dupword
 				"\tMyTypes []*MyType `xml:\",any\"`",
 				`}`,
 				``,

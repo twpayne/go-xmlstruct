@@ -101,12 +101,6 @@ linters:
   - wsl
 
 linters-settings:
-  dupword:
-    ignore:
-      - "B"
-      - "C"
-      - "D"
-      - "E"
   gci:
     sections:
     - standard
