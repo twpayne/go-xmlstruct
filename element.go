@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"io"
+
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
-	"io"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and

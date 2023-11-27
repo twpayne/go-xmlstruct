@@ -154,7 +154,7 @@ func WithUseRawToken(useRawToken bool) GeneratorOption {
 
 // WithSupportUnexpectedElements sets whether to support unexpected elements
 // on structs through use of a field of the catch-all type Node and xml:any
-// struct tag on each generated struct
+// struct tag on each generated struct.
 func WithSupportUnexpectedElements(supportUnexpectedElements bool) GeneratorOption {
 	return func(g *Generator) {
 		g.supportUnexpectedElements = supportUnexpectedElements
@@ -162,7 +162,7 @@ func WithSupportUnexpectedElements(supportUnexpectedElements bool) GeneratorOpti
 }
 
 // WithUnexpectedElementTypeName specifies the name of the named type to contain
-// any unexpected elements encountered during parsing
+// any unexpected elements encountered during parsing.
 func WithUnexpectedElementTypeName(unexpectedElementTypeName string) GeneratorOption {
 	return func(g *Generator) {
 		g.unexpectedElementTypeName = unexpectedElementTypeName
@@ -405,7 +405,7 @@ func appendUnexpectedElements(elementsMap *map[xml.Name]*element, createNamedTyp
 		if element.name.Local == unexpectedElementTypeName {
 			continue
 		}
-		if createNamedTypes == false {
+		if !createNamedTypes {
 			appendUnexpectedElements(&element.childElements, createNamedTypes, unexpectedElementTypeName)
 		}
 		element.childElements[xml.Name{Local: unexpectedElementsTypeName}] = unexpectedElements
@@ -413,31 +413,31 @@ func appendUnexpectedElements(elementsMap *map[xml.Name]*element, createNamedTyp
 	}
 }
 
-func initializeUnexpectedElements(UnexpectedElementTypeName string) {
-	unexpectedElementTypeNameWithPointerSymbol := fmt.Sprintf("*%s", UnexpectedElementTypeName)
-	UnexpectedElementsTypeName := fmt.Sprintf("%ss", UnexpectedElementTypeName)
+func initializeUnexpectedElements(unexpectedElementTypeName string) {
+	unexpectedElementTypeNameWithPointerSymbol := fmt.Sprintf("*%s", unexpectedElementTypeName)
+	UnexpectedElementsTypeName := fmt.Sprintf("%ss", unexpectedElementTypeName)
 	unexpectedElement = &element{
-		name: xml.Name{Local: UnexpectedElementTypeName},
+		name: xml.Name{Local: unexpectedElementTypeName},
 		childElements: map[xml.Name]*element{
-			xml.Name{Local: "XMLName"}: &element{
+			{Local: "XMLName"}: {
 				name: xml.Name{Local: "XMLName"},
 				charDataValue: value{
 					unexpectedElementTypeName: "xml.Name",
 				},
 			},
-			xml.Name{Local: "Attrs"}: &element{
+			{Local: "Attrs"}: {
 				name: xml.Name{Local: "Attrs"},
 				charDataValue: value{
 					unexpectedElementTypeName: "xml.Attr",
 				},
 			},
-			xml.Name{Local: "Content"}: &element{
+			{Local: "Content"}: {
 				name: xml.Name{Local: "Content"},
 				charDataValue: value{
 					unexpectedElementTypeName: "[]byte",
 				},
 			},
-			xml.Name{Local: "Nodes"}: &element{
+			{Local: "Nodes"}: {
 				name: xml.Name{Local: "Nodes"},
 				charDataValue: value{
 					unexpectedElementTypeName: unexpectedElementTypeNameWithPointerSymbol,
@@ -445,8 +445,8 @@ func initializeUnexpectedElements(UnexpectedElementTypeName string) {
 			},
 		},
 		repeatedChildren: map[xml.Name]struct{}{
-			xml.Name{Local: "Attrs"}: struct{}{},
-			xml.Name{Local: "Nodes"}: struct{}{},
+			{Local: "Attrs"}: {},
+			{Local: "Nodes"}: {},
 		},
 	}
 	unexpectedElements = &element{

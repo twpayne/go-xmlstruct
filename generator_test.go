@@ -224,7 +224,7 @@ func TestGenerator(t *testing.T) {
 				`package main`,
 				``,
 				`type A struct {`,
-				"\tB B `xml:\"b\"`", //nolint:dupword
+				"\tB B `xml:\"b\"`",
 				`}`,
 				``,
 				`type B struct {`,
@@ -356,8 +356,8 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type A struct {`,
-				"\tB                  B                    `xml:\"b\"`", //nolint:dupword
-				"\tD                  D                    `xml:\"d\"`", //nolint:dupword
+				"\tB                  B                    `xml:\"b\"`",
+				"\tD                  D                    `xml:\"d\"`",
 				"\tUnexpectedElements []*UnexpectedElement `xml:\",any\"`",
 				`}`,
 				``,
@@ -412,8 +412,8 @@ func TestGenerator(t *testing.T) {
 				`}`,
 				``,
 				`type A struct {`,
-				"\tB       B         `xml:\"b\"`", //nolint:dupword
-				"\tD       D         `xml:\"d\"`", //nolint:dupword
+				"\tB       B         `xml:\"b\"`",
+				"\tD       D         `xml:\"d\"`",
 				"\tMyTypes []*MyType `xml:\",any\"`",
 				`}`,
 				``,
