@@ -24,6 +24,8 @@ const (
 	DefaultTimeLayout                   = "2006-01-02T15:04:05Z"
 	DefaultUsePointersForOptionalFields = true
 	DefaultUseRawToken                  = false
+	DefaultSupportUnexpectedElements    = false
+	DefaultUnexpectedElementTypeName    = "UnexpectedElement"
 )
 
 var (
@@ -100,6 +102,8 @@ type generateOptions struct {
 	preserveOrder                bool
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
+	supportUnexpectedElements    bool
+	unexpectedElementTypeName    string
 }
 
 // sortedKeys returns the keys of m in order.
