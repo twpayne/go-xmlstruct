@@ -221,8 +221,6 @@ func (g *Generator) Generate() ([]byte, error) {
 	if g.supportUnexpectedElements {
 		initializeUnexpectedElements(g.unexpectedElementTypeName)
 		options.importPackageNames["encoding/xml"] = struct{}{}
-		options.namedTypes = make(map[xml.Name]*element)
-		options.namedTypes[xml.Name{Local: g.unexpectedElementTypeName}] = unexpectedElement
 		g.typeElements[xml.Name{Local: g.unexpectedElementTypeName}] = unexpectedElement
 		appendUnexpectedElements(&g.typeElements, g.namedTypes, g.unexpectedElementTypeName)
 	}
