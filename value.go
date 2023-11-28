@@ -2,6 +2,7 @@ package xmlstruct
 
 import (
 	"encoding/xml"
+	"fmt"
 	"strconv"
 	"time"
 )
@@ -51,6 +52,8 @@ func (v *value) goType(options *generateOptions) string {
 		return v.unexpectedElementTypeName
 	}
 	switch {
+	case distinctTypes == 0 && options.supportUnexpectedElements:
+		return fmt.Sprintf("struct { %s []*%s `xml:\",any\"` }", options.unexpectedElementFieldName, options.unexpectedElementTypeName)
 	case distinctTypes == 0:
 		return "struct{}"
 	case distinctTypes == 1 && v.boolCount > 0:

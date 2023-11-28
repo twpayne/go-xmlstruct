@@ -282,6 +282,7 @@ func TestGenerator(t *testing.T) {
 			name: "unexpected_elements_custom_name",
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithSupportUnexpectedElements(true),
+				xmlstruct.WithUnexpectedElementFieldName("MyTypes"),
 				xmlstruct.WithUnexpectedElementTypeName("MyType"),
 			},
 			xmlStr: joinLines(
@@ -385,6 +386,7 @@ func TestGenerator(t *testing.T) {
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithNamedTypes(true),
 				xmlstruct.WithSupportUnexpectedElements(true),
+				xmlstruct.WithUnexpectedElementFieldName("MyTypes"),
 				xmlstruct.WithUnexpectedElementTypeName("MyType"),
 			},
 			xmlStr: joinLines(

@@ -233,6 +233,10 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		}
 	}
 
+	if options.supportUnexpectedElements {
+		fmt.Fprintf(w, "\t%s []*%s `xml:\",any\"`\n", options.unexpectedElementFieldName, options.unexpectedElementTypeName)
+	}
+
 	fmt.Fprintf(w, "%s}", indentPrefix)
 	return nil
 }

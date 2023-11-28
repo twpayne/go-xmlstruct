@@ -20,8 +20,6 @@ var (
 	SkipDir = fs.SkipDir
 	//lint:ignore ST1012 SkipFile is not an error
 	SkipFile = errors.New("skip file") //nolint:errname
-
-	unexpectedElement, unexpectedElements *element
 )
 
 // A Generator observes XML documents and generates Go structs into which the
@@ -44,6 +42,7 @@ type Generator struct {
 	usePointersForOptionalFields bool
 	useRawToken                  bool
 	supportUnexpectedElements    bool
+	unexpectedElementFieldName   string
 	unexpectedElementTypeName    string
 	typeElements                 map[xml.Name]*element
 }
@@ -161,6 +160,14 @@ func WithSupportUnexpectedElements(supportUnexpectedElements bool) GeneratorOpti
 	}
 }
 
+// WithUnexpectedElementFieldName specifies the name of the named type to contain
+// any unexpected elements encountered during parsing.
+func WithUnexpectedElementFieldName(unexpectedElementFieldName string) GeneratorOption {
+	return func(g *Generator) {
+		g.unexpectedElementFieldName = unexpectedElementFieldName
+	}
+}
+
 // WithUnexpectedElementTypeName specifies the name of the named type to contain
 // any unexpected elements encountered during parsing.
 func WithUnexpectedElementTypeName(unexpectedElementTypeName string) GeneratorOption {
@@ -186,6 +193,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		useRawToken:                  DefaultUseRawToken,
 		supportUnexpectedElements:    DefaultSupportUnexpectedElements,
+		unexpectedElementFieldName:   DefaultUnexpectedElementFieldName,
 		unexpectedElementTypeName:    DefaultUnexpectedElementTypeName,
 		typeElements:                 make(map[xml.Name]*element),
 	}
@@ -213,16 +221,14 @@ func (g *Generator) Generate() ([]byte, error) {
 		preserveOrder:                g.preserveOrder,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 		supportUnexpectedElements:    g.supportUnexpectedElements,
+		unexpectedElementFieldName:   g.unexpectedElementFieldName,
 		unexpectedElementTypeName:    g.unexpectedElementTypeName,
 	}
 
 	var typeElements []*element
 
 	if g.supportUnexpectedElements {
-		initializeUnexpectedElements(g.unexpectedElementTypeName)
 		options.importPackageNames["encoding/xml"] = struct{}{}
-		g.typeElements[xml.Name{Local: g.unexpectedElementTypeName}] = unexpectedElement
-		appendUnexpectedElements(&g.typeElements, g.namedTypes, g.unexpectedElementTypeName)
 	}
 
 	if g.namedTypes {
@@ -249,13 +255,6 @@ func (g *Generator) Generate() ([]byte, error) {
 			aExportedName := options.exportNameFunc(a.name)
 			bExportedName := options.exportNameFunc(b.name)
 			switch {
-			// Force unexpected element struct to the top of the source
-			case aExportedName == g.unexpectedElementTypeName && bExportedName != g.unexpectedElementTypeName:
-				return -1
-			case aExportedName == g.unexpectedElementTypeName && bExportedName == g.unexpectedElementTypeName:
-				return 0
-			case aExportedName != g.unexpectedElementTypeName && bExportedName == g.unexpectedElementTypeName:
-				return 1
 			case aExportedName < bExportedName:
 				return -1
 			case aExportedName == bExportedName:
@@ -302,6 +301,16 @@ func (g *Generator) Generate() ([]byte, error) {
 		}
 		fmt.Fprintf(sourceBuilder, ")\n")
 	}
+	if options.supportUnexpectedElements {
+		fmt.Fprintf(sourceBuilder, "\n")
+		fmt.Fprintf(sourceBuilder, "type %s struct {\n", g.unexpectedElementTypeName)
+		fmt.Fprintf(sourceBuilder, "\tAttrs   []xml.Attr `xml:\",any,attr\"`\n")
+		fmt.Fprintf(sourceBuilder, "\tContent []byte     `xml:\",innerxml\"`\n")
+		fmt.Fprintf(sourceBuilder, "\tNodes   []*%s      `xml:\",any\"`\n", g.unexpectedElementTypeName)
+		fmt.Fprintf(sourceBuilder, "\tXMLName xml.Name\n")
+		fmt.Fprintf(sourceBuilder, "}\n")
+	}
+
 	sourceBuilder.WriteString(typesBuilder.String())
 
 	source := []byte(sourceBuilder.String())
@@ -394,63 +403,5 @@ FOR:
 				}
 			}
 		}
-	}
-}
-
-func appendUnexpectedElements(elementsMap *map[xml.Name]*element, createNamedTypes bool, unexpectedElementTypeName string) {
-	unexpectedElementsTypeName := fmt.Sprintf("%ss", unexpectedElementTypeName)
-	for _, element := range *elementsMap {
-		if element.name.Local == unexpectedElementTypeName {
-			continue
-		}
-		if !createNamedTypes {
-			appendUnexpectedElements(&element.childElements, createNamedTypes, unexpectedElementTypeName)
-		}
-		element.childElements[xml.Name{Local: unexpectedElementsTypeName}] = unexpectedElements
-		element.repeatedChildren[xml.Name{Local: unexpectedElementsTypeName}] = struct{}{}
-	}
-}
-
-func initializeUnexpectedElements(unexpectedElementTypeName string) {
-	unexpectedElementTypeNameWithPointerSymbol := fmt.Sprintf("*%s", unexpectedElementTypeName)
-	UnexpectedElementsTypeName := fmt.Sprintf("%ss", unexpectedElementTypeName)
-	unexpectedElement = &element{
-		name: xml.Name{Local: unexpectedElementTypeName},
-		childElements: map[xml.Name]*element{
-			{Local: "XMLName"}: {
-				name: xml.Name{Local: "XMLName"},
-				charDataValue: value{
-					unexpectedElementTypeName: "xml.Name",
-				},
-			},
-			{Local: "Attrs"}: {
-				name: xml.Name{Local: "Attrs"},
-				charDataValue: value{
-					unexpectedElementTypeName: "xml.Attr",
-				},
-			},
-			{Local: "Content"}: {
-				name: xml.Name{Local: "Content"},
-				charDataValue: value{
-					unexpectedElementTypeName: "[]byte",
-				},
-			},
-			{Local: "Nodes"}: {
-				name: xml.Name{Local: "Nodes"},
-				charDataValue: value{
-					unexpectedElementTypeName: unexpectedElementTypeNameWithPointerSymbol,
-				},
-			},
-		},
-		repeatedChildren: map[xml.Name]struct{}{
-			{Local: "Attrs"}: {},
-			{Local: "Nodes"}: {},
-		},
-	}
-	unexpectedElements = &element{
-		name: xml.Name{Local: UnexpectedElementsTypeName},
-		charDataValue: value{
-			unexpectedElementTypeName: unexpectedElementTypeNameWithPointerSymbol,
-		},
 	}
 }

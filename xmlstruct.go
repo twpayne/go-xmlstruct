@@ -25,6 +25,7 @@ const (
 	DefaultUsePointersForOptionalFields = true
 	DefaultUseRawToken                  = false
 	DefaultSupportUnexpectedElements    = false
+	DefaultUnexpectedElementFieldName   = "UnexpectedElements"
 	DefaultUnexpectedElementTypeName    = "UnexpectedElement"
 )
 
@@ -103,6 +104,7 @@ type generateOptions struct {
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
 	supportUnexpectedElements    bool
+	unexpectedElementFieldName   string
 	unexpectedElementTypeName    string
 }
 
