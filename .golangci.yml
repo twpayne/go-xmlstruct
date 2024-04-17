@@ -39,6 +39,7 @@ linters:
   - govet
   - grouper
   - importas
+  - inamedparam
   - ineffassign
   - interfacebloat
   - ireturn
@@ -55,17 +56,23 @@ linters:
   - nonamedreturns
   - nosprintfhostport
   - paralleltest
+  - perfsprint
   - prealloc
   - predeclared
   - promlinter
+  - protogetter
   - reassign
+  - revive
   - rowserrcheck
+  - sloglint
+  - spancheck
   - sqlclosecheck
   - staticcheck
   - tagalign
   - tagliatelle
   - tenv
   - testableexamples
+  - testifylint
   - thelper
   - tparallel
   - typecheck
@@ -93,7 +100,6 @@ linters:
   - maligned
   - nestif
   - nlreturn
-  - revive
   - stylecheck
   - testpackage
   - varnamelen

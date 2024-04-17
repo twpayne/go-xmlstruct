@@ -42,7 +42,7 @@ func TestGML(t *testing.T) {
 	zipReader, err := zip.NewReader(file, fileInfo.Size())
 	assert.NoError(t, err)
 
-	assert.NoError(t, generator.ObserveFS(zipReader, "ets-gml32-master/src/test/resources", func(path string, dirEntry fs.DirEntry, err error) error {
+	assert.NoError(t, generator.ObserveFS(zipReader, "ets-gml32-master/src/test/resources", func(path string, _ fs.DirEntry, err error) error {
 		switch {
 		case err != nil:
 			return err
