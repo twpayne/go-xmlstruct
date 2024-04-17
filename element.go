@@ -190,7 +190,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	}
 
 	for _, childElement := range childElements {
-		exportedChildName := options.exportNameFunc(childElement.name)
+		exportedChildName := options.exportNameFunc(childElement.name) + options.elemNameSuffix
 
 		if _, ok := fieldNames[exportedChildName]; ok {
 			fieldNames[exportedChildName] = struct{}{}

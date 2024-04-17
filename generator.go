@@ -27,6 +27,7 @@ var (
 type Generator struct {
 	attrNameSuffix               string
 	charDataFieldName            string
+	elemNameSuffix               string
 	exportNameFunc               ExportNameFunc
 	exportRenames                map[string]string
 	formatSource                 bool
@@ -59,6 +60,13 @@ func WithAttrNameSuffix(attrSuffix string) GeneratorOption {
 func WithCharDataFieldName(charDataFieldName string) GeneratorOption {
 	return func(g *Generator) {
 		g.charDataFieldName = charDataFieldName
+	}
+}
+
+// WithElemNameSuffix sets the attribute suffix.
+func WithElemNameSuffix(elemSuffix string) GeneratorOption {
+	return func(g *Generator) {
+		g.elemNameSuffix = elemSuffix
 	}
 }
 
@@ -161,6 +169,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 	g := &Generator{
 		attrNameSuffix:               DefaultAttrNameSuffix,
 		charDataFieldName:            DefaultCharDataFieldName,
+		elemNameSuffix:               DefaultElemNameSuffix,
 		formatSource:                 DefaultFormatSource,
 		header:                       DefaultHeader,
 		intType:                      DefaultIntType,
@@ -193,6 +202,7 @@ func (g *Generator) Generate() ([]byte, error) {
 	options := generateOptions{
 		attrNameSuffix:               g.attrNameSuffix,
 		charDataFieldName:            g.charDataFieldName,
+		elemNameSuffix:               g.elemNameSuffix,
 		exportNameFunc:               g.exportNameFunc,
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),
