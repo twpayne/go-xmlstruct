@@ -148,7 +148,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 
 	attrValuesByExportedName := make(map[string]*value, len(e.attrValues))
 	for attrName, attrValue := range e.attrValues {
-		exportedAttrName := options.exportNameFunc(attrName)
+		exportedAttrName := options.exportNameFunc(attrName) + options.attrNameSuffix
 		if _, ok := fieldNames[exportedAttrName]; ok {
 			return fmt.Errorf("%s: duplicate field name", exportedAttrName)
 		}

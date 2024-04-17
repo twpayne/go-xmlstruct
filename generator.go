@@ -25,6 +25,7 @@ var (
 // A Generator observes XML documents and generates Go structs into which the
 // XML documents can be unmarshalled.
 type Generator struct {
+	attrNameSuffix               string
 	charDataFieldName            string
 	exportNameFunc               ExportNameFunc
 	exportRenames                map[string]string
@@ -46,6 +47,13 @@ type Generator struct {
 
 // A GeneratorOption sets an option on a Generator.
 type GeneratorOption func(*Generator)
+
+// WithAttrNameSuffix sets the attribute suffix.
+func WithAttrNameSuffix(attrSuffix string) GeneratorOption {
+	return func(g *Generator) {
+		g.attrNameSuffix = attrSuffix
+	}
+}
 
 // WithCharDataFieldName sets the char data field name.
 func WithCharDataFieldName(charDataFieldName string) GeneratorOption {
@@ -151,6 +159,7 @@ func WithUseRawToken(useRawToken bool) GeneratorOption {
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	g := &Generator{
+		attrNameSuffix:               DefaultAttrNameSuffix,
 		charDataFieldName:            DefaultCharDataFieldName,
 		formatSource:                 DefaultFormatSource,
 		header:                       DefaultHeader,
@@ -182,6 +191,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 // so far.
 func (g *Generator) Generate() ([]byte, error) {
 	options := generateOptions{
+		attrNameSuffix:               g.attrNameSuffix,
 		charDataFieldName:            g.charDataFieldName,
 		exportNameFunc:               g.exportNameFunc,
 		header:                       g.header,
