@@ -44,6 +44,7 @@ type Generator struct {
 	usePointersForOptionalFields bool
 	useRawToken                  bool
 	typeElements                 map[xml.Name]*element
+	emptyElements                bool
 }
 
 // A GeneratorOption sets an option on a Generator.
@@ -164,6 +165,14 @@ func WithUseRawToken(useRawToken bool) GeneratorOption {
 	}
 }
 
+// WithEmptyElements sets whether to use type struct{} or string
+// for empty xml elements.
+func WithEmptyElements(emptyElements bool) GeneratorOption {
+	return func(g *Generator) {
+		g.emptyElements = emptyElements
+	}
+}
+
 // NewGenerator returns a new Generator with the given options.
 func NewGenerator(options ...GeneratorOption) *Generator {
 	g := &Generator{
@@ -183,6 +192,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		usePointersForOptionalFields: DefaultUsePointersForOptionalFields,
 		useRawToken:                  DefaultUseRawToken,
 		typeElements:                 make(map[xml.Name]*element),
+		emptyElements:                DefaultEmptyElements,
 	}
 	g.exportNameFunc = func(name xml.Name) string {
 		if exportRename, ok := g.exportRenames[name.Local]; ok {
@@ -209,6 +219,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		intType:                      g.intType,
 		preserveOrder:                g.preserveOrder,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
+		emptyElements:                g.emptyElements,
 	}
 
 	var typeElements []*element

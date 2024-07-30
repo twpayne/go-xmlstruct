@@ -324,6 +324,20 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
+			name: "without_empty_elements",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithEmptyElements(false),
+			},
+			xmlStr: `<a b="0"/>`,
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A string`,
+			),
+		},
+		{
 			name: "char_data_field_name",
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithCharDataFieldName("Text"),
