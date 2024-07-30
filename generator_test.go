@@ -232,6 +232,34 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "no_package",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithNamedTypes(true),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithFormatSource(true),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`    <c/>`,
+				`    <d>hello</d>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				``,
+				`type A struct {`,
+				"\tB B `xml:\"b\"`", //nolint:dupword
+				`}`,
+				``,
+				`type B struct {`,
+				"\tC struct{} `xml:\"c\"`",
+				"\tD string   `xml:\"d\"`",
+				`}`,
+			),
+		},
 		// FIXME make the following test pass
 		/*
 			{

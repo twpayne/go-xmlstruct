@@ -265,7 +265,9 @@ func (g *Generator) Generate() ([]byte, error) {
 	if options.header != "" {
 		fmt.Fprintf(sourceBuilder, "%s\n\n", options.header)
 	}
-	fmt.Fprintf(sourceBuilder, "package %s\n\n", g.packageName)
+	if g.packageName != "" {
+		fmt.Fprintf(sourceBuilder, "package %s\n\n", g.packageName)
+	}
 	switch len(options.importPackageNames) {
 	case 0:
 		// Do nothing.
@@ -287,6 +289,16 @@ func (g *Generator) Generate() ([]byte, error) {
 	source := []byte(sourceBuilder.String())
 	if !g.formatSource {
 		return source, nil
+	}
+
+	if g.packageName == "" {
+		pkgDeclaration := `package main`
+		source = append([]byte(pkgDeclaration), source...)
+		f, err := format.Source(source)
+		if err != nil {
+			return f, err
+		}
+		return f[len(pkgDeclaration)+1:], nil
 	}
 	return format.Source(source)
 }
