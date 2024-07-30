@@ -23,6 +23,7 @@ var (
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
+	noEmptyElements              = flag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
 )
 
 func run() error {
@@ -46,6 +47,7 @@ func run() error {
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 		xmlstruct.WithUseRawToken(*useRawToken),
+		xmlstruct.WithEmptyElements(!*noEmptyElements),
 	)
 
 	if flag.NArg() == 0 {

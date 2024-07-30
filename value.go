@@ -48,7 +48,10 @@ func (v *value) goType(options *generateOptions) string {
 	}
 	switch {
 	case distinctTypes == 0:
-		return "struct{}"
+		if options.emptyElements {
+			return "struct{}"
+		}
+		return prefix + "string"
 	case distinctTypes == 1 && v.boolCount > 0:
 		return prefix + "bool"
 	case distinctTypes == 1 && v.intCount > 0:
