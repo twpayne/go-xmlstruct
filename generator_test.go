@@ -259,6 +259,61 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "no_package_unformatted",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedTypes(true),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithFormatSource(false),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`    <c/>`,
+				`    <d>hello</d>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`type A struct {`,
+				"\tB B `xml:\"b\"`", //nolint:dupword
+				`}`,
+				``,
+				`type B struct {`,
+				"\tC struct{} `xml:\"c\"`",
+				"\tD string `xml:\"d\"`",
+				`}`,
+			),
+		},
+		{
+			name: "no_package_no_header_unformatted",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithNamedTypes(true),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithFormatSource(false),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`    <c/>`,
+				`    <d>hello</d>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				`type A struct {`,
+				"\tB B `xml:\"b\"`", //nolint:dupword
+				`}`,
+				``,
+				`type B struct {`,
+				"\tC struct{} `xml:\"c\"`",
+				"\tD string `xml:\"d\"`",
+				`}`,
+			),
+		},
 		// FIXME make the following test pass
 		/*
 			{

@@ -280,7 +280,7 @@ func (g *Generator) Generate() ([]byte, error) {
 	if packageName == "" {
 		packageName = "main"
 	}
-	packageDeclaration := "package " + packageName + "\n\n"
+	packageDeclaration := "package " + packageName + "\n"
 	sourceBuilder.WriteString(packageDeclaration)
 	switch len(options.importPackageNames) {
 	case 0:
@@ -301,14 +301,20 @@ func (g *Generator) Generate() ([]byte, error) {
 	sourceBuilder.WriteString(typesBuilder.String())
 
 	source := []byte(sourceBuilder.String())
-	if !g.formatSource {
-		return source, nil
-	}
-	if formattedSource, err := format.Source(source); err == nil {
-		source = formattedSource
+	if g.formatSource {
+		if formattedSource, err := format.Source(source); err == nil {
+			source = formattedSource
+		}
 	}
 	if g.packageName == "" {
-		source = source[len(packageDeclaration):]
+		indexOfPackageDeclaration := 0
+		if g.header != "" {
+			indexOfPackageDeclaration = len(g.header) + 2
+		}
+		sourceWithoutPackageDeclaration := make([]byte, 0, len(source))
+		sourceWithoutPackageDeclaration = append(sourceWithoutPackageDeclaration, source[:indexOfPackageDeclaration]...)
+		sourceWithoutPackageDeclaration = append(sourceWithoutPackageDeclaration, source[indexOfPackageDeclaration+len(packageDeclaration)+1:]...)
+		source = sourceWithoutPackageDeclaration
 	}
 
 	return source, nil
