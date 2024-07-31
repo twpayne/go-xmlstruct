@@ -249,7 +249,6 @@ func TestGenerator(t *testing.T) {
 				`</a>`,
 			),
 			expectedStr: joinLines(
-				``,
 				`type A struct {`,
 				"\tB B `xml:\"b\"`", //nolint:dupword
 				`}`,

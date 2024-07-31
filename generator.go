@@ -276,9 +276,12 @@ func (g *Generator) Generate() ([]byte, error) {
 	if options.header != "" {
 		fmt.Fprintf(sourceBuilder, "%s\n\n", options.header)
 	}
-	if g.packageName != "" {
-		fmt.Fprintf(sourceBuilder, "package %s\n\n", g.packageName)
+	packageName := g.packageName
+	if packageName == "" {
+		packageName = "main"
 	}
+	packageDeclaration := "package " + packageName + "\n\n"
+	sourceBuilder.WriteString(packageDeclaration)
 	switch len(options.importPackageNames) {
 	case 0:
 		// Do nothing.
@@ -301,17 +304,14 @@ func (g *Generator) Generate() ([]byte, error) {
 	if !g.formatSource {
 		return source, nil
 	}
-
-	if g.packageName == "" {
-		pkgDeclaration := `package main`
-		source = append([]byte(pkgDeclaration), source...)
-		f, err := format.Source(source)
-		if err != nil {
-			return f, err
-		}
-		return f[len(pkgDeclaration)+1:], nil
+	if formattedSource, err := format.Source(source); err == nil {
+		source = formattedSource
 	}
-	return format.Source(source)
+	if g.packageName == "" {
+		source = source[len(packageDeclaration):]
+	}
+
+	return source, nil
 }
 
 // ObserveFS observes all XML documents in fs.
