@@ -1,3 +1,6 @@
+run:
+  go: '1.21'
+
 linters:
   enable:
   - asasalint
@@ -15,15 +18,16 @@ linters:
   - errchkjson
   - errname
   - errorlint
-  - execinquery
   - exhaustive
   - exportloopref
+  - fatcontext
   - forbidigo
   - forcetypeassert
   - gci
   - ginkgolinter
   - gocheckcompilerdirectives
   - gochecknoinits
+  - gochecksumtype
   - goconst
   - gocritic
   - godot
@@ -84,20 +88,22 @@ linters:
   - whitespace
   - zerologlint
   disable:
+  - canonicalheader
+  - copyloopvar
   - cyclop
   - depguard
+  - err113
   - exhaustruct
   - funlen
   - gochecknoglobals
   - gocognit
   - gocyclo
   - godox
-  - goerr113
   - gomnd
   - gosec
   - lll
   - maintidx
-  - maligned
+  - mnd
   - nestif
   - nlreturn
   - stylecheck
