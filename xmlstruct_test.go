@@ -50,6 +50,10 @@ func TestDefaultExportNameFunc(t *testing.T) {
 			localName: "snake-id",
 			expected:  "SnakeID",
 		},
+		{
+			localName: "+",
+			expected:  "_",
+		},
 	} {
 		tc := tc
 		t.Run(tc.localName, func(t *testing.T) {

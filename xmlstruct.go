@@ -39,7 +39,7 @@ var (
 	}
 
 	kebabOrSnakeCaseWordBoundaryRx = regexp.MustCompile(`[-_]+\pL`)
-	nonIdentifierRuneRx            = regexp.MustCompile(`[^\pL\pN]+`)
+	nonIdentifierRuneRx            = regexp.MustCompile(`[^\pL\pN]`)
 
 	// DefaultExportNameFunc returns name.Local with kebab- and snakecase words
 	// converted to camelcase and any Id suffix converted to ID.
@@ -47,7 +47,7 @@ var (
 		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
 			return strings.ToUpper(s[len(s)-1:])
 		})
-		localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "")
+		localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
 		runes := []rune(localName)
 		runes[0] = unicode.ToUpper(runes[0])
 		if len(runes) > 1 && runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {

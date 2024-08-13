@@ -14,53 +14,53 @@ type HeaderSection struct {
 }
 
 type DataSection struct {
-	GM0321ComprehensiveComprehensive GM0321ComprehensiveComprehensive `xml:"GM03_2_1Comprehensive.Comprehensive"`
+	GM03_2_1Comprehensive_Comprehensive GM03_2_1Comprehensive_Comprehensive `xml:"GM03_2_1Comprehensive.Comprehensive"`
 }
 
-type GM0321ComprehensiveComprehensive struct {
-	BID                                                                 string                                                              `xml:"BID,attr"`
-	GM0321CoreCoreMDMetadata                                            GM0321CoreCoreMDMetadata                                            `xml:"GM03_2_1Core.Core.MD_Metadata"`
-	GM0321CoreCoreMDDistribution                                        GM0321CoreCoreMDDistribution                                        `xml:"GM03_2_1Core.Core.MD_Distribution"`
-	GM0321CoreCoreMDDistributiondistributionFormat                      GM0321CoreCoreMDDistributiondistributionFormat                      `xml:"GM03_2_1Core.Core.MD_DistributiondistributionFormat"`
-	GM0321ComprehensiveComprehensiveMDFormat                            GM0321ComprehensiveComprehensiveMDFormat                            `xml:"GM03_2_1Comprehensive.Comprehensive.MD_Format"`
-	GM0321ComprehensiveComprehensiveMDDigitalTransferOptions            GM0321ComprehensiveComprehensiveMDDigitalTransferOptions            `xml:"GM03_2_1Comprehensive.Comprehensive.MD_DigitalTransferOptions"`
-	GM0321CoreCoreCIOnlineResource                                      []GM0321CoreCoreCIOnlineResource                                    `xml:"GM03_2_1Core.Core.CI_OnlineResource"`
-	GM0321CoreCoreMDMetadatacontact                                     GM0321CoreCoreMDMetadatacontact                                     `xml:"GM03_2_1Core.Core.MD_Metadatacontact"`
-	GM0321CoreCoreCIResponsibleParty                                    []GM0321CoreCoreCIResponsibleParty                                  `xml:"GM03_2_1Core.Core.CI_ResponsibleParty"`
-	GM0321CoreCoreCIAddress                                             []GM0321CoreCoreCIAddress                                           `xml:"GM03_2_1Core.Core.CI_Address"`
-	GM0321CoreCoreCIContact                                             []GM0321CoreCoreCIContact                                           `xml:"GM03_2_1Core.Core.CI_Contact"`
-	GM0321CoreCoreCITelephone                                           []GM0321CoreCoreCITelephone                                         `xml:"GM03_2_1Core.Core.CI_Telephone"`
-	GM0321ComprehensiveComprehensiveMDVectorSpatialRepresentation       GM0321ComprehensiveComprehensiveMDVectorSpatialRepresentation       `xml:"GM03_2_1Comprehensive.Comprehensive.MD_VectorSpatialRepresentation"`
-	GM0321ComprehensiveComprehensiveMDGeometricObjects                  GM0321ComprehensiveComprehensiveMDGeometricObjects                  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_GeometricObjects"`
-	GM0321CoreCorereferenceSystemInfoMDMetadata                         GM0321CoreCorereferenceSystemInfoMDMetadata                         `xml:"GM03_2_1Core.Core.referenceSystemInfoMD_Metadata"`
-	GM0321CoreCoreMDReferenceSystem                                     GM0321CoreCoreMDReferenceSystem                                     `xml:"GM03_2_1Core.Core.MD_ReferenceSystem"`
-	GM0321ComprehensiveComprehensiveRSIdentifier                        GM0321ComprehensiveComprehensiveRSIdentifier                        `xml:"GM03_2_1Comprehensive.Comprehensive.RS_Identifier"`
-	GM0321ComprehensiveComprehensiveMDDataIdentification                GM0321ComprehensiveComprehensiveMDDataIdentification                `xml:"GM03_2_1Comprehensive.Comprehensive.MD_DataIdentification"`
-	GM0321ComprehensiveComprehensiveCICitation                          []GM0321ComprehensiveComprehensiveCICitation                        `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Citation"`
-	GM0321CoreCoreCIDate                                                []GM0321CoreCoreCIDate                                              `xml:"GM03_2_1Core.Core.CI_Date"`
-	GM0321ComprehensiveComprehensiveCICitationidentifier                []GM0321ComprehensiveComprehensiveCICitationidentifier              `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Citationidentifier"`
-	GM0321CoreCoreMDIdentifier                                          []GM0321CoreCoreMDIdentifier                                        `xml:"GM03_2_1Core.Core.MD_Identifier"`
-	GM0321CoreCoreMDIdentificationpointOfContact                        GM0321CoreCoreMDIdentificationpointOfContact                        `xml:"GM03_2_1Core.Core.MD_IdentificationpointOfContact"`
-	GM0321CoreCoredescriptiveKeywordsMDIdentification                   []GM0321CoreCoredescriptiveKeywordsMDIdentification                 `xml:"GM03_2_1Core.Core.descriptiveKeywordsMD_Identification"`
-	GM0321CoreCoreMDKeywords                                            []GM0321CoreCoreMDKeywords                                          `xml:"GM03_2_1Core.Core.MD_Keywords"`
-	GM0321CoreCoreMDThesaurus                                           []GM0321CoreCoreMDThesaurus                                         `xml:"GM03_2_1Core.Core.MD_Thesaurus"`
-	GM0321ComprehensiveComprehensiveresourceConstraintsMDIdentification GM0321ComprehensiveComprehensiveresourceConstraintsMDIdentification `xml:"GM03_2_1Comprehensive.Comprehensive.resourceConstraintsMD_Identification"`
-	GM0321ComprehensiveComprehensiveMDLegalConstraints                  GM0321ComprehensiveComprehensiveMDLegalConstraints                  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_LegalConstraints"`
-	GM0321CoreCoreMDResolution                                          []GM0321CoreCoreMDResolution                                        `xml:"GM03_2_1Core.Core.MD_Resolution"`
-	GM0321CoreCoreMDRepresentativeFraction                              []GM0321CoreCoreMDRepresentativeFraction                            `xml:"GM03_2_1Core.Core.MD_RepresentativeFraction"`
-	GM0321CoreCoreEXExtent                                              GM0321CoreCoreEXExtent                                              `xml:"GM03_2_1Core.Core.EX_Extent"`
-	GM0321CoreCoreEXExtentgeographicElement                             []GM0321CoreCoreEXExtentgeographicElement                           `xml:"GM03_2_1Core.Core.EX_ExtentgeographicElement"`
-	GM0321CoreCoreEXGeographicBoundingBox                               GM0321CoreCoreEXGeographicBoundingBox                               `xml:"GM03_2_1Core.Core.EX_GeographicBoundingBox"`
-	GM0321CoreCoreEXBoundingPolygon                                     GM0321CoreCoreEXBoundingPolygon                                     `xml:"GM03_2_1Core.Core.EX_BoundingPolygon"`
-	GM0321CoreCoreDQDataQuality                                         GM0321CoreCoreDQDataQuality                                         `xml:"GM03_2_1Core.Core.DQ_DataQuality"`
-	GM0321CoreCoreDQScope                                               GM0321CoreCoreDQScope                                               `xml:"GM03_2_1Core.Core.DQ_Scope"`
-	GM0321CoreCoreLILineage                                             GM0321CoreCoreLILineage                                             `xml:"GM03_2_1Core.Core.LI_Lineage"`
-	GM0321ComprehensiveComprehensiveMDMetadatalegislationInformation    []GM0321ComprehensiveComprehensiveMDMetadatalegislationInformation  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_MetadatalegislationInformation"`
-	GM0321ComprehensiveComprehensiveMDLegislation                       []GM0321ComprehensiveComprehensiveMDLegislation                     `xml:"GM03_2_1Comprehensive.Comprehensive.MD_Legislation"`
-	GM0321ComprehensiveComprehensiveCISeries                            []GM0321ComprehensiveComprehensiveCISeries                          `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Series"`
+type GM03_2_1Comprehensive_Comprehensive struct {
+	BID                                                                     string                                                                  `xml:"BID,attr"`
+	GM03_2_1Core_Core_MDMetadata                                            GM03_2_1Core_Core_MDMetadata                                            `xml:"GM03_2_1Core.Core.MD_Metadata"`
+	GM03_2_1Core_Core_MDDistribution                                        GM03_2_1Core_Core_MDDistribution                                        `xml:"GM03_2_1Core.Core.MD_Distribution"`
+	GM03_2_1Core_Core_MDDistributiondistributionFormat                      GM03_2_1Core_Core_MDDistributiondistributionFormat                      `xml:"GM03_2_1Core.Core.MD_DistributiondistributionFormat"`
+	GM03_2_1Comprehensive_Comprehensive_MDFormat                            GM03_2_1Comprehensive_Comprehensive_MDFormat                            `xml:"GM03_2_1Comprehensive.Comprehensive.MD_Format"`
+	GM03_2_1Comprehensive_Comprehensive_MDDigitalTransferOptions            GM03_2_1Comprehensive_Comprehensive_MDDigitalTransferOptions            `xml:"GM03_2_1Comprehensive.Comprehensive.MD_DigitalTransferOptions"`
+	GM03_2_1Core_Core_CIOnlineResource                                      []GM03_2_1Core_Core_CIOnlineResource                                    `xml:"GM03_2_1Core.Core.CI_OnlineResource"`
+	GM03_2_1Core_Core_MDMetadatacontact                                     GM03_2_1Core_Core_MDMetadatacontact                                     `xml:"GM03_2_1Core.Core.MD_Metadatacontact"`
+	GM03_2_1Core_Core_CIResponsibleParty                                    []GM03_2_1Core_Core_CIResponsibleParty                                  `xml:"GM03_2_1Core.Core.CI_ResponsibleParty"`
+	GM03_2_1Core_Core_CIAddress                                             []GM03_2_1Core_Core_CIAddress                                           `xml:"GM03_2_1Core.Core.CI_Address"`
+	GM03_2_1Core_Core_CIContact                                             []GM03_2_1Core_Core_CIContact                                           `xml:"GM03_2_1Core.Core.CI_Contact"`
+	GM03_2_1Core_Core_CITelephone                                           []GM03_2_1Core_Core_CITelephone                                         `xml:"GM03_2_1Core.Core.CI_Telephone"`
+	GM03_2_1Comprehensive_Comprehensive_MDVectorSpatialRepresentation       GM03_2_1Comprehensive_Comprehensive_MDVectorSpatialRepresentation       `xml:"GM03_2_1Comprehensive.Comprehensive.MD_VectorSpatialRepresentation"`
+	GM03_2_1Comprehensive_Comprehensive_MDGeometricObjects                  GM03_2_1Comprehensive_Comprehensive_MDGeometricObjects                  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_GeometricObjects"`
+	GM03_2_1Core_Core_referenceSystemInfoMDMetadata                         GM03_2_1Core_Core_referenceSystemInfoMDMetadata                         `xml:"GM03_2_1Core.Core.referenceSystemInfoMD_Metadata"`
+	GM03_2_1Core_Core_MDReferenceSystem                                     GM03_2_1Core_Core_MDReferenceSystem                                     `xml:"GM03_2_1Core.Core.MD_ReferenceSystem"`
+	GM03_2_1Comprehensive_Comprehensive_RSIdentifier                        GM03_2_1Comprehensive_Comprehensive_RSIdentifier                        `xml:"GM03_2_1Comprehensive.Comprehensive.RS_Identifier"`
+	GM03_2_1Comprehensive_Comprehensive_MDDataIdentification                GM03_2_1Comprehensive_Comprehensive_MDDataIdentification                `xml:"GM03_2_1Comprehensive.Comprehensive.MD_DataIdentification"`
+	GM03_2_1Comprehensive_Comprehensive_CICitation                          []GM03_2_1Comprehensive_Comprehensive_CICitation                        `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Citation"`
+	GM03_2_1Core_Core_CIDate                                                []GM03_2_1Core_Core_CIDate                                              `xml:"GM03_2_1Core.Core.CI_Date"`
+	GM03_2_1Comprehensive_Comprehensive_CICitationidentifier                []GM03_2_1Comprehensive_Comprehensive_CICitationidentifier              `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Citationidentifier"`
+	GM03_2_1Core_Core_MDIdentifier                                          []GM03_2_1Core_Core_MDIdentifier                                        `xml:"GM03_2_1Core.Core.MD_Identifier"`
+	GM03_2_1Core_Core_MDIdentificationpointOfContact                        GM03_2_1Core_Core_MDIdentificationpointOfContact                        `xml:"GM03_2_1Core.Core.MD_IdentificationpointOfContact"`
+	GM03_2_1Core_Core_descriptiveKeywordsMDIdentification                   []GM03_2_1Core_Core_descriptiveKeywordsMDIdentification                 `xml:"GM03_2_1Core.Core.descriptiveKeywordsMD_Identification"`
+	GM03_2_1Core_Core_MDKeywords                                            []GM03_2_1Core_Core_MDKeywords                                          `xml:"GM03_2_1Core.Core.MD_Keywords"`
+	GM03_2_1Core_Core_MDThesaurus                                           []GM03_2_1Core_Core_MDThesaurus                                         `xml:"GM03_2_1Core.Core.MD_Thesaurus"`
+	GM03_2_1Comprehensive_Comprehensive_resourceConstraintsMDIdentification GM03_2_1Comprehensive_Comprehensive_resourceConstraintsMDIdentification `xml:"GM03_2_1Comprehensive.Comprehensive.resourceConstraintsMD_Identification"`
+	GM03_2_1Comprehensive_Comprehensive_MDLegalConstraints                  GM03_2_1Comprehensive_Comprehensive_MDLegalConstraints                  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_LegalConstraints"`
+	GM03_2_1Core_Core_MDResolution                                          []GM03_2_1Core_Core_MDResolution                                        `xml:"GM03_2_1Core.Core.MD_Resolution"`
+	GM03_2_1Core_Core_MDRepresentativeFraction                              []GM03_2_1Core_Core_MDRepresentativeFraction                            `xml:"GM03_2_1Core.Core.MD_RepresentativeFraction"`
+	GM03_2_1Core_Core_EXExtent                                              GM03_2_1Core_Core_EXExtent                                              `xml:"GM03_2_1Core.Core.EX_Extent"`
+	GM03_2_1Core_Core_EXExtentgeographicElement                             []GM03_2_1Core_Core_EXExtentgeographicElement                           `xml:"GM03_2_1Core.Core.EX_ExtentgeographicElement"`
+	GM03_2_1Core_Core_EXGeographicBoundingBox                               GM03_2_1Core_Core_EXGeographicBoundingBox                               `xml:"GM03_2_1Core.Core.EX_GeographicBoundingBox"`
+	GM03_2_1Core_Core_EXBoundingPolygon                                     GM03_2_1Core_Core_EXBoundingPolygon                                     `xml:"GM03_2_1Core.Core.EX_BoundingPolygon"`
+	GM03_2_1Core_Core_DQDataQuality                                         GM03_2_1Core_Core_DQDataQuality                                         `xml:"GM03_2_1Core.Core.DQ_DataQuality"`
+	GM03_2_1Core_Core_DQScope                                               GM03_2_1Core_Core_DQScope                                               `xml:"GM03_2_1Core.Core.DQ_Scope"`
+	GM03_2_1Core_Core_LILineage                                             GM03_2_1Core_Core_LILineage                                             `xml:"GM03_2_1Core.Core.LI_Lineage"`
+	GM03_2_1Comprehensive_Comprehensive_MDMetadatalegislationInformation    []GM03_2_1Comprehensive_Comprehensive_MDMetadatalegislationInformation  `xml:"GM03_2_1Comprehensive.Comprehensive.MD_MetadatalegislationInformation"`
+	GM03_2_1Comprehensive_Comprehensive_MDLegislation                       []GM03_2_1Comprehensive_Comprehensive_MDLegislation                     `xml:"GM03_2_1Comprehensive.Comprehensive.MD_Legislation"`
+	GM03_2_1Comprehensive_Comprehensive_CISeries                            []GM03_2_1Comprehensive_Comprehensive_CISeries                          `xml:"GM03_2_1Comprehensive.Comprehensive.CI_Series"`
 }
 
-type GM0321CoreCoreMDMetadata struct {
+type GM03_2_1Core_Core_MDMetadata struct {
 	TID                  string           `xml:"TID,attr"`
 	FileIdentifier       string           `xml:"fileIdentifier"`
 	Language             Language         `xml:"language"`
@@ -72,20 +72,20 @@ type GM0321CoreCoreMDMetadata struct {
 }
 
 type Language struct {
-	CharData               string                   `xml:",chardata"`
-	CodeISOLanguageCodeISO []CodeISOLanguageCodeISO `xml:"CodeISO.LanguageCodeISO_"`
+	CharData                 string                     `xml:",chardata"`
+	CodeISO_LanguageCodeISO_ []CodeISO_LanguageCodeISO_ `xml:"CodeISO.LanguageCodeISO_"`
 }
 
 type CharacterSet struct {
-	CharData                         string                           `xml:",chardata"`
-	GM0321CoreCoreMDCharacterSetCode GM0321CoreCoreMDCharacterSetCode `xml:"GM03_2_1Core.Core.MD_CharacterSetCode_"`
+	CharData                              string                                `xml:",chardata"`
+	GM03_2_1Core_Core_MDCharacterSetCode_ GM03_2_1Core_Core_MDCharacterSetCode_ `xml:"GM03_2_1Core.Core.MD_CharacterSetCode_"`
 }
 
 type HierarchyLevel struct {
-	GM0321CoreCoreMDScopeCode GM0321CoreCoreMDScopeCode `xml:"GM03_2_1Core.Core.MD_ScopeCode_"`
+	GM03_2_1Core_Core_MDScopeCode_ GM03_2_1Core_Core_MDScopeCode_ `xml:"GM03_2_1Core.Core.MD_ScopeCode_"`
 }
 
-type GM0321CoreCoreMDScopeCode struct {
+type GM03_2_1Core_Core_MDScopeCode_ struct {
 	Value string `xml:"value"`
 }
 
@@ -93,11 +93,11 @@ type DistributionInfo struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDDistribution struct {
+type GM03_2_1Core_Core_MDDistribution struct {
 	TID string `xml:"TID,attr"`
 }
 
-type GM0321CoreCoreMDDistributiondistributionFormat struct {
+type GM03_2_1Core_Core_MDDistributiondistributionFormat struct {
 	MDDistribution     MDDistribution     `xml:"MD_Distribution"`
 	DistributionFormat DistributionFormat `xml:"distributionFormat"`
 }
@@ -110,23 +110,23 @@ type DistributionFormat struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveMDFormat struct {
+type GM03_2_1Comprehensive_Comprehensive_MDFormat struct {
 	TID     string  `xml:"TID,attr"`
 	Name    Name    `xml:"name"`
 	Version float64 `xml:"version"`
 }
 
 type Name struct {
-	CharData                 string                   `xml:",chardata"`
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	CharData                     string                       `xml:",chardata"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321ComprehensiveComprehensiveMDDigitalTransferOptions struct {
+type GM03_2_1Comprehensive_Comprehensive_MDDigitalTransferOptions struct {
 	TID            string         `xml:"TID,attr"`
 	MDDistribution MDDistribution `xml:"MD_Distribution"`
 }
 
-type GM0321CoreCoreCIOnlineResource struct {
+type GM03_2_1Core_Core_CIOnlineResource struct {
 	TID                      string                   `xml:"TID,attr"`
 	Protocol                 string                   `xml:"protocol"`
 	Description              Description              `xml:"description"`
@@ -137,35 +137,35 @@ type GM0321CoreCoreCIOnlineResource struct {
 }
 
 type Description struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321CoreCorePTFreeText struct {
+type GM03_2_1Core_Core_PTFreeText struct {
 	TextGroup TextGroup `xml:"textGroup"`
 }
 
 type TextGroup struct {
-	GM0321CoreCorePTGroup []GM0321CoreCorePTGroup `xml:"GM03_2_1Core.Core.PT_Group"`
+	GM03_2_1Core_Core_PTGroup []GM03_2_1Core_Core_PTGroup `xml:"GM03_2_1Core.Core.PT_Group"`
 }
 
-type GM0321CoreCorePTGroup struct {
+type GM03_2_1Core_Core_PTGroup struct {
 	Language  Language `xml:"language"`
 	PlainText string   `xml:"plainText"`
 }
 
 type Linkage struct {
-	GM0321CoreCorePTFreeURL GM0321CoreCorePTFreeURL `xml:"GM03_2_1Core.Core.PT_FreeURL"`
+	GM03_2_1Core_Core_PTFreeURL GM03_2_1Core_Core_PTFreeURL `xml:"GM03_2_1Core.Core.PT_FreeURL"`
 }
 
-type GM0321CoreCorePTFreeURL struct {
+type GM03_2_1Core_Core_PTFreeURL struct {
 	URLGroup URLGroup `xml:"URLGroup"`
 }
 
 type URLGroup struct {
-	GM0321CoreCorePTURLGroup []GM0321CoreCorePTURLGroup `xml:"GM03_2_1Core.Core.PT_URLGroup"`
+	GM03_2_1Core_Core_PTURLGroup []GM03_2_1Core_Core_PTURLGroup `xml:"GM03_2_1Core.Core.PT_URLGroup"`
 }
 
-type GM0321CoreCorePTURLGroup struct {
+type GM03_2_1Core_Core_PTURLGroup struct {
 	Language Language `xml:"language"`
 	PlainURL string   `xml:"plainURL"`
 }
@@ -174,7 +174,7 @@ type MDDigitalTransferOptions struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDMetadatacontact struct {
+type GM03_2_1Core_Core_MDMetadatacontact struct {
 	Contact    Contact    `xml:"contact"`
 	MDMetadata MDMetadata `xml:"MD_Metadata"`
 	Role       Role       `xml:"role"`
@@ -189,14 +189,14 @@ type MDMetadata struct {
 }
 
 type Role struct {
-	GM0321CoreCoreCIRoleCode GM0321CoreCoreCIRoleCode `xml:"GM03_2_1Core.Core.CI_RoleCode_"`
+	GM03_2_1Core_Core_CIRoleCode_ GM03_2_1Core_Core_CIRoleCode_ `xml:"GM03_2_1Core.Core.CI_RoleCode_"`
 }
 
-type GM0321CoreCoreCIRoleCode struct {
+type GM03_2_1Core_Core_CIRoleCode_ struct {
 	Value string `xml:"value"`
 }
 
-type GM0321CoreCoreCIResponsibleParty struct {
+type GM03_2_1Core_Core_CIResponsibleParty struct {
 	TID                     string                  `xml:"TID,attr"`
 	IndividualFirstName     *string                 `xml:"individualFirstName"`
 	IndividualLastName      string                  `xml:"individualLastName"`
@@ -210,23 +210,23 @@ type GM0321CoreCoreCIResponsibleParty struct {
 }
 
 type ElectronicalMailAddress struct {
-	GM0321CoreCoreURL GM0321CoreCoreURL `xml:"GM03_2_1Core.Core.URL_"`
+	GM03_2_1Core_Core_URL_ GM03_2_1Core_Core_URL_ `xml:"GM03_2_1Core.Core.URL_"`
 }
 
-type GM0321CoreCoreURL struct {
+type GM03_2_1Core_Core_URL_ struct {
 	Value string `xml:"value"`
 }
 
 type OrganisationName struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type PositionName struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type OrganisationAcronym struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type Address struct {
@@ -237,7 +237,7 @@ type ContactInfo struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreCIAddress struct {
+type GM03_2_1Core_Core_CIAddress struct {
 	TID        string  `xml:"TID,attr"`
 	PostalCode string  `xml:"postalCode"`
 	City       string  `xml:"city"`
@@ -245,15 +245,15 @@ type GM0321CoreCoreCIAddress struct {
 }
 
 type Country struct {
-	CharData              string                `xml:",chardata"`
-	CodeISOCountryCodeISO CodeISOCountryCodeISO `xml:"CodeISO.CountryCodeISO_"`
+	CharData                string                  `xml:",chardata"`
+	CodeISO_CountryCodeISO_ CodeISO_CountryCodeISO_ `xml:"CodeISO.CountryCodeISO_"`
 }
 
-type GM0321CoreCoreCIContact struct {
+type GM03_2_1Core_Core_CIContact struct {
 	TID string `xml:"TID,attr"`
 }
 
-type GM0321CoreCoreCITelephone struct {
+type GM03_2_1Core_Core_CITelephone struct {
 	TID                string             `xml:"TID,attr"`
 	Number             string             `xml:"number"`
 	NumberType         string             `xml:"numberType"`
@@ -264,13 +264,13 @@ type CIResponsibleParty struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveMDVectorSpatialRepresentation struct {
+type GM03_2_1Comprehensive_Comprehensive_MDVectorSpatialRepresentation struct {
 	Gml320     string     `xml:"gml320,attr"`
 	TID        string     `xml:"TID,attr"`
 	MDMetadata MDMetadata `xml:"MD_Metadata"`
 }
 
-type GM0321ComprehensiveComprehensiveMDGeometricObjects struct {
+type GM03_2_1Comprehensive_Comprehensive_MDGeometricObjects struct {
 	TID                           string                        `xml:"TID,attr"`
 	GeometricObjectType           string                        `xml:"geometricObjectType"`
 	MDVectorSpatialRepresentation MDVectorSpatialRepresentation `xml:"MD_VectorSpatialRepresentation"`
@@ -280,7 +280,7 @@ type MDVectorSpatialRepresentation struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCorereferenceSystemInfoMDMetadata struct {
+type GM03_2_1Core_Core_referenceSystemInfoMDMetadata struct {
 	ReferenceSystemInfo ReferenceSystemInfo `xml:"referenceSystemInfo"`
 	MDMetadata          MDMetadata          `xml:"MD_Metadata"`
 }
@@ -289,7 +289,7 @@ type ReferenceSystemInfo struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDReferenceSystem struct {
+type GM03_2_1Core_Core_MDReferenceSystem struct {
 	TID                       string                    `xml:"TID,attr"`
 	ReferenceSystemIdentifier ReferenceSystemIdentifier `xml:"referenceSystemIdentifier"`
 }
@@ -298,16 +298,16 @@ type ReferenceSystemIdentifier struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveRSIdentifier struct {
+type GM03_2_1Comprehensive_Comprehensive_RSIdentifier struct {
 	TID  string `xml:"TID,attr"`
 	Code Code   `xml:"code"`
 }
 
 type Code struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321ComprehensiveComprehensiveMDDataIdentification struct {
+type GM03_2_1Comprehensive_Comprehensive_MDDataIdentification struct {
 	TID                       string                    `xml:"TID,attr"`
 	Status                    Status                    `xml:"status"`
 	Abstract                  Abstract                  `xml:"abstract"`
@@ -320,15 +320,15 @@ type GM0321ComprehensiveComprehensiveMDDataIdentification struct {
 }
 
 type Status struct {
-	GM0321CoreCoreMDProgressCode GM0321CoreCoreMDProgressCode `xml:"GM03_2_1Core.Core.MD_ProgressCode_"`
+	GM03_2_1Core_Core_MDProgressCode_ GM03_2_1Core_Core_MDProgressCode_ `xml:"GM03_2_1Core.Core.MD_ProgressCode_"`
 }
 
-type GM0321CoreCoreMDProgressCode struct {
+type GM03_2_1Core_Core_MDProgressCode_ struct {
 	Value string `xml:"value"`
 }
 
 type Abstract struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type Citation struct {
@@ -336,30 +336,30 @@ type Citation struct {
 }
 
 type SpatialRepresentationType struct {
-	GM0321CoreCoreMDSpatialRepresentationTypeCode GM0321CoreCoreMDSpatialRepresentationTypeCode `xml:"GM03_2_1Core.Core.MD_SpatialRepresentationTypeCode_"`
+	GM03_2_1Core_Core_MDSpatialRepresentationTypeCode_ GM03_2_1Core_Core_MDSpatialRepresentationTypeCode_ `xml:"GM03_2_1Core.Core.MD_SpatialRepresentationTypeCode_"`
 }
 
-type GM0321CoreCoreMDSpatialRepresentationTypeCode struct {
+type GM03_2_1Core_Core_MDSpatialRepresentationTypeCode_ struct {
 	Value string `xml:"value"`
 }
 
-type CodeISOLanguageCodeISO struct {
+type CodeISO_LanguageCodeISO_ struct {
 	Value string `xml:"value"`
 }
 
-type GM0321CoreCoreMDCharacterSetCode struct {
+type GM03_2_1Core_Core_MDCharacterSetCode_ struct {
 	Value string `xml:"value"`
 }
 
 type TopicCategory struct {
-	GM0321CoreCoreMDTopicCategoryCode GM0321CoreCoreMDTopicCategoryCode `xml:"GM03_2_1Core.Core.MD_TopicCategoryCode_"`
+	GM03_2_1Core_Core_MDTopicCategoryCode_ GM03_2_1Core_Core_MDTopicCategoryCode_ `xml:"GM03_2_1Core.Core.MD_TopicCategoryCode_"`
 }
 
-type GM0321CoreCoreMDTopicCategoryCode struct {
+type GM03_2_1Core_Core_MDTopicCategoryCode_ struct {
 	Value string `xml:"value"`
 }
 
-type GM0321ComprehensiveComprehensiveCICitation struct {
+type GM03_2_1Comprehensive_Comprehensive_CICitation struct {
 	TID                  string                `xml:"TID,attr"`
 	Title                Title                 `xml:"title"`
 	AlternateTitle       *AlternateTitle       `xml:"alternateTitle"`
@@ -368,15 +368,15 @@ type GM0321ComprehensiveComprehensiveCICitation struct {
 }
 
 type Title struct {
-	REF                      *string                   `xml:"REF,attr"`
-	GM0321CoreCorePTFreeText *GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	REF                          *string                       `xml:"REF,attr"`
+	GM03_2_1Core_Core_PTFreeText *GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type AlternateTitle struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321CoreCoreCIDate struct {
+type GM03_2_1Core_Core_CIDate struct {
 	TID        string     `xml:"TID,attr"`
 	Date       string     `xml:"date"`
 	DateType   string     `xml:"dateType"`
@@ -387,7 +387,7 @@ type CICitation struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveCICitationidentifier struct {
+type GM03_2_1Comprehensive_Comprehensive_CICitationidentifier struct {
 	Identifier Identifier `xml:"identifier"`
 	CICitation CICitation `xml:"CI_Citation"`
 }
@@ -396,12 +396,12 @@ type Identifier struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDIdentifier struct {
+type GM03_2_1Core_Core_MDIdentifier struct {
 	TID  string `xml:"TID,attr"`
 	Code Code   `xml:"code"`
 }
 
-type GM0321CoreCoreMDIdentificationpointOfContact struct {
+type GM03_2_1Core_Core_MDIdentificationpointOfContact struct {
 	PointOfContact   PointOfContact   `xml:"pointOfContact"`
 	MDIdentification MDIdentification `xml:"MD_Identification"`
 	Role             Role             `xml:"role"`
@@ -415,7 +415,7 @@ type MDIdentification struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoredescriptiveKeywordsMDIdentification struct {
+type GM03_2_1Core_Core_descriptiveKeywordsMDIdentification struct {
 	DescriptiveKeywords DescriptiveKeywords `xml:"descriptiveKeywords"`
 	MDIdentification    MDIdentification    `xml:"MD_Identification"`
 }
@@ -424,26 +424,26 @@ type DescriptiveKeywords struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDKeywords struct {
+type GM03_2_1Core_Core_MDKeywords struct {
 	TID       string    `xml:"TID,attr"`
 	Keyword   Keyword   `xml:"keyword"`
 	Thesaurus Thesaurus `xml:"thesaurus"`
 }
 
 type Keyword struct {
-	GM0321CoreCorePTFreeText []GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText []GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type Thesaurus struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDThesaurus struct {
+type GM03_2_1Core_Core_MDThesaurus struct {
 	TID      string   `xml:"TID,attr"`
 	Citation Citation `xml:"citation"`
 }
 
-type GM0321ComprehensiveComprehensiveresourceConstraintsMDIdentification struct {
+type GM03_2_1Comprehensive_Comprehensive_resourceConstraintsMDIdentification struct {
 	ResourceConstraints ResourceConstraints `xml:"resourceConstraints"`
 	MDIdentification    MDIdentification    `xml:"MD_Identification"`
 }
@@ -452,25 +452,25 @@ type ResourceConstraints struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveMDLegalConstraints struct {
+type GM03_2_1Comprehensive_Comprehensive_MDLegalConstraints struct {
 	TID              string           `xml:"TID,attr"`
 	UseConstraints   UseConstraints   `xml:"useConstraints"`
 	OtherConstraints OtherConstraints `xml:"otherConstraints"`
 }
 
 type UseConstraints struct {
-	GM0321ComprehensiveComprehensiveMDRestrictionCode GM0321ComprehensiveComprehensiveMDRestrictionCode `xml:"GM03_2_1Comprehensive.Comprehensive.MD_RestrictionCode_"`
+	GM03_2_1Comprehensive_Comprehensive_MDRestrictionCode_ GM03_2_1Comprehensive_Comprehensive_MDRestrictionCode_ `xml:"GM03_2_1Comprehensive.Comprehensive.MD_RestrictionCode_"`
 }
 
-type GM0321ComprehensiveComprehensiveMDRestrictionCode struct {
+type GM03_2_1Comprehensive_Comprehensive_MDRestrictionCode_ struct {
 	Value string `xml:"value"`
 }
 
 type OtherConstraints struct {
-	GM0321CoreCorePTFreeText []GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText []GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321CoreCoreMDResolution struct {
+type GM03_2_1Core_Core_MDResolution struct {
 	TID                  string               `xml:"TID,attr"`
 	MDDataIdentification MDDataIdentification `xml:"MD_DataIdentification"`
 	EquivalentScale      EquivalentScale      `xml:"equivalentScale"`
@@ -484,18 +484,18 @@ type EquivalentScale struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreMDRepresentativeFraction struct {
+type GM03_2_1Core_Core_MDRepresentativeFraction struct {
 	TID         string `xml:"TID,attr"`
 	Denominator int    `xml:"denominator"`
 }
 
-type GM0321CoreCoreEXExtent struct {
+type GM03_2_1Core_Core_EXExtent struct {
 	TID                  string               `xml:"TID,attr"`
 	Description          Description          `xml:"description"`
 	MDDataIdentification MDDataIdentification `xml:"MD_DataIdentification"`
 }
 
-type GM0321CoreCoreEXExtentgeographicElement struct {
+type GM03_2_1Core_Core_EXExtentgeographicElement struct {
 	EXExtent          EXExtent          `xml:"EX_Extent"`
 	GeographicElement GeographicElement `xml:"geographicElement"`
 }
@@ -508,7 +508,7 @@ type GeographicElement struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreEXGeographicBoundingBox struct {
+type GM03_2_1Core_Core_EXGeographicBoundingBox struct {
 	TID                string  `xml:"TID,attr"`
 	NorthBoundLatitude float64 `xml:"northBoundLatitude"`
 	SouthBoundLatitude float64 `xml:"southBoundLatitude"`
@@ -516,7 +516,7 @@ type GM0321CoreCoreEXGeographicBoundingBox struct {
 	WestBoundLongitude float64 `xml:"westBoundLongitude"`
 }
 
-type GM0321CoreCoreEXBoundingPolygon struct {
+type GM03_2_1Core_Core_EXBoundingPolygon struct {
 	TID     string  `xml:"TID,attr"`
 	Polygon Polygon `xml:"polygon"`
 }
@@ -542,13 +542,13 @@ type Coord struct {
 	C2 float64 `xml:"C2"`
 }
 
-type GM0321CoreCoreDQDataQuality struct {
+type GM03_2_1Core_Core_DQDataQuality struct {
 	Gml320     string     `xml:"gml320,attr"`
 	TID        string     `xml:"TID,attr"`
 	MDMetadata MDMetadata `xml:"MD_Metadata"`
 }
 
-type GM0321CoreCoreDQScope struct {
+type GM03_2_1Core_Core_DQScope struct {
 	TID           string        `xml:"TID,attr"`
 	Level         string        `xml:"level"`
 	DQDataQuality DQDataQuality `xml:"DQ_DataQuality"`
@@ -558,17 +558,17 @@ type DQDataQuality struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321CoreCoreLILineage struct {
+type GM03_2_1Core_Core_LILineage struct {
 	TID           string        `xml:"TID,attr"`
 	Statement     Statement     `xml:"statement"`
 	DQDataQuality DQDataQuality `xml:"DQ_DataQuality"`
 }
 
 type Statement struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
-type GM0321ComprehensiveComprehensiveMDMetadatalegislationInformation struct {
+type GM03_2_1Comprehensive_Comprehensive_MDMetadatalegislationInformation struct {
 	MDMetadata             MDMetadata             `xml:"MD_Metadata"`
 	LegislationInformation LegislationInformation `xml:"legislationInformation"`
 }
@@ -577,7 +577,7 @@ type LegislationInformation struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveMDLegislation struct {
+type GM03_2_1Comprehensive_Comprehensive_MDLegislation struct {
 	TID               string            `xml:"TID,attr"`
 	Country           Country           `xml:"country"`
 	Language          Language          `xml:"language"`
@@ -586,27 +586,27 @@ type GM0321ComprehensiveComprehensiveMDLegislation struct {
 	Title             Title             `xml:"title"`
 }
 
-type CodeISOCountryCodeISO struct {
+type CodeISO_CountryCodeISO_ struct {
 	Value string `xml:"value"`
 }
 
 type InternalReference struct {
-	GM0321CoreCoreCharacterString GM0321CoreCoreCharacterString `xml:"GM03_2_1Core.Core.CharacterString_"`
+	GM03_2_1Core_Core_CharacterString_ GM03_2_1Core_Core_CharacterString_ `xml:"GM03_2_1Core.Core.CharacterString_"`
 }
 
-type GM0321CoreCoreCharacterString struct {
+type GM03_2_1Core_Core_CharacterString_ struct {
 	Value string `xml:"value"`
 }
 
 type OtherCitationDetails struct {
-	GM0321CoreCorePTFreeText GM0321CoreCorePTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
+	GM03_2_1Core_Core_PTFreeText GM03_2_1Core_Core_PTFreeText `xml:"GM03_2_1Core.Core.PT_FreeText"`
 }
 
 type Series struct {
 	REF string `xml:"REF,attr"`
 }
 
-type GM0321ComprehensiveComprehensiveCISeries struct {
+type GM03_2_1Comprehensive_Comprehensive_CISeries struct {
 	TID  string `xml:"TID,attr"`
 	Name Name   `xml:"name"`
 }
