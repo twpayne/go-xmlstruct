@@ -509,7 +509,7 @@ type FontFace struct {
 	Hanging            *int         `xml:"hanging,attr"`
 	Ideographic        *int         `xml:"ideographic,attr"`
 	Mathematical       *int         `xml:"mathematical,attr"`
-	Panose1            *string      `xml:"panose-1,attr"`
+	Panose_1           *string      `xml:"panose-1,attr"`
 	Slope              *float64     `xml:"slope,attr"`
 	StemH              *int         `xml:"stemh,attr"`
 	StemV              *int         `xml:"stemv,attr"`
