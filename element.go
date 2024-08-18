@@ -5,9 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
+	"slices"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and
@@ -169,7 +167,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\t%s string `xml:\",chardata\"`\n", indentPrefix, fieldName)
 	}
 
-	childElements := maps.Values(e.childElements)
+	childElements := mapValues(e.childElements)
 	if options.preserveOrder {
 		slices.SortFunc(childElements, func(a, b *element) int {
 			return e.childOrder[a.name] - e.childOrder[b.name]

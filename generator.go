@@ -7,12 +7,12 @@ import (
 	"go/format"
 	"io"
 	"io/fs"
+	"maps"
 	"os"
+	"slices"
 	"sort"
 	"strings"
 
-	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 	"golang.org/x/net/html/charset"
 )
 
@@ -246,9 +246,9 @@ func (g *Generator) Generate() ([]byte, error) {
 			options.simpleTypes[name] = struct{}{}
 			delete(options.namedTypes, name)
 		}
-		typeElements = maps.Values(options.namedTypes)
+		typeElements = mapValues(options.namedTypes)
 	} else {
-		typeElements = maps.Values(g.typeElements)
+		typeElements = mapValues(g.typeElements)
 	}
 
 	if options.preserveOrder {
@@ -304,7 +304,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		}
 	default:
 		fmt.Fprintf(sourceBuilder, "import (\n")
-		importPackageNames := maps.Keys(options.importPackageNames)
+		importPackageNames := mapKeys(options.importPackageNames)
 		sort.Strings(importPackageNames)
 		for _, importPackageName := range importPackageNames {
 			fmt.Fprintf(sourceBuilder, "\t%q\n", importPackageName)
