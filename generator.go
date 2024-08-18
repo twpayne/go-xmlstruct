@@ -22,6 +22,10 @@ var (
 	SkipFile = errors.New("skip file") //nolint:errname,revive
 )
 
+// A ModifyDecoderFunc makes arbitrary changes to an encoding/xml.Decoder before
+// it is used.
+type ModifyDecoderFunc func(*xml.Decoder)
+
 // A Generator observes XML documents and generates Go structs into which the
 // XML documents can be unmarshalled.
 type Generator struct {
@@ -33,6 +37,7 @@ type Generator struct {
 	formatSource                 bool
 	header                       string
 	intType                      string
+	modifyDecoderFunc            ModifyDecoderFunc
 	nameFunc                     NameFunc
 	namedTypes                   bool
 	order                        int
@@ -103,6 +108,14 @@ func WithHeader(header string) GeneratorOption {
 func WithIntType(intType string) GeneratorOption {
 	return func(g *Generator) {
 		g.intType = intType
+	}
+}
+
+// WithModifyDecoderFunc sets the function that will modify the
+// encoding/xml.Decoder used.
+func WithModifyDecoderFunc(modifyDecoderFunc ModifyDecoderFunc) GeneratorOption {
+	return func(g *Generator) {
+		g.modifyDecoderFunc = modifyDecoderFunc
 	}
 }
 
@@ -370,6 +383,9 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 
 	decoder := xml.NewDecoder(r)
 	decoder.CharsetReader = charset.NewReaderLabel
+	if g.modifyDecoderFunc != nil {
+		g.modifyDecoderFunc(decoder)
+	}
 FOR:
 	for {
 		var token xml.Token
