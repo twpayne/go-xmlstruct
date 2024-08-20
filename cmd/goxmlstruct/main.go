@@ -14,6 +14,7 @@ var (
 	formatSource                 = flag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
 	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
+	imports                      = flag.Bool("imports", xmlstruct.DefaultImports, "generate import statements")
 	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
 	namedRoot                    = flag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
 	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
@@ -39,6 +40,7 @@ func run() error {
 		xmlstruct.WithCharDataFieldName(*charDataFieldName),
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
+		xmlstruct.WithImports(*imports),
 		xmlstruct.WithIntType(*intType),
 		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithNamedRoot(*namedRoot),
