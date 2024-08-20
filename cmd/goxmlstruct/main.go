@@ -23,6 +23,7 @@ var (
 	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
+	typesOnly                    = flag.Bool("types-only", false, "generate structs only, without header, package, or imports")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
 	noEmptyElements              = flag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
@@ -34,6 +35,12 @@ func run() error {
 	nameFunc := xmlstruct.IdentityNameFunc
 	if *ignoreNamespaces {
 		nameFunc = xmlstruct.IgnoreNamespaceNameFunc
+	}
+
+	if *typesOnly {
+		*header = ""
+		*imports = false
+		*packageName = ""
 	}
 
 	generator := xmlstruct.NewGenerator(
