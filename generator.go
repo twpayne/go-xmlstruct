@@ -36,6 +36,7 @@ type Generator struct {
 	exportRenames                map[string]string
 	formatSource                 bool
 	header                       string
+	imports                      bool
 	intType                      string
 	modifyDecoderFunc            ModifyDecoderFunc
 	nameFunc                     NameFunc
@@ -102,6 +103,13 @@ func WithFormatSource(formatSource bool) GeneratorOption {
 func WithHeader(header string) GeneratorOption {
 	return func(g *Generator) {
 		g.header = header
+	}
+}
+
+// WithImports sets whether to include an import statement in the generated code.
+func WithImports(withImports bool) GeneratorOption {
+	return func(g *Generator) {
+		g.imports = withImports
 	}
 }
 
@@ -202,6 +210,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		elemNameSuffix:               DefaultElemNameSuffix,
 		formatSource:                 DefaultFormatSource,
 		header:                       DefaultHeader,
+		imports:                      DefaultImports,
 		intType:                      DefaultIntType,
 		nameFunc:                     DefaultNameFunc,
 		namedRoot:                    DefaultNamedRoot,
@@ -309,21 +318,23 @@ func (g *Generator) Generate() ([]byte, error) {
 	}
 	packageDeclaration := "package " + packageName + "\n"
 	sourceBuilder.WriteString(packageDeclaration)
-	switch len(options.importPackageNames) {
-	case 0:
-		// Do nothing.
-	case 1:
-		for importPackageName := range options.importPackageNames {
-			fmt.Fprintf(sourceBuilder, "import %q\n", importPackageName)
+	if g.imports {
+		switch len(options.importPackageNames) {
+		case 0:
+			// Do nothing.
+		case 1:
+			for importPackageName := range options.importPackageNames {
+				fmt.Fprintf(sourceBuilder, "import %q\n", importPackageName)
+			}
+		default:
+			fmt.Fprintf(sourceBuilder, "import (\n")
+			importPackageNames := mapKeys(options.importPackageNames)
+			sort.Strings(importPackageNames)
+			for _, importPackageName := range importPackageNames {
+				fmt.Fprintf(sourceBuilder, "\t%q\n", importPackageName)
+			}
+			fmt.Fprintf(sourceBuilder, ")\n")
 		}
-	default:
-		fmt.Fprintf(sourceBuilder, "import (\n")
-		importPackageNames := mapKeys(options.importPackageNames)
-		sort.Strings(importPackageNames)
-		for _, importPackageName := range importPackageNames {
-			fmt.Fprintf(sourceBuilder, "\t%q\n", importPackageName)
-		}
-		fmt.Fprintf(sourceBuilder, ")\n")
 	}
 	sourceBuilder.WriteString(typesBuilder.String())
 
