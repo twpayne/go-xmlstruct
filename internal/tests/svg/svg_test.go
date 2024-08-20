@@ -4,7 +4,6 @@ import (
 	"archive/tar"
 	"compress/gzip"
 	"errors"
-	"fmt"
 	"io"
 	"os"
 	"strings"
@@ -93,7 +92,7 @@ func TestSVG(t *testing.T) {
 			continue
 		}
 		if err := generator.ObserveReader(tarReader); err != nil {
-			t.Logf(fmt.Sprintf("%s: %v", header.Name, err))
+			t.Logf("%s: %v", header.Name, err)
 		}
 	}
 
