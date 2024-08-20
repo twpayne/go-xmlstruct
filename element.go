@@ -20,6 +20,7 @@ type element struct {
 	name             xml.Name
 	optionalChildren map[xml.Name]struct{}
 	repeatedChildren map[xml.Name]struct{}
+	root             bool
 }
 
 // newElement returns a new element.
@@ -154,6 +155,9 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		}
 		fieldNames[exportedAttrName] = struct{}{}
 		attrValuesByExportedName[exportedAttrName] = attrValue
+	}
+	if e.root && options.namedRoot {
+		fmt.Fprintf(w, "%s\tXMLName xml.Name `xml:\"%s\"`\n", indentPrefix, e.name.Local)
 	}
 	for _, exportedAttrName := range sortedKeys(attrValuesByExportedName) {
 		attrValue := attrValuesByExportedName[exportedAttrName]

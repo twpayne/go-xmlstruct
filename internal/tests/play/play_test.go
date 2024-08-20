@@ -1,6 +1,7 @@
 package play
 
 import (
+	"bytes"
 	"encoding/xml"
 	"os"
 	"testing"
@@ -33,6 +34,7 @@ func TestPlay(t *testing.T) {
 			"STAGEDIR": "StageDirection",
 			"TITLE":    "Title",
 		}),
+		xmlstruct.WithNamedRoot(true),
 		xmlstruct.WithNamedTypes(true),
 		xmlstruct.WithPackageName("play"),
 		xmlstruct.WithPreserveOrder(true),
@@ -56,4 +58,9 @@ func TestPlay(t *testing.T) {
 
 	assert.Equal(t, 5, len(allsWellThatEndsWell.Act))
 	assert.Equal(t, "All's well that ends well; still the fine's the crown;", allsWellThatEndsWell.Act[3].Scene[3].Speech[4].Line[5].CharData)
+
+	marshaledData, err := xml.Marshal(allsWellThatEndsWell)
+	assert.NoError(t, err)
+	assert.True(t, bytes.HasPrefix(marshaledData, []byte("<PLAY>")))
+	assert.True(t, bytes.HasSuffix(marshaledData, []byte("</PLAY>")))
 }
