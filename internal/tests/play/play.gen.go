@@ -2,7 +2,10 @@
 
 package play
 
+import "encoding/xml"
+
 type Play struct {
+	XMLName          xml.Name    `xml:"PLAY"`
 	Title            string      `xml:"TITLE"`
 	FrontMatter      FrontMatter `xml:"FM"`
 	Personae         Personae    `xml:"PERSONAE"`

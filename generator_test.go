@@ -500,6 +500,29 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name: "named_root",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedRoot(true),
+			},
+			xmlStr: joinLines(
+				"<a>",
+				"  <b>c</b>",
+				"</a>",
+			),
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				"\tB       string   `xml:\"b\"`",
+				`}`,
+			),
+		},
 	} {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {

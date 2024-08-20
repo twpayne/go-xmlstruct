@@ -39,6 +39,7 @@ type Generator struct {
 	intType                      string
 	modifyDecoderFunc            ModifyDecoderFunc
 	nameFunc                     NameFunc
+	namedRoot                    bool
 	namedTypes                   bool
 	order                        int
 	packageName                  string
@@ -126,6 +127,13 @@ func WithNameFunc(nameFunc NameFunc) GeneratorOption {
 	}
 }
 
+// WithNamedRoot sets whether to generate an XMLName field for the root element.
+func WithNamedRoot(namedRoot bool) GeneratorOption {
+	return func(o *Generator) {
+		o.namedRoot = namedRoot
+	}
+}
+
 // WithNamedTypes sets whether all to generate named types for all elements.
 func WithNamedTypes(namedTypes bool) GeneratorOption {
 	return func(o *Generator) {
@@ -196,6 +204,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		header:                       DefaultHeader,
 		intType:                      DefaultIntType,
 		nameFunc:                     DefaultNameFunc,
+		namedRoot:                    DefaultNamedRoot,
 		namedTypes:                   DefaultNamedTypes,
 		packageName:                  DefaultPackageName,
 		preserveOrder:                DefaultPreserveOrder,
@@ -230,9 +239,14 @@ func (g *Generator) Generate() ([]byte, error) {
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),
 		intType:                      g.intType,
+		namedRoot:                    g.namedRoot,
 		preserveOrder:                g.preserveOrder,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 		emptyElements:                g.emptyElements,
+	}
+
+	if options.namedRoot {
+		options.importPackageNames["encoding/xml"] = struct{}{}
 	}
 
 	var typeElements []*element
@@ -386,6 +400,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 	if g.modifyDecoderFunc != nil {
 		g.modifyDecoderFunc(decoder)
 	}
+	var rootElement *element
 FOR:
 	for {
 		var token xml.Token
@@ -413,6 +428,10 @@ FOR:
 				}
 				if _, ok := g.typeOrder[name]; !ok {
 					g.typeOrder[name] = options.getOrder()
+				}
+				if rootElement == nil {
+					rootElement = typeElement
+					rootElement.root = true
 				}
 				if err := typeElement.observeChildElement(decoder, startElement, 0, &options); err != nil {
 					return err
