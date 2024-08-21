@@ -87,13 +87,15 @@ func WithEmptyElements(emptyElements bool) GeneratorOption {
 }
 
 // WithExportNameFunc sets the export name function for the generated Go source.
+// It overrides WithExportRenames.
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 	return func(g *Generator) {
 		g.exportNameFunc = exportNameFunc
 	}
 }
 
-// WithExportRenames sets the export renames.
+// WithExportRenames sets the export renames. It is overridden by
+// WithExportRenameFunc.
 func WithExportRenames(exportRenames map[string]string) GeneratorOption {
 	return func(g *Generator) {
 		g.exportRenames = exportRenames
