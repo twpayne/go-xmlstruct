@@ -351,7 +351,12 @@ func (g *Generator) Generate() ([]byte, error) {
 		}
 		sourceWithoutPackageDeclaration := make([]byte, 0, len(source))
 		sourceWithoutPackageDeclaration = append(sourceWithoutPackageDeclaration, source[:indexOfPackageDeclaration]...)
-		sourceWithoutPackageDeclaration = append(sourceWithoutPackageDeclaration, source[indexOfPackageDeclaration+len(packageDeclaration)+1:]...)
+		indexOfTypeDecleration := indexOfPackageDeclaration + len(packageDeclaration)
+		// remove \n prefix
+		if len(source) > indexOfTypeDecleration {
+			indexOfTypeDecleration++
+		}
+		sourceWithoutPackageDeclaration = append(sourceWithoutPackageDeclaration, source[indexOfTypeDecleration:]...)
 		source = sourceWithoutPackageDeclaration
 	}
 

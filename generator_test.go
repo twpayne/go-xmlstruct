@@ -260,6 +260,17 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
+			name: "no_package_empty_input",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithNamedTypes(true),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithFormatSource(true),
+			},
+			xmlStr:      "",
+			expectedStr: "",
+		},
+		{
 			name: "no_package_unformatted",
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithNamedTypes(true),
