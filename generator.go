@@ -78,6 +78,14 @@ func WithElemNameSuffix(elemSuffix string) GeneratorOption {
 	}
 }
 
+// WithEmptyElements sets whether to use type struct{} or string
+// for empty xml elements.
+func WithEmptyElements(emptyElements bool) GeneratorOption {
+	return func(g *Generator) {
+		g.emptyElements = emptyElements
+	}
+}
+
 // WithExportNameFunc sets the export name function for the generated Go source.
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 	return func(g *Generator) {
@@ -191,14 +199,6 @@ func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) Generat
 func WithUseRawToken(useRawToken bool) GeneratorOption {
 	return func(g *Generator) {
 		g.useRawToken = useRawToken
-	}
-}
-
-// WithEmptyElements sets whether to use type struct{} or string
-// for empty xml elements.
-func WithEmptyElements(emptyElements bool) GeneratorOption {
-	return func(g *Generator) {
-		g.emptyElements = emptyElements
 	}
 }
 
