@@ -94,7 +94,7 @@ $ cd go-xmlstruct
 $ goxmlstruct internal/tests/gpx/testdata/*.gpx
 ```
 
-This demonstrates generating a Go struct from multiple XML complex documents.
+This demonstrates generating a Go struct from multiple complex XML documents.
 
 For an example of configurable field naming and named types by using
 go-xmlstruct as a package, see
