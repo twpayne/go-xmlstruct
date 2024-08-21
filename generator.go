@@ -263,7 +263,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		options.namedTypes = maps.Clone(g.typeElements)
 		options.simpleTypes = make(map[xml.Name]struct{})
 		for name, element := range options.namedTypes {
-			if len(element.attrValues) != 0 || len(element.childElements) != 0 {
+			if len(element.attrValues) != 0 || len(element.childElements) != 0 || element.root {
 				continue
 			}
 			options.simpleTypes[name] = struct{}{}
@@ -416,7 +416,7 @@ func (g *Generator) ObserveReader(r io.Reader) error {
 	if g.modifyDecoderFunc != nil {
 		g.modifyDecoderFunc(decoder)
 	}
-	var rootElement *element
+	var foundRootElement bool
 FOR:
 	for {
 		var token xml.Token
@@ -433,6 +433,11 @@ FOR:
 			return err
 		default:
 			if startElement, ok := token.(xml.StartElement); ok {
+				var root bool
+				if !foundRootElement {
+					foundRootElement = true
+					root = true
+				}
 				name := g.nameFunc(startElement.Name)
 				if name == (xml.Name{}) {
 					continue FOR
@@ -440,14 +445,11 @@ FOR:
 				typeElement, ok := g.typeElements[name]
 				if !ok {
 					typeElement = newElement(name)
+					typeElement.root = root
 					g.typeElements[name] = typeElement
 				}
 				if _, ok := g.typeOrder[name]; !ok {
 					g.typeOrder[name] = options.getOrder()
-				}
-				if rootElement == nil {
-					rootElement = typeElement
-					rootElement.root = true
 				}
 				if err := typeElement.observeChildElement(decoder, startElement, 0, &options); err != nil {
 					return err
