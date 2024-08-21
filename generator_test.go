@@ -555,6 +555,38 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
+		{
+			name:   "empty_top_level_named_type",
+			xmlStr: "<a/>",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedTypes(true),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type A struct{}`,
+			),
+		},
+		{
+			name:   "empty_top_level_named_root_type",
+			xmlStr: "<a/>",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedRoot(true),
+			},
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`import "encoding/xml"`,
+				``,
+				`type A struct {`,
+				"\tXMLName xml.Name `xml:\"a\"`",
+				`}`,
+			),
+		},
 	} {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {

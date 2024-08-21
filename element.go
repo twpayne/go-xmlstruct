@@ -136,7 +136,7 @@ FOR:
 
 // writeGoType writes e's Go type to w.
 func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) error {
-	if len(e.attrValues) == 0 && len(e.childElements) == 0 {
+	if len(e.attrValues) == 0 && len(e.childElements) == 0 && (!e.root || !options.namedRoot) {
 		fmt.Fprintf(w, "%s", e.charDataValue.goType(options))
 		return nil
 	}
