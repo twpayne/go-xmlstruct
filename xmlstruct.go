@@ -42,7 +42,7 @@ var (
 	nonIdentifierRuneRx            = regexp.MustCompile(`[^\pL\pN]`)
 
 	// DefaultExportNameFunc returns name.Local with kebab- and snakecase words
-	// converted to camelcase and any Id suffix converted to ID.
+	// converted to UpperCamelCase and any Id suffix converted to ID.
 	DefaultExportNameFunc = func(name xml.Name) string {
 		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
 			return strings.ToUpper(s[len(s)-1:])
@@ -52,6 +52,27 @@ var (
 		runes[0] = unicode.ToUpper(runes[0])
 		if len(runes) > 1 && runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
 			runes[len(runes)-1] = 'D'
+		}
+		return string(runes)
+	}
+
+	// DefaultUnexportNameFunc returns name.Local with kebab- and snakecase words
+	// converted to lowerCamelCase
+	// Any ID prefix is converted to id, and any Id suffix converted to ID.
+	DefaultUnexportNameFunc = func(name xml.Name) string {
+		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
+			return strings.ToUpper(s[len(s)-1:])
+		})
+		localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
+		runes := []rune(localName)
+		runes[0] = unicode.ToLower(runes[0])
+		if len(runes) > 1 {
+			if runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
+				runes[len(runes)-1] = 'D'
+			}
+			if runes[0] == 'i' && runes[1] == 'D' {
+				runes[1] = 'd'
+			}
 		}
 		return string(runes)
 	}
@@ -98,6 +119,7 @@ type generateOptions struct {
 	charDataFieldName            string
 	elemNameSuffix               string
 	exportNameFunc               ExportNameFunc
+	exportTypeNameFunc           ExportNameFunc
 	header                       string
 	importPackageNames           map[string]struct{}
 	intType                      string

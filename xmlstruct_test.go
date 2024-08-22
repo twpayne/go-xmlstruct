@@ -66,3 +66,71 @@ func TestDefaultExportNameFunc(t *testing.T) {
 		})
 	}
 }
+
+func TestDefaultUnexportNameFunc(t *testing.T) {
+	t.Parallel()
+
+	for _, tc := range []struct {
+		localName string
+		expected  string
+	}{
+		{
+			localName: "id",
+			expected:  "id",
+		},
+		{
+			localName: "ID",
+			expected:  "id",
+		},
+		{
+			localName: "Id",
+			expected:  "id",
+		},
+		{
+			localName: "camelCase",
+			expected:  "camelCase",
+		},
+		{
+			localName: "camelCaseId",
+			expected:  "camelCaseID",
+		},
+		{
+			localName: "kebab-case",
+			expected:  "kebabCase",
+		},
+		{
+			localName: "kebab--case",
+			expected:  "kebabCase",
+		},
+		{
+			localName: "kebab-id",
+			expected:  "kebabID",
+		},
+		{
+			localName: "snake_case",
+			expected:  "snakeCase",
+		},
+		{
+			localName: "snake__case",
+			expected:  "snakeCase",
+		},
+		{
+			localName: "snake-id",
+			expected:  "snakeID",
+		},
+		{
+			localName: "+",
+			expected:  "_",
+		},
+	} {
+		tc := tc
+		t.Run(tc.localName, func(t *testing.T) {
+			t.Parallel()
+
+			xmlName := xml.Name{
+				Local: tc.localName,
+			}
+			assert.Equal(t, tc.expected, DefaultUnexportNameFunc(xmlName))
+		})
+	}
+}

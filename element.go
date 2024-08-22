@@ -208,7 +208,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 			}
 		}
 		if topLevelElement, ok := options.namedTypes[childElement.name]; ok {
-			fmt.Fprintf(w, "%s", options.exportNameFunc(topLevelElement.name))
+			fmt.Fprintf(w, "%s", options.exportTypeNameFunc(topLevelElement.name))
 		} else if _, ok := options.simpleTypes[childElement.name]; ok {
 			fmt.Fprintf(w, "%s", childElement.charDataValue.goType(options))
 		} else {
