@@ -18,6 +18,7 @@ var (
 	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
 	namedRoot                    = flag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
 	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
+	noExport                     = flag.Bool("no-export", false, "create unexported types")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
@@ -43,7 +44,7 @@ func run() error {
 		*packageName = ""
 	}
 
-	generator := xmlstruct.NewGenerator(
+	options := []xmlstruct.GeneratorOption{
 		xmlstruct.WithCharDataFieldName(*charDataFieldName),
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
@@ -59,7 +60,11 @@ func run() error {
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 		xmlstruct.WithUseRawToken(*useRawToken),
 		xmlstruct.WithEmptyElements(!*noEmptyElements),
-	)
+	}
+	if *noExport {
+		options = append(options, xmlstruct.WithExportTypeNameFunc(xmlstruct.DefaultUnexportNameFunc))
+	}
+	generator := xmlstruct.NewGenerator(options...)
 
 	if flag.NArg() == 0 {
 		if err := generator.ObserveReader(os.Stdin); err != nil {

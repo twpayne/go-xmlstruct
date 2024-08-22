@@ -33,6 +33,7 @@ type Generator struct {
 	charDataFieldName            string
 	elemNameSuffix               string
 	exportNameFunc               ExportNameFunc
+	exportTypeNameFunc           ExportNameFunc
 	exportRenames                map[string]string
 	formatSource                 bool
 	header                       string
@@ -91,6 +92,14 @@ func WithEmptyElements(emptyElements bool) GeneratorOption {
 func WithExportNameFunc(exportNameFunc ExportNameFunc) GeneratorOption {
 	return func(g *Generator) {
 		g.exportNameFunc = exportNameFunc
+	}
+}
+
+// WithExportTypeNameFunc sets the export name function for the generated Go source Types.
+// This is useful when unexported types are desired.
+func WithExportTypeNameFunc(exportTypeNameFunc ExportNameFunc) GeneratorOption {
+	return func(g *Generator) {
+		g.exportTypeNameFunc = exportTypeNameFunc
 	}
 }
 
@@ -236,6 +245,9 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 	for _, option := range options {
 		option(g)
 	}
+	if g.exportTypeNameFunc == nil {
+		g.exportTypeNameFunc = g.exportNameFunc
+	}
 	return g
 }
 
@@ -247,6 +259,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		charDataFieldName:            g.charDataFieldName,
 		elemNameSuffix:               g.elemNameSuffix,
 		exportNameFunc:               g.exportNameFunc,
+		exportTypeNameFunc:           g.exportTypeNameFunc,
 		header:                       g.header,
 		importPackageNames:           make(map[string]struct{}),
 		intType:                      g.intType,
@@ -298,7 +311,7 @@ func (g *Generator) Generate() ([]byte, error) {
 	typesBuilder := &strings.Builder{}
 	typeNames := make(map[string]struct{})
 	for _, typeElement := range typeElements {
-		typeName := options.exportNameFunc(typeElement.name)
+		typeName := options.exportTypeNameFunc(typeElement.name)
 		if _, ok := typeNames[typeName]; ok {
 			return nil, fmt.Errorf("%s: duplicate type name", typeName)
 		}

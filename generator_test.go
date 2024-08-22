@@ -233,6 +233,33 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
+			name: "unexported_named_types",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithNamedTypes(true),
+				xmlstruct.WithExportTypeNameFunc(xmlstruct.DefaultUnexportNameFunc),
+			},
+			xmlStr: joinLines(
+				`<ID>`,
+				`  <B>`,
+				`    <c/>`,
+				`  </B>`,
+				`</ID>`,
+			),
+			expectedStr: joinLines(
+				xmlstruct.DefaultHeader,
+				``,
+				`package main`,
+				``,
+				`type b struct {`,
+				"\tC struct{} `xml:\"c\"`",
+				`}`,
+				``,
+				`type id struct {`,
+				"\tB b `xml:\"B\"`",
+				`}`,
+			),
+		},
+		{
 			name: "no_package",
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithHeader(""),
