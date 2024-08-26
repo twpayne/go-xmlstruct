@@ -11,6 +11,7 @@ import (
 
 var (
 	charDataFieldName            = flag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
+	compactTypes                 = flag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
 	formatSource                 = flag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
 	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
@@ -18,8 +19,8 @@ var (
 	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
 	namedRoot                    = flag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
 	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
+	noEmptyElements              = flag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
 	noExport                     = flag.Bool("no-export", false, "create unexported types")
-	compactTypes                 = flag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
@@ -28,7 +29,6 @@ var (
 	typesOnly                    = flag.Bool("types-only", false, "generate structs only, without header, package, or imports")
 	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
 	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
-	noEmptyElements              = flag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
 )
 
 func run() error {
@@ -47,21 +47,21 @@ func run() error {
 
 	options := []xmlstruct.GeneratorOption{
 		xmlstruct.WithCharDataFieldName(*charDataFieldName),
+		xmlstruct.WithCompactTypes(*compactTypes),
+		xmlstruct.WithEmptyElements(!*noEmptyElements),
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
 		xmlstruct.WithImports(*imports),
 		xmlstruct.WithIntType(*intType),
-		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithNamedRoot(*namedRoot),
 		xmlstruct.WithNamedTypes(*namedTypes),
-		xmlstruct.WithCompactTypes(*compactTypes),
+		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithPackageName(*packageName),
 		xmlstruct.WithPreserveOrder(*preserveOrder),
 		xmlstruct.WithTimeLayout(*timeLayout),
 		xmlstruct.WithTopLevelAttributes(*topLevelAttributes),
 		xmlstruct.WithUsePointersForOptionalFields(*usePointersForOptionalFields),
 		xmlstruct.WithUseRawToken(*useRawToken),
-		xmlstruct.WithEmptyElements(!*noEmptyElements),
 	}
 	if *noExport {
 		options = append(options, xmlstruct.WithExportTypeNameFunc(xmlstruct.DefaultUnexportNameFunc))
