@@ -43,6 +43,7 @@ type Generator struct {
 	nameFunc                     NameFunc
 	namedRoot                    bool
 	namedTypes                   bool
+	compactTypes                 bool
 	order                        int
 	packageName                  string
 	preserveOrder                bool
@@ -168,6 +169,13 @@ func WithNamedTypes(namedTypes bool) GeneratorOption {
 	}
 }
 
+// WithCompactTypes sets whether to generate compact types.
+func WithCompactTypes(compactTypes bool) GeneratorOption {
+	return func(o *Generator) {
+		o.compactTypes = compactTypes
+	}
+}
+
 // WithPackageName sets the package name of the generated Go source.
 func WithPackageName(packageName string) GeneratorOption {
 	return func(g *Generator) {
@@ -226,6 +234,7 @@ func NewGenerator(options ...GeneratorOption) *Generator {
 		nameFunc:                     DefaultNameFunc,
 		namedRoot:                    DefaultNamedRoot,
 		namedTypes:                   DefaultNamedTypes,
+		compactTypes:                 DefaultCompactTypes,
 		packageName:                  DefaultPackageName,
 		preserveOrder:                DefaultPreserveOrder,
 		timeLayout:                   DefaultTimeLayout,
@@ -264,6 +273,7 @@ func (g *Generator) Generate() ([]byte, error) {
 		importPackageNames:           make(map[string]struct{}),
 		intType:                      g.intType,
 		namedRoot:                    g.namedRoot,
+		compactTypes:                 g.compactTypes,
 		preserveOrder:                g.preserveOrder,
 		usePointersForOptionalFields: g.usePointersForOptionalFields,
 		emptyElements:                g.emptyElements,
@@ -276,6 +286,12 @@ func (g *Generator) Generate() ([]byte, error) {
 	var typeElements []*element
 	if g.namedTypes {
 		options.namedTypes = maps.Clone(g.typeElements)
+		options.namedTypes = make(map[xml.Name]*element)
+		for k, v := range g.typeElements {
+			if !options.compactTypes || !v.isContainer() || v.root {
+				options.namedTypes[k] = v
+			}
+		}
 		options.simpleTypes = make(map[xml.Name]struct{})
 		for name, element := range options.namedTypes {
 			if len(element.attrValues) != 0 || len(element.childElements) != 0 || element.root {
@@ -294,7 +310,9 @@ func (g *Generator) Generate() ([]byte, error) {
 			return g.typeOrder[a.name] - g.typeOrder[b.name]
 		})
 	} else {
-		slices.SortFunc(typeElements, func(a, b *element) int {
+		slices.SortFunc(typeElements, func(a, b *element) int { ////////////////
+			// aExportedName := exportedName(a, &options)
+			// bExportedName := exportedName(b, &options)
 			aExportedName := options.exportNameFunc(a.name)
 			bExportedName := options.exportNameFunc(b.name)
 			switch {

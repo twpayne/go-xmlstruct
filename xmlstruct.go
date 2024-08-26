@@ -21,6 +21,7 @@ const (
 	DefaultIntType                      = "int"
 	DefaultNamedRoot                    = false
 	DefaultNamedTypes                   = false
+	DefaultCompactTypes                 = false
 	DefaultPackageName                  = "main"
 	DefaultPreserveOrder                = false
 	DefaultTimeLayout                   = "2006-01-02T15:04:05Z"
@@ -125,6 +126,7 @@ type generateOptions struct {
 	intType                      string
 	namedRoot                    bool
 	namedTypes                   map[xml.Name]*element
+	compactTypes                 bool
 	preserveOrder                bool
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool

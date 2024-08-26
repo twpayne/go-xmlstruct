@@ -19,6 +19,7 @@ var (
 	namedRoot                    = flag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
 	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
 	noExport                     = flag.Bool("no-export", false, "create unexported types")
+	compactTypes                 = flag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
 	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
@@ -53,6 +54,7 @@ func run() error {
 		xmlstruct.WithNameFunc(nameFunc),
 		xmlstruct.WithNamedRoot(*namedRoot),
 		xmlstruct.WithNamedTypes(*namedTypes),
+		xmlstruct.WithCompactTypes(*compactTypes),
 		xmlstruct.WithPackageName(*packageName),
 		xmlstruct.WithPreserveOrder(*preserveOrder),
 		xmlstruct.WithTimeLayout(*timeLayout),
