@@ -310,9 +310,7 @@ func (g *Generator) Generate() ([]byte, error) {
 			return g.typeOrder[a.name] - g.typeOrder[b.name]
 		})
 	} else {
-		slices.SortFunc(typeElements, func(a, b *element) int { ////////////////
-			// aExportedName := exportedName(a, &options)
-			// bExportedName := exportedName(b, &options)
+		slices.SortFunc(typeElements, func(a, b *element) int {
 			aExportedName := options.exportNameFunc(a.name)
 			bExportedName := options.exportNameFunc(b.name)
 			switch {
