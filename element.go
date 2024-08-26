@@ -178,8 +178,8 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		})
 	} else {
 		slices.SortFunc(childElements, func(a, b *element) int {
-			aExportedName := options.exportNameFunc(a.name)
-			bExportedName := options.exportNameFunc(b.name)
+			aExportedName := exportedNameWithoutSuffix(a, options)
+			bExportedName := exportedNameWithoutSuffix(b, options)
 			switch {
 			case aExportedName < bExportedName:
 				return -1
@@ -192,8 +192,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	}
 
 	for _, childElement := range childElements {
-		exportedChildName := options.exportNameFunc(childElement.name) + options.elemNameSuffix
-
+		exportedChildName := exportedName(childElement, options)
 		if _, ok := fieldNames[exportedChildName]; ok {
 			fieldNames[exportedChildName] = struct{}{}
 		}
@@ -207,18 +206,58 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 				fmt.Fprintf(w, "*")
 			}
 		}
-		if topLevelElement, ok := options.namedTypes[childElement.name]; ok {
+
+		currentChild := childElement
+		if options.compactTypes {
+			currentChild = firstNotContainerElement(childElement)
+		}
+		if topLevelElement, ok := options.namedTypes[currentChild.name]; ok {
 			fmt.Fprintf(w, "%s", options.exportTypeNameFunc(topLevelElement.name))
-		} else if _, ok := options.simpleTypes[childElement.name]; ok {
-			fmt.Fprintf(w, "%s", childElement.charDataValue.goType(options))
+		} else if _, ok := options.simpleTypes[currentChild.name]; ok {
+			fmt.Fprintf(w, "%s", currentChild.charDataValue.goType(options))
 		} else {
-			if err := childElement.writeGoType(w, options, indentPrefix+"\t"); err != nil {
+			if err := currentChild.writeGoType(w, options, indentPrefix+"\t"); err != nil {
 				return err
 			}
 		}
-		fmt.Fprintf(w, " `xml:\"%s\"`\n", childElement.name.Local)
+		fmt.Fprintf(w, " `xml:\"%s\"`\n", attrName(childElement, options.compactTypes))
 	}
 
 	fmt.Fprintf(w, "%s}", indentPrefix)
 	return nil
+}
+
+func (e *element) isContainer() bool {
+	return len(e.childElements) == 1 && len(e.attrValues) == 0 && e.charDataValue.observations == 0
+}
+
+func firstNotContainerElement(el *element) *element {
+	if el.isContainer() {
+		for _, v := range el.childElements {
+			return firstNotContainerElement(v)
+		}
+	}
+	return el
+}
+
+func exportedName(el *element, options *generateOptions) string {
+	return exportedNameWithoutSuffix(el, options) + options.elemNameSuffix
+}
+
+func exportedNameWithoutSuffix(el *element, options *generateOptions) string {
+	if el.isContainer() && options.compactTypes {
+		for _, v := range el.childElements {
+			return exportedNameWithoutSuffix(v, options)
+		}
+	}
+	return options.exportNameFunc(el.name)
+}
+
+func attrName(el *element, compactTypes bool) string {
+	if el.isContainer() && compactTypes {
+		for _, v := range el.childElements {
+			return el.name.Local + ">" + attrName(v, true)
+		}
+	}
+	return el.name.Local
 }
