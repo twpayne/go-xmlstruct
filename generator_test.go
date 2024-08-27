@@ -759,6 +759,33 @@ func TestGenerator(t *testing.T) {
 				"}",
 			),
 		},
+		{
+			name: "compact_named_types_container_child_equal_name",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithImports(false),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithCompactTypes(true),
+				xmlstruct.WithNamedTypes(true),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b>`,
+				`  <b>`,
+				`  <b>`,
+				`  </b>`,
+				`  </b>`,
+				`  </b>`,
+				`  <b>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				"type A struct {",
+				"\tB []struct{} `xml:\"b>b>b\"`",
+				"}",
+			),
+		},
 	} {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {

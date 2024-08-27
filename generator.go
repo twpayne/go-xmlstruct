@@ -7,7 +7,6 @@ import (
 	"go/format"
 	"io"
 	"io/fs"
-	"maps"
 	"os"
 	"slices"
 	"sort"
@@ -285,7 +284,6 @@ func (g *Generator) Generate() ([]byte, error) {
 
 	var typeElements []*element
 	if g.namedTypes {
-		options.namedTypes = maps.Clone(g.typeElements)
 		options.namedTypes = make(map[xml.Name]*element)
 		for k, v := range g.typeElements {
 			if !options.compactTypes || !v.isContainer() || v.root {
