@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"slices"
+	"strings"
 )
 
 // An element describes an observed XML element, its attributes, chardata, and
@@ -14,6 +15,7 @@ type element struct {
 	attrValues       map[xml.Name]*value
 	charDataValue    value
 	childElements    map[xml.Name]*element
+	nestedCount      int
 	childOrder       map[xml.Name]int
 	name             xml.Name
 	optionalChildren map[xml.Name]struct{}
@@ -107,6 +109,9 @@ FOR:
 				}
 				e.childElements[childName] = childElement
 			}
+			if childElement == e {
+				e.nestedCount++
+			}
 			if _, ok := e.childOrder[childName]; !ok {
 				e.childOrder[childName] = options.getOrder()
 			}
@@ -136,6 +141,15 @@ FOR:
 
 // writeGoType writes e's Go type to w.
 func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefix string) error {
+	if options.compactTypes && e.isContainer() {
+		for _, v := range e.childElements {
+			if v == e {
+				fmt.Fprintf(w, "%s", e.charDataValue.goType(options))
+				return nil
+			}
+		}
+	}
+
 	if len(e.attrValues) == 0 && len(e.childElements) == 0 && (!e.root || !options.namedRoot) {
 		fmt.Fprintf(w, "%s", e.charDataValue.goType(options))
 		return nil
@@ -234,6 +248,9 @@ func (e *element) isContainer() bool {
 func firstNotContainerElement(el *element) *element {
 	if el.isContainer() {
 		for _, v := range el.childElements {
+			if el == v {
+				return el
+			}
 			return firstNotContainerElement(v)
 		}
 	}
@@ -247,6 +264,9 @@ func exportedName(el *element, options *generateOptions) string {
 func exportedNameWithoutSuffix(el *element, options *generateOptions) string {
 	if el.isContainer() && options.compactTypes {
 		for _, v := range el.childElements {
+			if el == v {
+				return options.exportNameFunc(el.name)
+			}
 			return exportedNameWithoutSuffix(v, options)
 		}
 	}
@@ -256,6 +276,11 @@ func exportedNameWithoutSuffix(el *element, options *generateOptions) string {
 func attrName(el *element, compactTypes bool) string {
 	if el.isContainer() && compactTypes {
 		for _, v := range el.childElements {
+			if el == v {
+				s := el.name.Local + ">"
+				s += strings.Repeat(s, el.nestedCount)
+				return s[:len(s)-1]
+			}
 			return el.name.Local + ">" + attrName(v, true)
 		}
 	}
