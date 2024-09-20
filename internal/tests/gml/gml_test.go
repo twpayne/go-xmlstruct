@@ -1,4 +1,4 @@
-package gml
+package gml_test
 
 import (
 	"archive/zip"

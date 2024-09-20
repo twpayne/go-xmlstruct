@@ -1,4 +1,4 @@
-package svg
+package svg_test
 
 import (
 	"archive/tar"

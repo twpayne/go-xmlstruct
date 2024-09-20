@@ -1,4 +1,4 @@
-package interlis
+package interlis_test
 
 import (
 	"encoding/xml"
@@ -8,6 +8,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/interlis"
 )
 
 func TestInterlis(t *testing.T) {
@@ -44,7 +45,7 @@ func TestInterlis(t *testing.T) {
 
 	data, err := os.ReadFile("testdata/metadata_gm03.xml")
 	assert.NoError(t, err)
-	var transfer Transfer
+	var transfer interlis.Transfer
 	assert.NoError(t, xml.Unmarshal(data, &transfer))
 
 	assert.Equal(t, "geocat.ch", transfer.HeaderSection.Sender)

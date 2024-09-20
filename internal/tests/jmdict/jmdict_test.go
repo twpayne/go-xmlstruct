@@ -1,4 +1,4 @@
-package jmdict
+package jmdict_test
 
 import (
 	"compress/gzip"
@@ -11,6 +11,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/jmdict"
 )
 
 func TestJMDict(t *testing.T) {
@@ -325,7 +326,7 @@ func TestJMDict(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, string(expectedSource), string(actualSource))
 
-	var jmDict JMDict
+	var jmDict jmdict.JMDict
 	func() {
 		file, err := os.Open("testdata/JMdict.gz")
 		if errors.Is(err, fs.ErrNotExist) {

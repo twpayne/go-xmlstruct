@@ -1,10 +1,12 @@
-package xmlstruct
+package xmlstruct_test
 
 import (
 	"encoding/xml"
 	"testing"
 
 	"github.com/alecthomas/assert/v2"
+
+	"github.com/twpayne/go-xmlstruct"
 )
 
 func TestDefaultExportNameFunc(t *testing.T) {
@@ -55,14 +57,13 @@ func TestDefaultExportNameFunc(t *testing.T) {
 			expected:  "_",
 		},
 	} {
-		tc := tc
 		t.Run(tc.localName, func(t *testing.T) {
 			t.Parallel()
 
 			xmlName := xml.Name{
 				Local: tc.localName,
 			}
-			assert.Equal(t, tc.expected, DefaultExportNameFunc(xmlName))
+			assert.Equal(t, tc.expected, xmlstruct.DefaultExportNameFunc(xmlName))
 		})
 	}
 }
@@ -123,14 +124,13 @@ func TestDefaultUnexportNameFunc(t *testing.T) {
 			expected:  "_",
 		},
 	} {
-		tc := tc
 		t.Run(tc.localName, func(t *testing.T) {
 			t.Parallel()
 
 			xmlName := xml.Name{
 				Local: tc.localName,
 			}
-			assert.Equal(t, tc.expected, DefaultUnexportNameFunc(xmlName))
+			assert.Equal(t, tc.expected, xmlstruct.DefaultUnexportNameFunc(xmlName))
 		})
 	}
 }

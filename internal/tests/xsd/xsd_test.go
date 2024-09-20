@@ -1,4 +1,4 @@
-package xsd
+package xsd_test
 
 import (
 	"bytes"
@@ -10,6 +10,7 @@ import (
 	"golang.org/x/net/html/charset"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/xsd"
 )
 
 func TestXSD(t *testing.T) {
@@ -49,12 +50,12 @@ func TestXSD(t *testing.T) {
 		decoder := xml.NewDecoder(bytes.NewReader(data))
 		decoder.CharsetReader = charset.NewReaderLabel
 
-		var schema Schema
+		var schema xsd.Schema
 		assert.NoError(t, decoder.Decode(&schema))
 
 		switch filename {
 		case "testdata/kml22gx.xsd":
-			assert.Equal(t, []Import{
+			assert.Equal(t, []xsd.Import{
 				{
 					Namespace:      "http://www.opengis.net/kml/2.2",
 					SchemaLocation: "http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd",
@@ -63,7 +64,7 @@ func TestXSD(t *testing.T) {
 		case "testdata/ogckml22.xsd":
 			assert.Equal(t, "ogckml22.xsd 2008-01-23", *schema.Annotation.AppInfo)
 		case "testdata/xacml-core-v3-schema-wd-17.xsd":
-			assert.Equal(t, []Import{
+			assert.Equal(t, []xsd.Import{
 				{
 					Namespace:      "http://www.w3.org/XML/1998/namespace",
 					SchemaLocation: "http://www.w3.org/2001/xml.xsd",

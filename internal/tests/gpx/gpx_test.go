@@ -1,4 +1,4 @@
-package gpx
+package gpx_test
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"golang.org/x/net/html/charset"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/gpx"
 )
 
 func TestGPX(t *testing.T) {
@@ -58,7 +59,7 @@ func TestGPX(t *testing.T) {
 		decoder := xml.NewDecoder(bytes.NewReader(data))
 		decoder.CharsetReader = charset.NewReaderLabel
 
-		var gpx GPX
+		var gpx gpx.GPX
 		assert.NoError(t, decoder.Decode(&gpx))
 
 		switch filename {

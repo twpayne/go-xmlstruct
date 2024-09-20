@@ -1,4 +1,4 @@
-package play
+package play_test
 
 import (
 	"bytes"
@@ -9,6 +9,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/play"
 )
 
 func TestPlay(t *testing.T) {
@@ -53,7 +54,7 @@ func TestPlay(t *testing.T) {
 
 	data, err := os.ReadFile("testdata/all_well.xml")
 	assert.NoError(t, err)
-	var allsWellThatEndsWell Play
+	var allsWellThatEndsWell play.Play
 	assert.NoError(t, xml.Unmarshal(data, &allsWellThatEndsWell))
 
 	assert.Equal(t, 5, len(allsWellThatEndsWell.Act))
