@@ -2,40 +2,41 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
 	"slices"
 
+	"github.com/spf13/pflag"
+
 	"github.com/twpayne/go-xmlstruct"
 )
 
 var (
-	charDataFieldName            = flag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
-	compactTypes                 = flag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
-	formatSource                 = flag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
-	header                       = flag.String("header", xmlstruct.DefaultHeader, "header")
-	ignoreNamespaces             = flag.Bool("ignore-namespaces", true, "ignore namespaces")
-	imports                      = flag.Bool("imports", xmlstruct.DefaultImports, "generate import statements")
-	intType                      = flag.String("int-type", xmlstruct.DefaultIntType, "int type")
-	namedRoot                    = flag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
-	namedTypes                   = flag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
-	noEmptyElements              = flag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
-	noExport                     = flag.Bool("no-export", false, "create unexported types")
-	output                       = flag.String("output", "", "output filename")
-	packageName                  = flag.String("package-name", "main", "package name")
-	pattern                      = flag.String("pattern", "", "filename pattern to observe")
-	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
-	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
-	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
-	typesOnly                    = flag.Bool("types-only", false, "generate structs only, without header, package, or imports")
-	usePointersForOptionalFields = flag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
-	useRawToken                  = flag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
+	charDataFieldName            = pflag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
+	compactTypes                 = pflag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
+	formatSource                 = pflag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
+	header                       = pflag.String("header", xmlstruct.DefaultHeader, "header")
+	ignoreNamespaces             = pflag.Bool("ignore-namespaces", true, "ignore namespaces")
+	imports                      = pflag.Bool("imports", xmlstruct.DefaultImports, "generate import statements")
+	intType                      = pflag.String("int-type", xmlstruct.DefaultIntType, "int type")
+	namedRoot                    = pflag.Bool("named-root", xmlstruct.DefaultNamedRoot, "create an XMLName field for the root element")
+	namedTypes                   = pflag.Bool("named-types", xmlstruct.DefaultNamedTypes, "create named types for all elements")
+	noEmptyElements              = pflag.Bool("no-empty-elements", !xmlstruct.DefaultEmptyElements, "use type string instead of struct{} for empty elements")
+	noExport                     = pflag.Bool("no-export", false, "create unexported types")
+	output                       = pflag.String("output", "", "output filename")
+	packageName                  = pflag.String("package-name", "main", "package name")
+	pattern                      = pflag.String("pattern", "", "filename pattern to observe")
+	preserveOrder                = pflag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
+	timeLayout                   = pflag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
+	topLevelAttributes           = pflag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
+	typesOnly                    = pflag.Bool("types-only", false, "generate structs only, without header, package, or imports")
+	usePointersForOptionalFields = pflag.Bool("use-pointers-for-optional-fields", xmlstruct.DefaultUsePointersForOptionalFields, "use pointers for optional fields")
+	useRawToken                  = pflag.Bool("use-raw-token", xmlstruct.DefaultUseRawToken, "use encoding/xml.Decoder.RawToken")
 )
 
 func run() error {
-	flag.Parse()
+	pflag.Parse()
 
 	nameFunc := xmlstruct.IdentityNameFunc
 	if *ignoreNamespaces {
@@ -71,7 +72,7 @@ func run() error {
 	}
 	generator := xmlstruct.NewGenerator(options...)
 
-	filenames := slices.Clone(flag.Args())
+	filenames := slices.Clone(pflag.Args())
 	if *pattern != "" {
 		matches, err := filepath.Glob(*pattern)
 		if err != nil {
