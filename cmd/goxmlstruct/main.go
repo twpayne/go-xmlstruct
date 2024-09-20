@@ -1,4 +1,4 @@
-// Command xmlstruct generates Go structs from multiple XML documents.
+// Command goxmlstruct generates Go structs from multiple XML documents.
 package main
 
 import (
