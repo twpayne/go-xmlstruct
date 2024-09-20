@@ -1,25 +1,24 @@
-run:
-  go: '1.22'
-
 linters:
   enable:
   - asasalint
   - asciicheck
   - bidichk
   - bodyclose
+  - canonicalheader
   - containedctx
   - contextcheck
+  - copyloopvar
   - decorder
   - dogsled
   - dupl
   - dupword
   - durationcheck
+  - err113
   - errcheck
   - errchkjson
   - errname
   - errorlint
   - exhaustive
-  - exportloopref
   - fatcontext
   - forbidigo
   - forcetypeassert
@@ -78,6 +77,7 @@ linters:
   - tenv
   - testableexamples
   - testifylint
+  - testpackage
   - thelper
   - tparallel
   - typecheck
@@ -89,26 +89,22 @@ linters:
   - whitespace
   - zerologlint
   disable:
-  - canonicalheader
-  - copyloopvar
   - cyclop
   - depguard
-  - err113
   - exhaustruct
   - funlen
   - gochecknoglobals
   - gocognit
   - gocyclo
   - godox
-  - gomnd
   - gosec
   - lll
   - maintidx
   - mnd
+  - mnd
   - nestif
   - nlreturn
   - stylecheck
-  - testpackage
   - varnamelen
   - wrapcheck
   - wsl
@@ -131,6 +127,9 @@ issues:
     - dupl
     - scopelint
     path: "_test\\.go"
+  - linters:
+    - err113
+    text: do not define dynamic errors, use wrapped static errors instead
   - linters:
     - forbidigo
     path: "main\\.go"

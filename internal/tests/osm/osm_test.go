@@ -1,4 +1,4 @@
-package osm
+package osm_test
 
 import (
 	"compress/bzip2"

@@ -1,4 +1,4 @@
-package aixm
+package aixm_test
 
 import (
 	"archive/zip"
@@ -10,6 +10,7 @@ import (
 	"github.com/alecthomas/assert/v2"
 
 	"github.com/twpayne/go-xmlstruct"
+	"github.com/twpayne/go-xmlstruct/internal/tests/aixm"
 )
 
 func TestAIXM(t *testing.T) {
@@ -71,12 +72,12 @@ func TestAIXM(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, string(expectedSource), string(actualSource))
 
-	decodeZipFile := func(zipFile *zip.File) *AIXMBasicMessage {
+	decodeZipFile := func(zipFile *zip.File) *aixm.AIXMBasicMessage {
 		readCloser, err := zipFile.Open()
 		assert.NoError(t, err)
 		defer readCloser.Close()
 
-		var aixmBasicMessage AIXMBasicMessage
+		var aixmBasicMessage aixm.AIXMBasicMessage
 		assert.NoError(t, xml.NewDecoder(readCloser).Decode(&aixmBasicMessage))
 		return &aixmBasicMessage
 	}
