@@ -47,7 +47,7 @@ Feed `goxmlstruct` the simple XML document:
 ```xml
 <parent>
   <child flag="true">
-    chardata
+    text
   </child>
 </parent>
 ```
