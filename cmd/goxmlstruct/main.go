@@ -5,6 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
+	"slices"
 
 	"github.com/twpayne/go-xmlstruct"
 )
@@ -23,6 +25,7 @@ var (
 	noExport                     = flag.Bool("no-export", false, "create unexported types")
 	output                       = flag.String("output", "", "output filename")
 	packageName                  = flag.String("package-name", "main", "package name")
+	pattern                      = flag.String("pattern", "", "filename pattern to observe")
 	preserveOrder                = flag.Bool("preserve-order", xmlstruct.DefaultPreserveOrder, "preserve order of types and fields")
 	timeLayout                   = flag.String("time-layout", "2006-01-02T15:04:05Z", "time layout")
 	topLevelAttributes           = flag.Bool("top-level-attributes", xmlstruct.DefaultTopLevelAttributes, "include top level attributes")
@@ -68,13 +71,22 @@ func run() error {
 	}
 	generator := xmlstruct.NewGenerator(options...)
 
-	if flag.NArg() == 0 {
+	filenames := slices.Clone(flag.Args())
+	if *pattern != "" {
+		matches, err := filepath.Glob(*pattern)
+		if err != nil {
+			return err
+		}
+		filenames = append(filenames, matches...)
+	}
+
+	if len(filenames) == 0 {
 		if err := generator.ObserveReader(os.Stdin); err != nil {
 			return err
 		}
 	} else {
-		for _, arg := range flag.Args() {
-			if err := generator.ObserveFile(arg); err != nil {
+		for _, filename := range filenames {
+			if err := generator.ObserveFile(filename); err != nil {
 				return err
 			}
 		}
