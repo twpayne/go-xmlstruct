@@ -20,6 +20,7 @@ func TestAIXM(t *testing.T) {
 		xmlstruct.WithExportRenames(map[string]string{
 			"note":            "NoteLower",            // Disambiguate between Note and note.
 			"runwayDirection": "RunwayDirectionLower", // Disambiguate between RunwayDirection and runwayDirection.
+			"srsName":         "SRSName",              // Capitalize SRS abbreviation.
 			"uom":             "UOM",                  // Capitalize unit of measurement abbreviation.
 		}),
 		xmlstruct.WithNamedTypes(true),

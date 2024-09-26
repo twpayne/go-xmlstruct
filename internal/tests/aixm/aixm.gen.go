@@ -264,7 +264,7 @@ type ControlType struct {
 
 type Curve struct {
 	ID       string   `xml:"id,attr"`
-	SrsName  *string  `xml:"srsName,attr"`
+	SRSName  *string  `xml:"srsName,attr"`
 	Segments Segments `xml:"segments"`
 }
 
@@ -368,7 +368,7 @@ type ElectronicMailAddress struct {
 
 type ElevatedCurve struct {
 	ID                 string             `xml:"id,attr"`
-	SrsName            string             `xml:"srsName,attr"`
+	SRSName            string             `xml:"srsName,attr"`
 	Elevation          Elevation          `xml:"elevation"`
 	GeoidUndulation    GeoidUndulation    `xml:"geoidUndulation"`
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
@@ -379,7 +379,7 @@ type ElevatedCurve struct {
 
 type ElevatedPoint struct {
 	ID                 string             `xml:"id,attr"`
-	SrsName            string             `xml:"srsName,attr"`
+	SRSName            string             `xml:"srsName,attr"`
 	Annotation         *Annotation        `xml:"annotation"`
 	Elevation          *Elevation         `xml:"elevation"`
 	GeoidUndulation    *GeoidUndulation   `xml:"geoidUndulation"`
@@ -391,7 +391,7 @@ type ElevatedPoint struct {
 
 type ElevatedSurface struct {
 	ID                 string             `xml:"id,attr"`
-	SrsName            string             `xml:"srsName,attr"`
+	SRSName            string             `xml:"srsName,attr"`
 	Elevation          Elevation          `xml:"elevation"`
 	GeoidUndulation    GeoidUndulation    `xml:"geoidUndulation"`
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
@@ -427,7 +427,7 @@ type EndPosition struct {
 }
 
 type Envelope struct {
-	SrsName     string `xml:"srsName,attr"`
+	SRSName     string `xml:"srsName,attr"`
 	LowerCorner string `xml:"lowerCorner"`
 	UpperCorner string `xml:"upperCorner"`
 }
@@ -833,7 +833,7 @@ type Patches struct {
 
 type Point struct {
 	ID      string `xml:"id,attr"`
-	SrsName string `xml:"srsName,attr"`
+	SRSName string `xml:"srsName,attr"`
 	Pos     string `xml:"pos"`
 }
 
@@ -846,7 +846,7 @@ type PolygonPatch struct {
 }
 
 type PosList struct {
-	SrsName  *string `xml:"srsName,attr"`
+	SRSName  *string `xml:"srsName,attr"`
 	CharData string  `xml:",chardata"`
 }
 
@@ -979,7 +979,7 @@ type StartAngle struct {
 
 type Surface struct {
 	ID      string  `xml:"id,attr"`
-	SrsName string  `xml:"srsName,attr"`
+	SRSName string  `xml:"srsName,attr"`
 	Patches Patches `xml:"patches"`
 }
 
