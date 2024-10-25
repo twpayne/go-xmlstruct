@@ -5,10 +5,10 @@ package aixm
 import "time"
 
 type AIXMBasicMessage struct {
-	BoundedBy       BoundedBy       `xml:"boundedBy"`
-	HasMember       []HasMember     `xml:"hasMember"`
-	Identifier      Identifier      `xml:"identifier"`
-	MessageMetadata MessageMetadata `xml:"messageMetadata"`
+	BoundedBy       *BoundedBy       `xml:"boundedBy"`
+	HasMember       []HasMember      `xml:"hasMember"`
+	Identifier      *Identifier      `xml:"identifier"`
+	MessageMetadata *MessageMetadata `xml:"messageMetadata"`
 }
 
 type ARP struct {
@@ -243,9 +243,15 @@ type Code struct {
 	CharacterString string `xml:"CharacterString"`
 }
 
+type Colour struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
 type ConstructionStatus struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type Contact struct {
@@ -335,8 +341,9 @@ type DesignatedPointTimeSlice struct {
 }
 
 type Designator struct {
-	Nil      bool   `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type Distance struct {
@@ -374,7 +381,7 @@ type ElevatedCurve struct {
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
 	Segments           Segments           `xml:"segments"`
 	VerticalAccuracy   VerticalAccuracy   `xml:"verticalAccuracy"`
-	VerticalDatum      string             `xml:"verticalDatum"`
+	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
 }
 
 type ElevatedPoint struct {
@@ -386,7 +393,7 @@ type ElevatedPoint struct {
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
 	Pos                string             `xml:"pos"`
 	VerticalAccuracy   *VerticalAccuracy  `xml:"verticalAccuracy"`
-	VerticalDatum      string             `xml:"verticalDatum"`
+	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
 }
 
 type ElevatedSurface struct {
@@ -397,13 +404,14 @@ type ElevatedSurface struct {
 	HorizontalAccuracy HorizontalAccuracy `xml:"horizontalAccuracy"`
 	Patches            Patches            `xml:"patches"`
 	VerticalAccuracy   VerticalAccuracy   `xml:"verticalAccuracy"`
-	VerticalDatum      string             `xml:"verticalDatum"`
+	VerticalDatum      VerticalDatum      `xml:"verticalDatum"`
 }
 
 type Elevation struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type ElevationTDZ struct {
@@ -432,6 +440,10 @@ type Envelope struct {
 	UpperCorner string `xml:"upperCorner"`
 }
 
+type Extension struct {
+	VerticalStructureExtension VerticalStructureExtension `xml:"VerticalStructureExtension"`
+}
+
 type Extent struct {
 	EXExtent   *EXExtent   `xml:"EX_Extent"`
 	TimePeriod *TimePeriod `xml:"TimePeriod"`
@@ -456,8 +468,9 @@ type FieldElevationAccuracy struct {
 }
 
 type Frangible struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type Frequency struct {
@@ -485,8 +498,9 @@ type GeoBorderTimeSlice struct {
 }
 
 type GeodesicString struct {
-	Interpolation *string `xml:"interpolation,attr"`
-	PosList       PosList `xml:"posList"`
+	Interpolation *string  `xml:"interpolation,attr"`
+	Pos           []string `xml:"pos"`
+	PosList       *PosList `xml:"posList"`
 }
 
 type GeographicElement struct {
@@ -498,9 +512,10 @@ type GeographicIdentifier struct {
 }
 
 type GeoidUndulation struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason string  `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type GeometryComponent struct {
@@ -532,9 +547,10 @@ type HasMember struct {
 }
 
 type HorizontalAccuracy struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type HorizontalProjection struct {
@@ -553,6 +569,31 @@ type HorizontalProjectionSurfaceExtent struct {
 	ElevatedSurface ElevatedSurface `xml:"ElevatedSurface"`
 }
 
+type HostedNavaidEquipment struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type HostedOrganisation struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type HostedPassengerService struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type HostedSpecialNavStation struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type HostedUnit struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
 type IdentificationInfo struct {
 	MDDataIdentification MDDataIdentification `xml:"MD_DataIdentification"`
 }
@@ -562,6 +603,17 @@ type Identifier struct {
 	CharData  string `xml:",chardata"`
 }
 
+type Intensity struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type IntensityLevel struct {
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
+}
+
 type Language struct {
 	LanguageCode LanguageCode `xml:"LanguageCode"`
 }
@@ -569,6 +621,11 @@ type Language struct {
 type LanguageCode struct {
 	CodeList      string `xml:"codeList,attr"`
 	CodeListValue string `xml:"codeListValue,attr"`
+}
+
+type Length struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
 }
 
 type LengthAccuracy struct {
@@ -582,17 +639,28 @@ type LengthStrip struct {
 }
 
 type LightElement struct {
-	ID   string `xml:"id,attr"`
-	Type Type   `xml:"type"`
+	ID             string         `xml:"id,attr"`
+	Colour         Colour         `xml:"colour"`
+	Intensity      Intensity      `xml:"intensity"`
+	IntensityLevel IntensityLevel `xml:"intensityLevel"`
+	Type           Type           `xml:"type"`
 }
 
 type Lighting struct {
-	LightElement LightElement `xml:"LightElement"`
+	Nil          *bool         `xml:"nil,attr"`
+	NilReason    *string       `xml:"nilReason,attr"`
+	LightElement *LightElement `xml:"LightElement"`
+}
+
+type LightingAvailability struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
 }
 
 type LightingICAOStandard struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type LinguisticNote struct {
@@ -646,24 +714,32 @@ type MagneticVariationChange struct {
 	CharData  string `xml:",chardata"`
 }
 
+type Marker struct {
+	Nil bool `xml:"nil,attr"`
+}
+
 type MarkingFirstColour struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type MarkingICAOStandard struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type MarkingPattern struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type MarkingSecondColour struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type MaximumLimit struct {
@@ -824,7 +900,8 @@ type OrganisationName struct {
 }
 
 type Part struct {
-	VerticalStructurePart VerticalStructurePart `xml:"VerticalStructurePart"`
+	Nil                   *bool                  `xml:"nil,attr"`
+	VerticalStructurePart *VerticalStructurePart `xml:"VerticalStructurePart"`
 }
 
 type Patches struct {
@@ -851,8 +928,10 @@ type PosList struct {
 }
 
 type Radius struct {
-	UOM      string `xml:"uom,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type ReferenceOwnerOrganisation struct {
@@ -977,6 +1056,16 @@ type StartAngle struct {
 	CharData string `xml:",chardata"`
 }
 
+type SupportedGroundLight struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
+type SupportedService struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+}
+
 type Surface struct {
 	ID      string  `xml:"id,attr"`
 	SRSName string  `xml:"srsName,attr"`
@@ -998,8 +1087,9 @@ type SurfaceProperties struct {
 }
 
 type SynchronisedLighting struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type TACAN struct {
@@ -1100,8 +1190,9 @@ type TrueBearingAccuracy struct {
 }
 
 type Type struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type UpperLimit struct {
@@ -1143,31 +1234,52 @@ type ValidTime struct {
 }
 
 type VerticalAccuracy struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
+}
+
+type VerticalDatum struct {
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type VerticalExtent struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason *string `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type VerticalExtentAccuracy struct {
-	Nil      *bool   `xml:"nil,attr"`
-	UOM      *string `xml:"uom,attr"`
-	CharData string  `xml:",chardata"`
+	Nil       *bool   `xml:"nil,attr"`
+	NilReason string  `xml:"nilReason,attr"`
+	UOM       *string `xml:"uom,attr"`
+	CharData  string  `xml:",chardata"`
 }
 
 type VerticalStructure struct {
-	ID         string     `xml:"id,attr"`
-	Identifier Identifier `xml:"identifier"`
-	TimeSlice  TimeSlice  `xml:"timeSlice"`
+	Aixm           string     `xml:"aixm,attr"`
+	ID             string     `xml:"id,attr"`
+	SchemaLocation *string    `xml:"schemaLocation,attr"`
+	Identifier     Identifier `xml:"identifier"`
+	TimeSlice      TimeSlice  `xml:"timeSlice"`
+}
+
+type VerticalStructureExtension struct {
+	CAE            string  `xml:"cae,attr"`
+	ID             string  `xml:"id,attr"`
+	SchemaLocation *string `xml:"schemaLocation,attr"`
+	AIPClassifier  string  `xml:"aipClassifier"`
+	ChartCode      string  `xml:"chartCode"`
+	FeatureCode    string  `xml:"featureCode"`
 }
 
 type VerticalStructurePart struct {
 	ID                                string                             `xml:"id,attr"`
+	Annotation                        *Annotation                        `xml:"annotation"`
 	ConstructionStatus                ConstructionStatus                 `xml:"constructionStatus"`
 	Designator                        Designator                         `xml:"designator"`
 	Frangible                         Frangible                          `xml:"frangible"`
@@ -1186,26 +1298,40 @@ type VerticalStructurePart struct {
 }
 
 type VerticalStructureTimeSlice struct {
-	ID                   string               `xml:"id,attr"`
-	Annotation           []Annotation         `xml:"annotation"`
-	CorrectionNumber     int                  `xml:"correctionNumber"`
-	FeatureLifetime      FeatureLifetime      `xml:"featureLifetime"`
-	Group                string               `xml:"group"`
-	Interpretation       string               `xml:"interpretation"`
-	Lighted              string               `xml:"lighted"`
-	LightingICAOStandard LightingICAOStandard `xml:"lightingICAOStandard"`
-	MarkingICAOStandard  MarkingICAOStandard  `xml:"markingICAOStandard"`
-	Name                 string               `xml:"name"`
-	Part                 []Part               `xml:"part"`
-	SequenceNumber       int                  `xml:"sequenceNumber"`
-	SynchronisedLighting SynchronisedLighting `xml:"synchronisedLighting"`
-	Type                 Type                 `xml:"type"`
-	ValidTime            ValidTime            `xml:"validTime"`
+	ID                      string                  `xml:"id,attr"`
+	Annotation              []Annotation            `xml:"annotation"`
+	CorrectionNumber        int                     `xml:"correctionNumber"`
+	Extension               Extension               `xml:"extension"`
+	FeatureLifetime         FeatureLifetime         `xml:"featureLifetime"`
+	Group                   string                  `xml:"group"`
+	HostedNavaidEquipment   HostedNavaidEquipment   `xml:"hostedNavaidEquipment"`
+	HostedOrganisation      HostedOrganisation      `xml:"hostedOrganisation"`
+	HostedPassengerService  HostedPassengerService  `xml:"hostedPassengerService"`
+	HostedSpecialNavStation HostedSpecialNavStation `xml:"hostedSpecialNavStation"`
+	HostedUnit              HostedUnit              `xml:"hostedUnit"`
+	Interpretation          string                  `xml:"interpretation"`
+	Length                  Length                  `xml:"length"`
+	Lighted                 string                  `xml:"lighted"`
+	LightingAvailability    LightingAvailability    `xml:"lightingAvailability"`
+	LightingICAOStandard    LightingICAOStandard    `xml:"lightingICAOStandard"`
+	Marker                  Marker                  `xml:"marker"`
+	MarkingICAOStandard     MarkingICAOStandard     `xml:"markingICAOStandard"`
+	Name                    string                  `xml:"name"`
+	Part                    []Part                  `xml:"part"`
+	Radius                  Radius                  `xml:"radius"`
+	SequenceNumber          int                     `xml:"sequenceNumber"`
+	SupportedGroundLight    SupportedGroundLight    `xml:"supportedGroundLight"`
+	SupportedService        SupportedService        `xml:"supportedService"`
+	SynchronisedLighting    SynchronisedLighting    `xml:"synchronisedLighting"`
+	Type                    Type                    `xml:"type"`
+	ValidTime               ValidTime               `xml:"validTime"`
+	Width                   Width                   `xml:"width"`
 }
 
 type VisibleMaterial struct {
-	Nil      *bool  `xml:"nil,attr"`
-	CharData string `xml:",chardata"`
+	Nil       *bool  `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
+	CharData  string `xml:",chardata"`
 }
 
 type VisualGlideSlopeIndicator struct {
@@ -1225,6 +1351,11 @@ type VisualGlideSlopeIndicatorTimeSlice struct {
 	SlopeAngle                    float64                        `xml:"slopeAngle"`
 	Type                          Type                           `xml:"type"`
 	ValidTime                     ValidTime                      `xml:"validTime"`
+}
+
+type Width struct {
+	Nil       bool   `xml:"nil,attr"`
+	NilReason string `xml:"nilReason,attr"`
 }
 
 type WidthAccuracy struct {

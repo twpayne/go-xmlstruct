@@ -18,6 +18,8 @@ func TestAIXM(t *testing.T) {
 
 	generator := xmlstruct.NewGenerator(
 		xmlstruct.WithExportRenames(map[string]string{
+			"aipClassifier":   "AIPClassifier",        // Capitalize AIP abbreviation.
+			"cae":             "CAE",                  // Capitalize CAE abbreviation.
 			"note":            "NoteLower",            // Disambiguate between Note and note.
 			"runwayDirection": "RunwayDirectionLower", // Disambiguate between RunwayDirection and runwayDirection.
 			"srsName":         "SRSName",              // Capitalize SRS abbreviation.
@@ -30,6 +32,7 @@ func TestAIXM(t *testing.T) {
 	filenames := []string{
 		"testdata/LF_AIP_DS_PartOf_20201203_AIRAC.zip",
 		"testdata/LO_OBS_DS_AREA1_20221104_2022-10-25_1010984.zip",
+		"testdata/Obstacles.aixm5.xml.zip",
 	}
 
 	observeZipFile := func(zipFile *zip.File) {
