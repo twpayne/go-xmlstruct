@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	SkipDir = fs.SkipDir
+	SkipDir = fs.SkipDir //nolint:errname
 	//lint:ignore ST1012 SkipFile is not an error
 	SkipFile = errors.New("skip file") //nolint:errname,revive
 )

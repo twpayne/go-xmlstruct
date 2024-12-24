@@ -101,7 +101,6 @@ linters:
   - lll
   - maintidx
   - mnd
-  - mnd
   - nestif
   - nlreturn
   - stylecheck
