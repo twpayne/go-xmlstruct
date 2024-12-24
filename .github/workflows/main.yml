@@ -33,4 +33,4 @@ jobs:
     - uses: actions/setup-go@3041bf56c941b39c61721a86cd11f3bb1338122a
     - uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8
       with:
-        version: v1.61.0
+        version: v1.62.2
