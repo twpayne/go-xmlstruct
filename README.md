@@ -32,6 +32,13 @@ go-xmlstruct is useful for quick-and-dirty unmarshalling of arbitrary XML
 documents, especially when you have no schema or the schema is extremely complex
 and you want something that "just works" with the documents you have.
 
+Note the [bug in Go's `encoding/xml`](https://pkg.go.dev/encoding/xml#pkg-note-BUG):
+
+> Mapping between XML elements and data structures is inherently flawed: an XML
+> element is an order-dependent collection of anonymous values, while a data
+> structure is an order-independent collection of named values. See
+> encoding/json for a textual representation more suitable to data structures.
+
 ## Install
 
 Install the `goxmlstruct` CLI with:
