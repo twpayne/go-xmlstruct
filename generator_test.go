@@ -786,6 +786,30 @@ func TestGenerator(t *testing.T) {
 				"}",
 			),
 		},
+		{
+			name: "duplicate_elements_and_attributes",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithAttrNameSuffix("Attr"),
+				xmlstruct.WithImports(false),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithHeader(""),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b c="1">`,
+				`    <c>d</c>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				"type A struct {",
+				"\tB struct {",
+				"\t\tCAttr int    `xml:\"c,attr\"`",
+				"\t\tC     string `xml:\"c\"`",
+				"\t} `xml:\"b\"`",
+				"}",
+			),
+		},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
