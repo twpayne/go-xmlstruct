@@ -13,6 +13,7 @@ import (
 )
 
 var (
+	attrNameSuffix               = pflag.String("attr-name-suffix", xmlstruct.DefaultAttrNameSuffix, "attribute name suffix")
 	charDataFieldName            = pflag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
 	compactTypes                 = pflag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
 	formatSource                 = pflag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
@@ -50,6 +51,7 @@ func run() error {
 	}
 
 	options := []xmlstruct.GeneratorOption{
+		xmlstruct.WithAttrNameSuffix(*attrNameSuffix),
 		xmlstruct.WithCharDataFieldName(*charDataFieldName),
 		xmlstruct.WithCompactTypes(*compactTypes),
 		xmlstruct.WithEmptyElements(!*noEmptyElements),
