@@ -72,10 +72,10 @@ func WithCharDataFieldName(charDataFieldName string) GeneratorOption {
 	}
 }
 
-// WithElemNameSuffix sets the attribute suffix.
-func WithElemNameSuffix(elemSuffix string) GeneratorOption {
+// WithElemNameSuffix sets the element name suffix.
+func WithElemNameSuffix(elemNameSuffix string) GeneratorOption {
 	return func(g *Generator) {
-		g.elemNameSuffix = elemSuffix
+		g.elemNameSuffix = elemNameSuffix
 	}
 }
 
