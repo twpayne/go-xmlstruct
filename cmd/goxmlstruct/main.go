@@ -16,6 +16,7 @@ var (
 	attrNameSuffix               = pflag.String("attr-name-suffix", xmlstruct.DefaultAttrNameSuffix, "attribute name suffix")
 	charDataFieldName            = pflag.String("char-data-field-name", xmlstruct.DefaultCharDataFieldName, "char data field name")
 	compactTypes                 = pflag.Bool("compact-types", xmlstruct.DefaultCompactTypes, "create compact types")
+	elemNameSuffix               = pflag.String("elem-name-suffix", xmlstruct.DefaultElemNameSuffix, "element name suffix")
 	formatSource                 = pflag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
 	header                       = pflag.String("header", xmlstruct.DefaultHeader, "header")
 	ignoreNamespaces             = pflag.Bool("ignore-namespaces", true, "ignore namespaces")
@@ -54,6 +55,7 @@ func run() error {
 		xmlstruct.WithAttrNameSuffix(*attrNameSuffix),
 		xmlstruct.WithCharDataFieldName(*charDataFieldName),
 		xmlstruct.WithCompactTypes(*compactTypes),
+		xmlstruct.WithElemNameSuffix(*elemNameSuffix),
 		xmlstruct.WithEmptyElements(!*noEmptyElements),
 		xmlstruct.WithFormatSource(*formatSource),
 		xmlstruct.WithHeader(*header),
