@@ -787,7 +787,7 @@ func TestGenerator(t *testing.T) {
 			),
 		},
 		{
-			name: "duplicate_elements_and_attributes",
+			name: "duplicate_elements_and_attributes_attr",
 			options: []xmlstruct.GeneratorOption{
 				xmlstruct.WithAttrNameSuffix("Attr"),
 				xmlstruct.WithImports(false),
@@ -806,6 +806,30 @@ func TestGenerator(t *testing.T) {
 				"\tB struct {",
 				"\t\tCAttr int    `xml:\"c,attr\"`",
 				"\t\tC     string `xml:\"c\"`",
+				"\t} `xml:\"b\"`",
+				"}",
+			),
+		},
+		{
+			name: "duplicate_elements_and_attributes_elem",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithElemNameSuffix("Elem"),
+				xmlstruct.WithImports(false),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithHeader(""),
+			},
+			xmlStr: joinLines(
+				`<a>`,
+				`  <b c="1">`,
+				`    <c>d</c>`,
+				`  </b>`,
+				`</a>`,
+			),
+			expectedStr: joinLines(
+				"type A struct {",
+				"\tBElem struct {",
+				"\t\tC     int    `xml:\"c,attr\"`",
+				"\t\tCElem string `xml:\"c\"`",
 				"\t} `xml:\"b\"`",
 				"}",
 			),
