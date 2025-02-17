@@ -92,7 +92,7 @@ func run() error {
 	} else {
 		for _, filename := range filenames {
 			if err := generator.ObserveFile(filename); err != nil {
-				return err
+				return fmt.Errorf("%s: %w", filename, err)
 			}
 		}
 	}
