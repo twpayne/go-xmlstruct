@@ -19,6 +19,7 @@ var (
 	elemNameSuffix               = pflag.String("elem-name-suffix", xmlstruct.DefaultElemNameSuffix, "element name suffix")
 	formatSource                 = pflag.Bool("format-source", xmlstruct.DefaultFormatSource, "format source")
 	header                       = pflag.String("header", xmlstruct.DefaultHeader, "header")
+	ignoreErrors                 = pflag.Bool("ignore-errors", false, "ignore errors")
 	ignoreNamespaces             = pflag.Bool("ignore-namespaces", true, "ignore namespaces")
 	imports                      = pflag.Bool("imports", xmlstruct.DefaultImports, "generate import statements")
 	intType                      = pflag.String("int-type", xmlstruct.DefaultIntType, "int type")
@@ -92,7 +93,11 @@ func run() error {
 	} else {
 		for _, filename := range filenames {
 			if err := generator.ObserveFile(filename); err != nil {
-				return fmt.Errorf("%s: %w", filename, err)
+				if *ignoreErrors {
+					fmt.Fprintf(os.Stderr, "%s: %v\n", filename, err)
+				} else {
+					return fmt.Errorf("%s: %w", filename, err)
+				}
 			}
 		}
 	}
