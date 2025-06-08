@@ -18,7 +18,7 @@ import (
 var (
 	SkipDir = fs.SkipDir //nolint:errname
 	//lint:ignore ST1012 SkipFile is not an error
-	SkipFile = errors.New("skip file") //nolint:errname,revive
+	SkipFile = errors.New("skip file") //nolint:errname,revive,staticcheck
 )
 
 // A ModifyDecoderFunc makes arbitrary changes to an encoding/xml.Decoder before
