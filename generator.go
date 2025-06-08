@@ -392,7 +392,13 @@ func (g *Generator) Generate() ([]byte, error) {
 	return source, nil
 }
 
-// ObserveFS observes all XML documents in fs.
+// ObserveFS observes all files in fs.
+//
+// observeFunc is called before each entry. If observeFunc returns [fs.SkipDir]
+// or [SkipFile] then the entry is skipped. If observeFunc returns any other
+// non-nil error then ObserveFS terminates with the returned error. If observe
+// func returns nil and the entry is a regular file or symlink then it is
+// observed, otherwise the entry is ignored.
 func (g *Generator) ObserveFS(fsys fs.FS, root string, observeFunc func(string, fs.DirEntry, error) error) error {
 	return fs.WalkDir(fsys, root, func(path string, dirEntry fs.DirEntry, err error) error {
 		switch err := observeFunc(path, dirEntry, err); {
@@ -400,15 +406,22 @@ func (g *Generator) ObserveFS(fsys fs.FS, root string, observeFunc func(string, 
 			return fs.SkipDir
 		case errors.Is(err, SkipFile):
 			return nil
+		case err != nil:
+			return err
 		case dirEntry.IsDir():
 			return nil
-		default:
+		case dirEntry.Type() == 0 || dirEntry.Type() == fs.ModeSymlink:
 			file, err := fsys.Open(path)
 			if err != nil {
 				return err
 			}
 			defer file.Close()
-			return g.ObserveReader(file)
+			if err := g.ObserveReader(file); err != nil {
+				return fmt.Errorf("%s: %w", path, err)
+			}
+			return nil
+		default:
+			return nil
 		}
 	})
 }
