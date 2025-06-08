@@ -26,7 +26,8 @@ Compared to existing Go struct generators like
 * Handles repeated attributes and elements.
 * Ignores empty chardata.
 * Provides a CLI for simple use.
-* Usable as a Go package for advanced use, including configurable field naming.
+* Can be used as a Go package for advanced use, including configurable field
+  naming.
 
 go-xmlstruct is useful for quick-and-dirty unmarshalling of arbitrary XML
 documents, especially when you have no schema or the schema is extremely complex
