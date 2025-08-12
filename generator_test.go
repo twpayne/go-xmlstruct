@@ -352,22 +352,19 @@ func TestGenerator(t *testing.T) {
 				`}`,
 			),
 		},
-		// FIXME make the following test pass
-		/*
-			{
-				name:    "duplicate_field_name",
-				options: []xmlstruct.GeneratorOption{},
-				xmlStrs: []string{
-					joinLines(
-						`<a>`,
-						`  <b/>`,
-						`  <B/>`,
-						`</a>`,
-					),
-				},
-				expectedErr: "B: duplicate field name",
+		{
+			name:    "duplicate_field_name",
+			options: []xmlstruct.GeneratorOption{},
+			xmlStrs: []string{
+				joinLines(
+					`<a>`,
+					`  <b/>`,
+					`  <B/>`,
+					`</a>`,
+				),
 			},
-		*/
+			expectedErr: "B: duplicate field name",
+		},
 		{
 			name: "duplicate_type_name",
 			options: []xmlstruct.GeneratorOption{
@@ -831,6 +828,75 @@ func TestGenerator(t *testing.T) {
 				"\t\tC     int    `xml:\"c,attr\"`",
 				"\t\tCElem string `xml:\"c\"`",
 				"\t} `xml:\"b\"`",
+				"}",
+			),
+		},
+		{
+			name: "compact_types_duplicated_field_names",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithImports(false),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithCompactTypes(true),
+			},
+			xmlStr: joinLines(
+				`<root>`,
+				`  <single>`,
+				`    <value>unique</value>`,
+				`  </single>`,
+				`  <multi>`,
+				`    <value>first</value>`,
+				`  </multi>`,
+				`  <multi>`,
+				`    <value>second</value>`,
+				`  </multi>`,
+				`</root>`,
+			),
+			expectedStr: joinLines(
+				"type Root struct {",
+				"\tSingle struct {",
+				"\t\tValue string `xml:\"value\"`",
+				"\t} `xml:\"single\"`",
+				"\tMulti []struct {",
+				"\t\tValue string `xml:\"value\"`",
+				"\t} `xml:\"multi\"`",
+				"}",
+			),
+		},
+		{
+			name: "compact_named_types_duplicated_field_names",
+			options: []xmlstruct.GeneratorOption{
+				xmlstruct.WithImports(false),
+				xmlstruct.WithPackageName(""),
+				xmlstruct.WithHeader(""),
+				xmlstruct.WithCompactTypes(true),
+				xmlstruct.WithNamedTypes(true),
+			},
+			xmlStr: joinLines(
+				`<root>`,
+				`  <single>`,
+				`    <value>unique</value>`,
+				`  </single>`,
+				`  <multi>`,
+				`    <value>first</value>`,
+				`  </multi>`,
+				`  <multi>`,
+				`    <value>second</value>`,
+				`  </multi>`,
+				`</root>`,
+			),
+			expectedStr: joinLines(
+				"type Multi struct {",
+				"\tValue string `xml:\"value\"`",
+				"}",
+				"",
+				"type Root struct {",
+				"\tSingle Single  `xml:\"single\"`", //nolint:dupword
+				"\tMulti  []Multi `xml:\"multi\"`",
+				"}",
+				"",
+				"type Single struct {",
+				"\tValue string `xml:\"value\"`",
 				"}",
 			),
 		},

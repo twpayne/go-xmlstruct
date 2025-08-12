@@ -282,11 +282,19 @@ func (g *Generator) Generate() ([]byte, error) {
 		options.importPackageNames["encoding/xml"] = struct{}{}
 	}
 
+	// When compact types is enabled, detect elements that would cause conflicts if compacted
+	nonCompactableElements := make(map[xml.Name]bool)
+	if options.compactTypes {
+		nonCompactableElements = g.detectCompactConflicts()
+	}
+	options.nonCompactableElements = nonCompactableElements
+
 	var typeElements []*element
 	if g.namedTypes {
 		options.namedTypes = make(map[xml.Name]*element)
 		for k, v := range g.typeElements {
-			if !options.compactTypes || !v.isContainer() || v.root {
+			shouldCompact := options.compactTypes && v.isContainer() && !nonCompactableElements[k] && !v.root
+			if !shouldCompact || v.root {
 				options.namedTypes[k] = v
 			}
 		}
@@ -499,4 +507,37 @@ FOR:
 			}
 		}
 	}
+}
+
+// detectCompactConflicts detects elements that would cause field name conflicts if compacted.
+func (g *Generator) detectCompactConflicts() map[xml.Name]bool {
+	nonCompactable := make(map[xml.Name]bool)
+
+	// Check each parent element for potential conflicts among its children
+	for _, parentElement := range g.typeElements {
+		if len(parentElement.childElements) <= 1 {
+			continue
+		}
+
+		// Collect what the field names would be if each child were compacted
+		fieldNames := make(map[string][]xml.Name)
+		for childName, childElement := range parentElement.childElements {
+			if childElement.isContainer() {
+				// Get the name that would result from compacting
+				compactedName := g.exportNameFunc(firstNotContainerElement(childElement).name)
+				fieldNames[compactedName] = append(fieldNames[compactedName], childName)
+			}
+		}
+
+		// Mark elements as non-compactable if they would cause conflicts
+		for _, childNames := range fieldNames {
+			if len(childNames) > 1 {
+				for _, childName := range childNames {
+					nonCompactable[childName] = true
+				}
+			}
+		}
+	}
+
+	return nonCompactable
 }
