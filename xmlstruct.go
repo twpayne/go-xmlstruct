@@ -127,6 +127,7 @@ type generateOptions struct {
 	namedRoot                    bool
 	namedTypes                   map[xml.Name]*element
 	compactTypes                 bool
+	nonCompactableElements       map[xml.Name]bool
 	preserveOrder                bool
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool

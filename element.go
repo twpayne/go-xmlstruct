@@ -206,9 +206,23 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	}
 
 	for _, childElement := range childElements {
-		exportedChildName := exportedName(childElement, options)
+		// Decide whether to use compact types for this specific element
+		shouldCompact := options.compactTypes &&
+			childElement.isContainer() &&
+			!options.nonCompactableElements[childElement.name]
+
+		// Create options for this element with appropriate compact setting
+		elementOptions := *options
+		if !shouldCompact {
+			elementOptions.compactTypes = false
+		}
+		exportedChildName := exportedName(childElement, &elementOptions)
+
 		if _, ok := fieldNames[exportedChildName]; ok {
-			fieldNames[exportedChildName] = struct{}{}
+			// Only report field name conflicts if we're not using named types for this element
+			if _, hasNamedType := options.namedTypes[childElement.name]; !hasNamedType {
+				return fmt.Errorf("%s: duplicate field name", exportedChildName)
+			}
 		}
 		fieldNames[exportedChildName] = struct{}{}
 
@@ -217,7 +231,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		_, optional := e.optionalChildren[childElement.name]
 
 		// For compact types, also check if any element along the compact path is repeated.
-		if options.compactTypes && !repeated {
+		if shouldCompact && !repeated {
 			targetChild := firstNotContainerElement(childElement)
 			if targetChild != childElement {
 				repeated = isRepeatedInCompactPath(childElement, targetChild)
@@ -234,7 +248,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		}
 
 		currentChild := childElement
-		if options.compactTypes {
+		if shouldCompact {
 			currentChild = firstNotContainerElement(childElement)
 		}
 		if topLevelElement, ok := options.namedTypes[currentChild.name]; ok {
@@ -246,7 +260,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 				return err
 			}
 		}
-		fmt.Fprintf(w, " `xml:\"%s\"`\n", attrName(childElement, options.compactTypes))
+		fmt.Fprintf(w, " `xml:\"%s\"`\n", attrName(childElement, shouldCompact))
 	}
 
 	fmt.Fprintf(w, "%s}", indentPrefix)
