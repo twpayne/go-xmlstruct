@@ -212,11 +212,23 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		}
 		fieldNames[exportedChildName] = struct{}{}
 
+		// Check for repeated/optional, considering compact types path.
+		_, repeated := e.repeatedChildren[childElement.name]
+		_, optional := e.optionalChildren[childElement.name]
+
+		// For compact types, also check if any element along the compact path is repeated.
+		if options.compactTypes && !repeated {
+			targetChild := firstNotContainerElement(childElement)
+			if targetChild != childElement {
+				repeated = isRepeatedInCompactPath(childElement, targetChild)
+			}
+		}
+
 		fmt.Fprintf(w, "%s\t%s ", indentPrefix, exportedChildName)
-		if _, repeated := e.repeatedChildren[childElement.name]; repeated {
+		if repeated {
 			fmt.Fprintf(w, "[]")
 		} else if options.usePointersForOptionalFields {
-			if _, optional := e.optionalChildren[childElement.name]; optional {
+			if optional {
 				fmt.Fprintf(w, "*")
 			}
 		}
@@ -255,6 +267,38 @@ func firstNotContainerElement(el *element) *element {
 		}
 	}
 	return el
+}
+
+// isRepeatedInCompactPath checks if any element along the compact path from start to target is repeated.
+func isRepeatedInCompactPath(start, target *element) bool {
+	current := start
+	for current != target && current.isContainer() {
+		for childName, childElement := range current.childElements {
+			if _, repeated := current.repeatedChildren[childName]; repeated {
+				return true
+			}
+			if childElement == target || isAncestorOf(childElement, target) {
+				current = childElement
+				break
+			}
+		}
+	}
+	return false
+}
+
+// isAncestorOf checks if ancestor is an ancestor of descendant in the element tree.
+func isAncestorOf(ancestor, descendant *element) bool {
+	if ancestor == descendant {
+		return true
+	}
+	if ancestor.isContainer() {
+		for _, child := range ancestor.childElements {
+			if isAncestorOf(child, descendant) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func exportedName(el *element, options *generateOptions) string {
