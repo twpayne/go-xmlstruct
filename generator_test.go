@@ -854,12 +854,12 @@ func TestGenerator(t *testing.T) {
 			),
 			expectedStr: joinLines(
 				"type Root struct {",
-				"\tSingle struct {",
-				"\t\tValue string `xml:\"value\"`",
-				"\t} `xml:\"single\"`",
 				"\tMulti []struct {",
 				"\t\tValue string `xml:\"value\"`",
 				"\t} `xml:\"multi\"`",
+				"\tSingle struct {",
+				"\t\tValue string `xml:\"value\"`",
+				"\t} `xml:\"single\"`",
 				"}",
 			),
 		},
@@ -891,8 +891,8 @@ func TestGenerator(t *testing.T) {
 				"}",
 				"",
 				"type Root struct {",
-				"\tSingle Single  `xml:\"single\"`", //nolint:dupword
 				"\tMulti  []Multi `xml:\"multi\"`",
+				"\tSingle Single  `xml:\"single\"`", //nolint:dupword
 				"}",
 				"",
 				"type Single struct {",

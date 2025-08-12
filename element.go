@@ -198,7 +198,17 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 			case aExportedName < bExportedName:
 				return -1
 			case aExportedName == bExportedName:
-				return 0
+				// When exported names are equal, fall back to original XML element name
+				aOriginalName := options.exportNameFunc(a.name)
+				bOriginalName := options.exportNameFunc(b.name)
+				switch {
+				case aOriginalName < bOriginalName:
+					return -1
+				case aOriginalName == bOriginalName:
+					return 0
+				default:
+					return 1
+				}
 			default:
 				return 1
 			}
