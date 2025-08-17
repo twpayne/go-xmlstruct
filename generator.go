@@ -7,9 +7,9 @@ import (
 	"go/format"
 	"io"
 	"io/fs"
+	"maps"
 	"os"
 	"slices"
-	"sort"
 	"strings"
 
 	"golang.org/x/net/html/charset"
@@ -306,9 +306,9 @@ func (g *Generator) Generate() ([]byte, error) {
 			options.simpleTypes[name] = struct{}{}
 			delete(options.namedTypes, name)
 		}
-		typeElements = mapValues(options.namedTypes)
+		typeElements = slices.Collect(maps.Values(options.namedTypes))
 	} else {
-		typeElements = mapValues(g.typeElements)
+		typeElements = slices.Collect(maps.Values(g.typeElements))
 	}
 
 	if options.preserveOrder {
@@ -365,9 +365,7 @@ func (g *Generator) Generate() ([]byte, error) {
 			}
 		default:
 			fmt.Fprintf(sourceBuilder, "import (\n")
-			importPackageNames := mapKeys(options.importPackageNames)
-			sort.Strings(importPackageNames)
-			for _, importPackageName := range importPackageNames {
+			for _, importPackageName := range slices.Sorted(maps.Keys(options.importPackageNames)) {
 				fmt.Fprintf(sourceBuilder, "\t%q\n", importPackageName)
 			}
 			fmt.Fprintf(sourceBuilder, ")\n")
