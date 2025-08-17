@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"maps"
 	"slices"
 	"strings"
 )
@@ -171,7 +172,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 	if e.root && options.namedRoot {
 		fmt.Fprintf(w, "%s\tXMLName xml.Name `xml:\"%s\"`\n", indentPrefix, e.name.Local)
 	}
-	for _, exportedAttrName := range sortedKeys(attrValuesByExportedName) {
+	for _, exportedAttrName := range slices.Sorted(maps.Keys(attrValuesByExportedName)) {
 		attrValue := attrValuesByExportedName[exportedAttrName]
 		fmt.Fprintf(w, "%s\t%s %s `xml:\"%s,attr\"`\n", indentPrefix, exportedAttrName, attrValue.goType(options), attrValue.name.Local)
 	}
@@ -185,7 +186,7 @@ func (e *element) writeGoType(w io.Writer, options *generateOptions, indentPrefi
 		fmt.Fprintf(w, "%s\t%s string `xml:\",chardata\"`\n", indentPrefix, fieldName)
 	}
 
-	childElements := mapValues(e.childElements)
+	childElements := slices.Collect(maps.Values(e.childElements))
 	if options.preserveOrder {
 		slices.SortFunc(childElements, func(a, b *element) int {
 			return e.childOrder[a.name] - e.childOrder[b.name]

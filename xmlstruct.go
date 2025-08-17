@@ -2,10 +2,8 @@
 package xmlstruct
 
 import (
-	"cmp"
 	"encoding/xml"
 	"regexp"
-	"slices"
 	"strings"
 	"unicode"
 )
@@ -132,27 +130,4 @@ type generateOptions struct {
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
 	emptyElements                bool
-}
-
-func mapKeys[M ~map[K]V, K comparable, V any](m M) []K {
-	keys := make([]K, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	return keys
-}
-
-func mapValues[M ~map[K]V, K comparable, V any](m M) []V {
-	values := make([]V, 0, len(m))
-	for _, v := range m {
-		values = append(values, v)
-	}
-	return values
-}
-
-// sortedKeys returns the keys of m in order.
-func sortedKeys[M ~map[K]V, K cmp.Ordered, V any](m M) []K {
-	keys := mapKeys(m)
-	slices.Sort(keys)
-	return keys
 }
