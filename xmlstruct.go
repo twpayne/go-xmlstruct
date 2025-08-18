@@ -29,68 +29,8 @@ const (
 )
 
 var (
-	// TitleFirstRuneExportNameFunc returns name.Local with the initial rune
-	// capitalized.
-	TitleFirstRuneExportNameFunc = func(name xml.Name) string {
-		runes := []rune(name.Local)
-		runes[0] = unicode.ToUpper(runes[0])
-		return string(runes)
-	}
-
 	kebabOrSnakeCaseWordBoundaryRx = regexp.MustCompile(`[-_]+\pL`)
 	nonIdentifierRuneRx            = regexp.MustCompile(`[^\pL\pN]`)
-
-	// DefaultExportNameFunc returns name.Local with kebab- and snakecase words
-	// converted to UpperCamelCase and any Id suffix converted to ID.
-	DefaultExportNameFunc = func(name xml.Name) string {
-		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
-			return strings.ToUpper(s[len(s)-1:])
-		})
-		localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
-		runes := []rune(localName)
-		runes[0] = unicode.ToUpper(runes[0])
-		if len(runes) > 1 && runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
-			runes[len(runes)-1] = 'D'
-		}
-		return string(runes)
-	}
-
-	// DefaultUnexportNameFunc returns name.Local with kebab- and snakecase words
-	// converted to lowerCamelCase
-	// Any ID prefix is converted to id, and any Id suffix converted to ID.
-	DefaultUnexportNameFunc = func(name xml.Name) string {
-		localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
-			return strings.ToUpper(s[len(s)-1:])
-		})
-		localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
-		runes := []rune(localName)
-		runes[0] = unicode.ToLower(runes[0])
-		if len(runes) > 1 {
-			if runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
-				runes[len(runes)-1] = 'D'
-			}
-			if runes[0] == 'i' && runes[1] == 'D' {
-				runes[1] = 'd'
-			}
-		}
-		return string(runes)
-	}
-)
-
-var (
-	// IgnoreNamespaceNameFunc returns name with name.Space cleared. The same
-	// local name in different namespaces will be treated as identical names.
-	IgnoreNamespaceNameFunc = func(name xml.Name) xml.Name {
-		return xml.Name{
-			Local: name.Local,
-		}
-	}
-
-	// The IdentityNameFunc returns name unchanged. The same local name in
-	// different namespaces will be treated as distinct names.
-	IdentityNameFunc = func(name xml.Name) xml.Name {
-		return name
-	}
 
 	DefaultNameFunc = IgnoreNamespaceNameFunc
 )
@@ -130,4 +70,62 @@ type generateOptions struct {
 	simpleTypes                  map[xml.Name]struct{}
 	usePointersForOptionalFields bool
 	emptyElements                bool
+}
+
+// DefaultExportNameFunc returns name.Local with kebab- and snake_case words
+// converted to UpperCamelCase and any Id suffix converted to ID.
+func DefaultExportNameFunc(name xml.Name) string {
+	localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
+		return strings.ToUpper(s[len(s)-1:])
+	})
+	localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
+	runes := []rune(localName)
+	runes[0] = unicode.ToUpper(runes[0])
+	if len(runes) > 1 && runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
+		runes[len(runes)-1] = 'D'
+	}
+	return string(runes)
+}
+
+// DefaultUnexportNameFunc returns name.Local with kebab- and snake_case words
+// converted to lowerCamelCase. Any ID prefix is converted to id, and any Id
+// suffix converted to ID.
+func DefaultUnexportNameFunc(name xml.Name) string {
+	localName := kebabOrSnakeCaseWordBoundaryRx.ReplaceAllStringFunc(name.Local, func(s string) string {
+		return strings.ToUpper(s[len(s)-1:])
+	})
+	localName = nonIdentifierRuneRx.ReplaceAllLiteralString(localName, "_")
+	runes := []rune(localName)
+	runes[0] = unicode.ToLower(runes[0])
+	if len(runes) > 1 {
+		if runes[len(runes)-2] == 'I' && runes[len(runes)-1] == 'd' {
+			runes[len(runes)-1] = 'D'
+		}
+		if runes[0] == 'i' && runes[1] == 'D' {
+			runes[1] = 'd'
+		}
+	}
+	return string(runes)
+}
+
+// IgnoreNamespaceNameFunc returns name with name.Space cleared. The same local
+// name in different namespaces will be treated as identical names.
+func IgnoreNamespaceNameFunc(name xml.Name) xml.Name {
+	return xml.Name{
+		Local: name.Local,
+	}
+}
+
+// The IdentityNameFunc returns name unchanged. The same local name in different
+// namespaces will be treated as distinct names.
+func IdentityNameFunc(name xml.Name) xml.Name {
+	return name
+}
+
+// TitleFirstRuneExportNameFunc returns name.Local with the initial rune
+// capitalized.
+func TitleFirstRuneExportNameFunc(name xml.Name) string {
+	runes := []rune(name.Local)
+	runes[0] = unicode.ToUpper(runes[0])
+	return string(runes)
 }
