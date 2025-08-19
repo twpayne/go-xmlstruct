@@ -3,6 +3,7 @@ package aixm_test
 import (
 	"archive/zip"
 	"encoding/xml"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"testing"
@@ -35,21 +36,6 @@ func TestAIXM(t *testing.T) {
 		"testdata/Obstacles.aixm5.xml.zip",
 	}
 
-	observeZipFile := func(zipFile *zip.File) {
-		readCloser, err := zipFile.Open()
-		assert.NoError(t, err)
-		defer readCloser.Close()
-		assert.NoError(t, generator.ObserveReader(readCloser))
-	}
-
-	observeZipReader := func(zipReader *zip.Reader) {
-		for _, zipFile := range zipReader.File {
-			if filepath.Ext(zipFile.Name) == ".xml" {
-				observeZipFile(zipFile)
-			}
-		}
-	}
-
 	zipReaders := make([]*zip.Reader, 0, len(filenames))
 	for _, filename := range filenames {
 		file, err := os.Open(filename)
@@ -62,7 +48,15 @@ func TestAIXM(t *testing.T) {
 		zipReader, err := zip.NewReader(file, fileInfo.Size())
 		assert.NoError(t, err)
 
-		observeZipReader(zipReader)
+		assert.NoError(t, generator.ObserveFS(zipReader, ".", func(path string, _ fs.DirEntry, err error) error {
+			if err != nil {
+				return err
+			}
+			if filepath.Ext(path) != ".xml" {
+				return xmlstruct.SkipFile
+			}
+			return nil
+		}))
 
 		zipReaders = append(zipReaders, zipReader)
 	}
