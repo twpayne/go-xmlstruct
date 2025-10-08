@@ -1,6 +1,8 @@
 module github.com/twpayne/go-xmlstruct
 
-go 1.23.0
+go 1.24
+
+tool github.com/twpayne/go-xmlstruct/cmd/goxmlstruct
 
 require (
 	github.com/alecthomas/assert/v2 v2.11.0
