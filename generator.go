@@ -204,7 +204,7 @@ func WithTopLevelAttributes(topLevelAttributes bool) GeneratorOption {
 	}
 }
 
-// WithUsePointersForOptionFields sets whether to use pointers for optional
+// WithUsePointersForOptionalFields sets whether to use pointers for optional
 // fields in the generated Go source.
 func WithUsePointersForOptionalFields(usePointersForOptionalFields bool) GeneratorOption {
 	return func(g *Generator) {

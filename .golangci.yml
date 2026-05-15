@@ -1,11 +1,13 @@
 version: "2"
 linters:
   enable:
+    - arangolint
     - asasalint
     - asciicheck
     - bidichk
     - bodyclose
     - canonicalheader
+    - clickhouselint
     - containedctx
     - contextcheck
     - copyloopvar
@@ -14,6 +16,7 @@ linters:
     - dupl
     - dupword
     - durationcheck
+    - embeddedstructfieldcheck
     - err113
     - errchkjson
     - errname
@@ -28,12 +31,12 @@ linters:
     - gocheckcompilerdirectives
     - gochecknoinits
     - gochecksumtype
-    - goconst
     - gocritic
+    - godoclint
     - godot
     - goheader
     - gomoddirectives
-    - gomodguard
+    - gomodguard_v2
     - goprintffuncname
     - gosmopolitan
     - grouper
@@ -42,11 +45,13 @@ linters:
     - inamedparam
     - interfacebloat
     - intrange
+    - iotamixing
     - ireturn
     - loggercheck
     - makezero
     - mirror
     - misspell
+    - modernize
     - musttag
     - nakedret
     - nilerr
@@ -78,6 +83,7 @@ linters:
     - tparallel
     - unconvert
     - unparam
+    - unqueryvet
     - usestdlibvars
     - usetesting
     - wastedassign
@@ -90,6 +96,7 @@ linters:
     - funlen
     - gochecknoglobals
     - gocognit
+    - goconst
     - gocyclo
     - godox
     - gosec
@@ -98,6 +105,7 @@ linters:
     - mnd
     - nestif
     - nlreturn
+    - noinlineerr
     - varnamelen
     - wrapcheck
     - wsl
