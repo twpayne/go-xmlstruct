@@ -92,7 +92,7 @@ linters:
   disable:
     - cyclop
     - depguard
-    - exhaustruct
+    - exhaustruct_v5
     - funlen
     - gochecknoglobals
     - gocognit
@@ -145,7 +145,10 @@ formatters:
         - prefix(github.com/twpayne/go-xmlstruct)
     gofumpt:
       module-path: github.com/twpayne/go-xmlstruct
-      extra-rules: true
+      extra:
+        balance-calls: true
+        clothe-returns: true
+        group-params: true
     goimports:
       local-prefixes:
         - github.com/twpayne/go-xmlstruct
